@@ -5,17 +5,35 @@
 }
 
 body {
-    background-color: #ffffff;
+    background-color: white;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-nav {
-    display: flex;
-    justify-content: space-between;
+.nav-content {
+    display: flex !important;
     align-items: center;
+    width: 100%;
+    position: relative;
 }
 
-img {
-    height: 40px;
-    width: 40px;
+.nav-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 30px;
+}
+
+.nav-right {
+    margin-left: auto;
+}
+
+.navbar-brand img {
+    width: 50px;
+    height: 50px;
+}
+
+.nav-login img {
+    width: 35px;
+    height: 35px;
 }
