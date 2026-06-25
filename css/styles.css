@@ -1,26 +1,16 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background-color: white;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.navbar .container-fluid {
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
 
 .nav-content {
-    display: flex !important;
-    align-items: center;
-    width: 100%;
-    position: relative;
+    flex: 1;
 }
 
 .nav-center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
+    justify-content: center;
     gap: 30px;
 }
 
