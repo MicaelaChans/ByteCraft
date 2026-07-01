@@ -71,7 +71,7 @@ function ContactUs() {
                     />
                     <label
                       className="form-check-label"
-                      htmlForfor="flexCheckDefault"
+                      htmlFor="flexCheckDefault"
                     >
                       I consent to the terms of the privacy politic.
                     </label>

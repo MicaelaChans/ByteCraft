@@ -6,8 +6,6 @@ import Home from "./components/Home";
 import AboutUs from "./components/AboutUs";
 import ContactUs from "./components/ContactUs";
 import Profile from "./components/Profile";
-import MyPurchases from "./components/MyPurchases";
-import CheckOut from "./components/CheckOut";
 
 function App() {
   return (
@@ -20,8 +18,6 @@ function App() {
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/myPurchases" element={<MyPurchases />} />
-        <Route path="/checkout" element={<CheckOut />} />
       </Routes>
     </>
   );

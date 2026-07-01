@@ -1,8 +1,11 @@
+import Navbar from "./partials/Navbar";
 import Footer from "./partials/Footer";
 import "../css/AboutUs.css";
+
 function AboutUs() {
   return (
     <>
+    <Navbar/>
       <section id="sectionAbout1">
         <div className="container">
           <div>
