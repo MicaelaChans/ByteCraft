@@ -1,0 +1,88 @@
+import React from "react";
+import "../../css/carousel.css";
+
+function MyCarousel() {
+  return (
+    <div id="carouselExampleCaptions" className="carousel slide">
+      <div className="carousel-indicators">
+        <button
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide-to="0"
+          className="active"
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+
+        <button
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
+        ></button>
+
+        <button
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
+        ></button>
+      </div>
+
+      <div className="carousel-inner">
+        <div className="carousel-item active">
+          <img
+            src="/img/voleibol.webp"
+            className="d-block imgCarrusel"
+            alt="voleibol"
+          />
+          <div className="carousel-caption d-none d-md-block">
+            <h5>Todos los juegos, una sola pasión.</h5>
+          </div>
+        </div>
+
+        <div className="carousel-item">
+          <img
+            src="/img/ajedrez.webp"
+            className="d-block imgCarrusel"
+            alt="ajedrez"
+          />
+          <div className="carousel-caption d-none d-md-block">
+            <h5>Todos los juegos, una sola pasión.</h5>
+          </div>
+        </div>
+
+        <div className="carousel-item">
+          <img
+            src="/img/futbol.jpg"
+            className="d-block imgCarrusel"
+            alt="futbol"
+          />
+          <div className="carousel-caption d-none d-md-block">
+            <h5>Todos los juegos, una sola pasión.</h5>
+          </div>
+        </div>
+      </div>
+
+      <button
+        className="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="prev"
+      >
+        <span className="carousel-control-prev-icon"></span>
+      </button>
+
+      <button
+        className="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="next"
+      >
+        <span className="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  );
+}
+
+export default MyCarousel;

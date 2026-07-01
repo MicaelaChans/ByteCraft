@@ -1,0 +1,16 @@
+#sectionAbout1 {
+  background-image: linear-gradient(
+      120deg,
+      rgba(0, 0, 0, 0.28) 0%,
+      rgba(0, 0, 0, 0.28) 100%
+    ),
+    url("https://s1.eestatic.com/2023/04/09/cocinillas/recetas/postres/754934523_232288662_1706x960.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 150px;
+  padding-bottom: 150px;
+}
+
+#sectionAbout2 {
+  background-color: bisque;
+}

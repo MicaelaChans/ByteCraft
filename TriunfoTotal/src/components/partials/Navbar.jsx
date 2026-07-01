@@ -1,0 +1,54 @@
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import "../../css/navbar.css";
+
+function Navbar() {
+  return (
+    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <div className="container-fluid">
+        
+        <a className="navbar-brand" href="#">
+          <img src="/img/logoB.png" alt="logo" />
+        </a>
+
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavDropdown"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          className="collapse navbar-collapse nav-content"
+          id="navbarNavDropdown"
+        >
+          <ul className="navbar-nav mx-auto gap-4 nav-center">
+            <li className="nav-item">
+              <a className="nav-link" href="#">
+                Contacto
+              </a>
+            </li>
+
+            <li className="nav-item">
+              <a className="nav-link" href="#">
+                Nosotros
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div className="nav-right">
+          <a href="#" className="nav-login">
+            <img src="/img/login2.png" alt="login2" />
+          </a>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+export default Navbar;
