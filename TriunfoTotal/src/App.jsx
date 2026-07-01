@@ -1,5 +1,6 @@
 import NavBar from "./components/partials/Navbar";
 import MyCarousel from "./components/partials/MyCarousel";
+import Home from "./components/Home";
 import Footer from "./components/partials/Footer";
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     <>
       <NavBar />
       <MyCarousel />
+      <Home />
       <Footer />
     </>
   );

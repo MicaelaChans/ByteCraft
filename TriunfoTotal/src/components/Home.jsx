@@ -1,5 +1,3 @@
-//import MyCarousel from "./partials/MyCarousel";
-//import Footer from "./partials/Footer";
 
 function Home() {
 

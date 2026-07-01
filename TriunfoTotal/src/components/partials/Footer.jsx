@@ -46,7 +46,7 @@ function Footer() {
             <p className="small text-secondary mb-1">
               SGDM - 3º BT Tecnologías de la Información.
             </p>
-            <p className="small text-secondary">ITS "Arias - Balparda"</p>
+            <p className="small text-secondary">ITS Arias Balparda</p>
           </div>
 
           <div className="col-12 col-md-3">
