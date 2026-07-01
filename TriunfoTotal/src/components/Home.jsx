@@ -1,11 +1,11 @@
-import MyCarousel from "./partials/MyCarousel";
-import Footer from "./partials/Footer";
+//import MyCarousel from "./partials/MyCarousel";
+//import Footer from "./partials/Footer";
 
 function Home() {
 
   return (
     <>
-      <MyCarousel />
+
       <section id="sectionHome">
         <div className="container py-5">
           <div>
@@ -27,7 +27,7 @@ function Home() {
           </div>
         </div>
       </section>
-      <Footer />
+
     </>
   );
 }
