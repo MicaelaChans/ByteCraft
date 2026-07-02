@@ -1,5 +1,6 @@
 import Footer from "./partials/Footer";
 import "../css/ContactUs.css";
+
 function ContactUs() {
   return (
     <>

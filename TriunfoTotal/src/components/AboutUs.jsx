@@ -1,15 +1,13 @@
-import Navbar from "./partials/Navbar";
 import Footer from "./partials/Footer";
 import "../css/AboutUs.css";
 
 function AboutUs() {
   return (
     <>
-    <Navbar/>
       <section id="sectionAbout1">
         <div className="container">
           <div>
-            <h2 className="fs-1">About us</h2>
+            <h2 className="fs-1">Sobre Nosotros</h2>
             <p className="mt-4 fs-5">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit,
               fuga?

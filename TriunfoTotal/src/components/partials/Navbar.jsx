@@ -23,13 +23,13 @@ function Navbar() {
         >
           <ul className="navbar-nav mx-auto gap-4 nav-center">
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a className="nav-link" href="/ContactUs">
                 Contacto
               </a>
             </li>
 
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a className="nav-link" href="/AboutUs">
                 Nosotros
               </a>
             </li>
