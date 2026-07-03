@@ -22,18 +22,18 @@ function Footer() {
                 </Link>
               </li>
               <li className="mb-2">
-                <Link to="/torneos" className="text-secondary text-decoration-none small">
+                <Link to="/#" className="text-secondary text-decoration-none small">
                   Torneos
                 </Link>
               </li>
               <li className="mb-2">
-                <Link to="/deportes" className="text-secondary text-decoration-none small">
-                  Deportes
+                <Link to="/contactUs" className="text-secondary text-decoration-none small">
+                  Contacto
                 </Link>
               </li>
               <li className="mb-2">
-                <Link to="/soporte" className="text-secondary text-decoration-none small">
-                  Soporte
+                <Link to="/aboutUs" className="text-secondary text-decoration-none small">
+                  Nosotros
                 </Link>
               </li>
             </ul>

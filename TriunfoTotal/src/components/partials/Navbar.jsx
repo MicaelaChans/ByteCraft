@@ -4,7 +4,7 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <a className="navbar-brand" href="/">
           <img src="/img/logoB.png" alt="logo" />
         </a>
 
@@ -37,7 +37,7 @@ function Navbar() {
         </div>
 
         <div className="nav-right">
-          <a href="#" className="nav-login">
+          <a href="/login" className="nav-login">
             <img src="/img/login2.png" alt="login2" />
           </a>
         </div>
