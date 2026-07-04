@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-.imgCarrusel {
-    height: 550px;
-=======
-.my-carousel {
+  .my-carousel {
   position: relative;
   width: 100%;
   padding: 2rem 0;
@@ -109,5 +105,4 @@
   .carousel-slide {
     height: 260px;
   }
->>>>>>> 0eb06b9cacff8e282fa0946a4c6d3aca0b15d7ca
 }
