@@ -75,7 +75,7 @@ function Profile() {
       // await axios.put("http://localhost/api/profile.php", formData);
       await new Promise((resolve) => setTimeout(resolve, 500));
       dispatch(updateProfile(formData));
-      setEditMode(false);
+      navigate("/");
     } finally {
       setSaving(false);
     }

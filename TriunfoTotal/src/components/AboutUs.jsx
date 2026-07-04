@@ -23,16 +23,15 @@ function AboutUs() {
           <h3 className="mt-5">Objetivos</h3>
           <p className="mt-4">Facilitar la organización y participación en torneos de forma clara y accesible. Promover la competencia sana y el respeto entre los participantes. Integrar deportes, videojuegos y juegos de mesa en un mismo espacio. Brindar una experiencia moderna que funcione en cualquier dispositivo. Construir una comunidad activa que celebre logros y fomente la superación personal.</p>
           <h3 className="mt-5">Valores</h3>
-          <p>
-            <ul className="mt-4">
-              <li className="mt-2">Transparencia: reglas claras y procesos justos en cada torneo. </li>
-              <li className="mt-2">Respeto: valorar a cada jugador y fomentar el compañerismo. </li>
-              <li className="mt-2">Diversión: que competir sea siempre una experiencia positiva.</li>
-              <li className="mt-2">Innovación: mejorar constantemente la plataforma para ofrecer lo mejor.</li>
-              <li className="mt-2">Inclusión: abrir las puertas a todos, sin importar nivel o disciplina.</li>
-              <li className="mt-2">Juego limpio:Promovemos la honestidad, el respeto por las reglas y la igualdad de oportunidades para todos los participantes.</li>
-            </ul>
-          </p>
+          <ul className="mt-4">
+            <li className="mt-2">Transparencia: reglas claras y procesos justos en cada torneo. </li>
+            <li className="mt-2">Respeto: valorar a cada jugador y fomentar el compañerismo. </li>
+            <li className="mt-2">Diversión: que competir sea siempre una experiencia positiva.</li>
+            <li className="mt-2">Innovación: mejorar constantemente la plataforma para ofrecer lo mejor.</li>
+            <li className="mt-2">Inclusión: abrir las puertas a todos, sin importar nivel o disciplina.</li>
+            <li className="mt-2">Juego limpio:Promovemos la honestidad, el respeto por las reglas y la igualdad de oportunidades para todos los participantes.</li>
+          </ul>
+
         </div>
       </section>
       <Footer />
