@@ -1,5 +1,6 @@
 import MyCarousel from "../components/partials/MyCarousel";
 import Footer from "./partials/Footer";
+import home from "../css/home.css";
 
 function Home() {
 
@@ -27,6 +28,16 @@ function Home() {
           </div>
         </div>
       </section>
+      <section className="cards-container py-5">
+              <div className="card">Futbol 5</div>
+              <div className="card">Basquetbol</div>
+              <div className="card">Ajedrez</div>
+              <div className="card">Valorant</div>
+              <div className="card">jsdbvkj</div>
+              <div className="card">snovsjnv</div>
+              <div className="card">sofdikg</div>
+              <div className="card">fovkwp</div>
+            </section>
       <Footer />
     </>
   );

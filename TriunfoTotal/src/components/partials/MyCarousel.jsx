@@ -1,7 +1,34 @@
+<<<<<<< HEAD
 import "../../css/MyCarousel.css";
+=======
+import { useState } from "react";
+import "../../css/myCarousel.css";
+
+const slides = [
+  { src: "/img/voleibol.webp", alt: "voleibol", caption: "Todos los juegos, una sola pasión." },
+  { src: "/img/ajedrez.webp", alt: "ajedrez", caption: "Todos los juegos, una sola pasión." },
+  { src: "/img/futbol.jpg", alt: "futbol", caption: "Todos los juegos, una sola pasión." },
+  { src: "/img/Esport.png", alt: "e-sports", caption: "Todos los juegos, una sola pasión." },
+];
+
+const SLIDE_WIDTH = 70;
+const GAP = 6;
+const STEP = SLIDE_WIDTH + GAP;
+>>>>>>> 0eb06b9cacff8e282fa0946a4c6d3aca0b15d7ca
 
 function MyCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  function goTo(index) {
+    // wrap-around: si te pasás del final volvés al principio, y viceversa
+    const total = slides.length;
+    setActiveIndex(((index % total) + total) % total);
+  }
+
+  const offset = 50 - activeIndex * STEP - SLIDE_WIDTH / 2;
+
   return (
+<<<<<<< HEAD
     <div
       id="carouselExampleCaptions"
       className="carousel slide"
@@ -82,28 +109,63 @@ function MyCarousel() {
           <div className="carousel-caption d-none d-md-block">
             <h5>Todos los juegos, una sola pasión.</h5>
           </div>
+=======
+    <div className="my-carousel">
+      <div className="carousel-viewport">
+        <div
+          className="carousel-track"
+          style={{ transform: `translateX(${offset}%)` }}
+        >
+          {slides.map((slide, index) => (
+            <div
+              key={slide.alt}
+              className={`carousel-slide ${index === activeIndex ? "active" : ""}`}
+              style={{ width: `${SLIDE_WIDTH}%`, marginRight: `${GAP}%` }}
+              onClick={() => goTo(index)}
+            >
+              <img src={slide.src} alt={slide.alt} />
+              {index === activeIndex && (
+                <div className="carousel-caption">
+                  <h5>{slide.caption}</h5>
+                </div>
+              )}
+            </div>
+          ))}
+>>>>>>> 0eb06b9cacff8e282fa0946a4c6d3aca0b15d7ca
         </div>
       </div>
 
       <button
-        className="carousel-control-prev"
         type="button"
-        data-bs-target="#carouselExampleCaptions"
-        data-bs-slide="prev"
+        className="carousel-control-prev"
+        onClick={() => goTo(activeIndex - 1)}
+        aria-label="Anterior"
       >
         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
         <span className="visually-hidden">Anterior</span>
       </button>
 
       <button
-        className="carousel-control-next"
         type="button"
-        data-bs-target="#carouselExampleCaptions"
-        data-bs-slide="next"
+        className="carousel-control-next"
+        onClick={() => goTo(activeIndex + 1)}
+        aria-label="Siguiente"
       >
         <span className="carousel-control-next-icon" aria-hidden="true"></span>
         <span className="visually-hidden">Siguiente</span>
       </button>
+
+      <div className="carousel-indicators">
+        {slides.map((slide, index) => (
+          <button
+            key={slide.alt}
+            type="button"
+            className={index === activeIndex ? "active" : ""}
+            aria-label={`Ir a ${slide.alt}`}
+            onClick={() => goTo(index)}
+          ></button>
+        ))}
+      </div>
     </div>
   );
 }
