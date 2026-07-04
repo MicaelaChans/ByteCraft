@@ -53,6 +53,17 @@ function MyCarousel() {
 
         <div className="carousel-item">
           <img
+            src= "img/Esport.png"
+            className="d-block imgCarrusel"
+            alt="Esport"
+          />
+          <div className="carousel-caption d-none d-md-block">
+            <h5>Todos los juegos, una sola pasión.</h5>
+          </div>
+        </div>
+
+        <div className="carousel-item">
+          <img
             src="/img/futbol.jpg"
             className="d-block imgCarrusel"
             alt="futbol"
