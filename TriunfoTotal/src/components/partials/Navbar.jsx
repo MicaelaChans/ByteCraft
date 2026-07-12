@@ -1,7 +1,7 @@
-import {useState, useRef, useEffect} from "react";
-import {Link, useNavigate} from "react-router-dom";
-import {useSelector, useDispatch} from "react-redux";
-import {logout} from "../../redux/userSlice";
+import { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/userSlice";
 import "../../css/navbar.css";
 
 function Navbar() {
@@ -51,11 +51,6 @@ function Navbar() {
         >
           <ul className="navbar-nav mx-auto gap-4 nav-center">
             <li className="nav-item">
-              <Link className="nav-link" to="/torneos">
-                Torneos
-              </Link>
-            </li>
-            <li className="nav-item">
               <Link className="nav-link" to="/contactUs">
                 Contacto
               </Link>
@@ -76,7 +71,7 @@ function Navbar() {
                 className="profile-trigger"
                 onClick={() => setMenuOpen((prev) => !prev)}
               >
-                <img src="/img/login2.png" alt="perfil" />
+                <img src={user.avatar || "/img/login2.png"} alt="perfil" />
               </button>
 
               {menuOpen && (
@@ -88,13 +83,6 @@ function Navbar() {
                     onClick={() => setMenuOpen(false)}
                   >
                     Mi perfil
-                  </Link>
-                  <Link
-                    to="/myTournaments"
-                    className="profile-dropdown-item"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Mis Torneos 
                   </Link>
                   <button
                     className="profile-dropdown-item profile-dropdown-logout"

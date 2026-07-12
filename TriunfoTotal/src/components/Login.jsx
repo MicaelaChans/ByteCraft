@@ -16,7 +16,6 @@ function Login() {
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // limpia el error de ese campo apenas el usuario vuelve a escribir
     setErrors((prev) => ({ ...prev, [name]: "" }));
   }
 
@@ -39,6 +38,12 @@ function Login() {
     return newErrors;
   }
 
+  function handleClear() {
+    setFormData({ email: "", password: "" });
+    setErrors({});
+    setServerError("");
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     setServerError("");
@@ -51,12 +56,6 @@ function Login() {
 
     setLoading(true);
     try {
-      // TODO: reemplazar este mock por la llamada real cuando esté el backend PHP:
-      //
-      // const res = await axios.post("http://localhost/api/login.php", formData);
-      // dispatch(login(res.data.user));
-      //
-      // Por ahora simulamos la respuesta del servidor:
       await new Promise((resolve) => setTimeout(resolve, 600));
       dispatch(login({ email: formData.email }));
       navigate("/profile");
@@ -113,9 +112,19 @@ function Login() {
             <div className="alert alert-danger py-2">{serverError}</div>
           )}
 
-          <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-            {loading ? "Ingresando..." : "Ingresar"}
-          </button>
+          <div className="form-actions">
+            <button type="submit" className="btn btn-primary" disabled={loading}>
+              {loading ? "Ingresando..." : "Ingresar"}
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={handleClear}
+              disabled={loading}
+            >
+              Limpiar
+            </button>
+          </div>
         </form>
 
         <p className="mt-3 text-center">

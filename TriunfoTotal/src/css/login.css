@@ -8,13 +8,15 @@
   overflow: hidden;
 }
 
+/* fondo con foto esfumada: la imagen real vive en ::before, agrandada y
+   difuminada, con un velo blanco encima para que no compita con la tarjeta */
 .login-page::before {
   content: "";
   position: absolute;
   inset: 0;
   background:
     linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
-    url("/img/esqui.jpg") center/cover no-repeat;
+    url("/img/futbol.jpg") center/cover no-repeat;
   filter: blur(12px);
   transform: scale(1.1); /* tapa el borde nítido que deja el blur */
   z-index: 0;
@@ -29,4 +31,14 @@
   border-radius: 12px;
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* fila de botones (ej: Ingresar / Limpiar) repartida en partes iguales */
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.form-actions button {
+  flex: 1;
 }
