@@ -16,7 +16,7 @@ function ContactUs() {
       </section>
       <section id="sectionContact2">
         <div className="container py-5">
-          <h3>Esta sección fue creada especialemte para ti...</h3>
+          <h3>Esta sección fue creada especialmente para ti...</h3>
           <p className="mt-4">
             Tu opinión es importante para nosotros. Si tenés dudas, sugerencias o querés compartir tu experiencia usando nuestra plataforma de gestión de torneos, te invitamos a dejarnos un mensaje. Cada comentario nos ayuda a mejorar, optimizar nuestras herramientas y seguir construyendo un espacio pensado para jugadores, organizadores y amantes de la competencia. Completá el formulario y hacenos llegar tu aporte.
           </p>
