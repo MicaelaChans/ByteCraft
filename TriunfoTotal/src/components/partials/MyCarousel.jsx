@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../../css/myCarousel.css";
+import "../../css/styles.css";
 
 const slides = [
   {

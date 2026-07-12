@@ -1,5 +1,5 @@
 import Footer from "./partials/Footer";
-import "../css/AboutUs.css";
+import "../css/sityles.css";
 
 function AboutUs() {
   return (

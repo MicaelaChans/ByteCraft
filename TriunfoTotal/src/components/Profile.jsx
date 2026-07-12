@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProfile } from "../redux/userSlice";
 import { maskEmail, maskPhone } from "../utils/maskData";
-import "../css/profile.css";
+import "../css/styles.css";
 
 function Profile() {
   const user = useSelector((state) => state.user);

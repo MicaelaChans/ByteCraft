@@ -1,6 +1,6 @@
 import MyCarousel from "../components/partials/MyCarousel";
 import Footer from "./partials/Footer";
-import "../css/home.css";
+import "../css/styles.css";
 import Sidebar from "./partials/Sidebar";
 
 function Home() {

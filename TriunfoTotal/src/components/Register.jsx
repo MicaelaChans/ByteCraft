@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/userSlice";
-import "../css/register.css";
+import "../css/styles.css";
 
 function Register() {
   const dispatch = useDispatch();

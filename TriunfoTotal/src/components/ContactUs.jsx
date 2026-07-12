@@ -1,5 +1,5 @@
 import Footer from "./partials/Footer";
-import "../css/ContactUs.css";
+import "../css/styles.css";
 
 function ContactUs() {
   return (
