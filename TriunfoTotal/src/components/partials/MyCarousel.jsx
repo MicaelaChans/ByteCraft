@@ -2,10 +2,26 @@ import { useState } from "react";
 import "../../css/myCarousel.css";
 
 const slides = [
-  { src: "/img/voleibol.webp", alt: "voleibol", caption: "Todos los juegos, una sola pasión." },
-  { src: "/img/ajedrez.webp", alt: "ajedrez", caption: "Todos los juegos, una sola pasión." },
-  { src: "/img/futbol.jpg", alt: "futbol", caption: "Todos los juegos, una sola pasión." },
-  { src: "/img/Esport.png", alt: "e-sports", caption: "Todos los juegos, una sola pasión." },
+  {
+    src: "/img/voleibol.webp",
+    alt: "voleibol",
+    caption: "Todos los juegos, una sola pasión.",
+  },
+  {
+    src: "/img/ajedrez.webp",
+    alt: "ajedrez",
+    caption: "Todos los juegos, una sola pasión.",
+  },
+  {
+    src: "/img/futbol.jpg",
+    alt: "futbol",
+    caption: "Todos los juegos, una sola pasión.",
+  },
+  {
+    src: "/img/Esport.png",
+    alt: "e-sports",
+    caption: "Todos los juegos, una sola pasión.",
+  },
 ];
 
 const SLIDE_WIDTH = 70;
@@ -16,7 +32,6 @@ function MyCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   function goTo(index) {
-    // wrap-around: si te pasás del final volvés al principio, y viceversa
     const total = slides.length;
     setActiveIndex(((index % total) + total) % total);
   }
@@ -33,8 +48,13 @@ function MyCarousel() {
           {slides.map((slide, index) => (
             <div
               key={slide.alt}
-              className={`carousel-slide ${index === activeIndex ? "active" : ""}`}
-              style={{ width: `${SLIDE_WIDTH}%`, marginRight: `${GAP}%` }}
+              className={`carousel-slide ${
+                index === activeIndex ? "active" : ""
+              }`}
+              style={{
+                width: `${SLIDE_WIDTH}%`,
+                marginRight: `${GAP}%`,
+              }}
               onClick={() => goTo(index)}
             >
               <img src={slide.src} alt={slide.alt} />
@@ -49,7 +69,6 @@ function MyCarousel() {
       </div>
 
       <button
-        type="button"
         className="carousel-control-prev"
         onClick={() => goTo(activeIndex - 1)}
         aria-label="Anterior"
@@ -58,7 +77,6 @@ function MyCarousel() {
       </button>
 
       <button
-        type="button"
         className="carousel-control-next"
         onClick={() => goTo(activeIndex + 1)}
         aria-label="Siguiente"
@@ -74,7 +92,7 @@ function MyCarousel() {
             className={index === activeIndex ? "active" : ""}
             aria-label={`Ir a ${slide.alt}`}
             onClick={() => goTo(index)}
-          ></button>
+          />
         ))}
       </div>
     </div>

@@ -51,6 +51,11 @@ function Navbar() {
         >
           <ul className="navbar-nav mx-auto gap-4 nav-center">
             <li className="nav-item">
+              <Link className="nav-link" to="/torneos">
+                Torneos
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link className="nav-link" to="/contactUs">
                 Contacto
               </Link>
@@ -83,6 +88,13 @@ function Navbar() {
                     onClick={() => setMenuOpen(false)}
                   >
                     Mi perfil
+                  </Link>
+                  <Link
+                    to="/myTournaments"
+                    className="profile-dropdown-item"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Mis Torneos 
                   </Link>
                   <button
                     className="profile-dropdown-item profile-dropdown-logout"
