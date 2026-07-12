@@ -8,7 +8,7 @@ function Home() {
     <>
       <MyCarousel />
 
-      <div className="main-layout">
+      <div className="main-layout container">
         <Sidebar />
 
         <div className="content-area">
