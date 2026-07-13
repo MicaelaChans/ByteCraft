@@ -162,11 +162,8 @@ function Profile() {
                       {user.direccion || "No cargada"}
                     </span>
                   </div>
-
                 </div>
-
               </div>
-
               {/* BOTÓN EDITAR */}
               <div className="col-lg-1 text-end">
 
@@ -176,9 +173,7 @@ function Profile() {
                 >
                   <i className="bi bi-pencil-fill"></i>
                 </button>
-
               </div>
-
             </div>
           </>
         ) : (
@@ -213,15 +208,11 @@ function Profile() {
                   onChange={handlePhotoChange}
                   hidden
                 />
-
               </div>
-
             </div>
 
             <div className="row">
-
               <div className="col-md-6 mb-3">
-
                 <label className="form-label">
                   Nombre
                 </label>
@@ -233,7 +224,6 @@ function Profile() {
                   value={formData.nombre}
                   onChange={handleChange}
                 />
-
               </div>
 
               <div className="col-md-6 mb-3">
@@ -315,31 +305,73 @@ function Profile() {
 
               <button
                 type="submit"
-                className="btn btn-success"
+                className="btn miColor"
                 disabled={saving}
               >
                 {saving ? "Guardando..." : "Guardar cambios"}
               </button>
             </div>
-            <section className="container mt-3">
-                <div>
-                  <h2>Historial de Torneos</h2>
-                  <div className="card" style={{ width: "18rem" }}>
-                  <img src="..." className="card-img-top" alt="..."/>
-
-                  <div className="card-body">
-                  <h5 className="card-title">Card title</h5>
-                  <p className="card-text"> Some quick example text to build on the card title and make up the bulk of the card’s content. </p>
-                  <a href="#" className="btn btn-primary"> Go somewhere </a>
-                  </div>
-                </div>
-                </div>
-              </section>
           </form>
         )}
-
       </div>
 
+        
+      <div className="profile-container mt-5">
+        <div className="profile-card">
+
+        {/* Banner */}
+        <div className="profile-banner2"></div>
+        <section className="py-5" id="sectionHistorial">
+
+          <h2 className="text-center mb-5"> Historial de Torneos</h2>
+          
+          <div className="row justify-content-center gap-4">
+            <div className="card shadow-sm" id="cardHistorial" style={{ width: "20rem" }}>
+              <img src="/img/futbol.jpg" className="card-img" alt="Fútbol"/>
+              <div className="card-body">
+                <h5 className="card-title">Torneo 1</h5>
+                <p className="card-text"> Some quick example text to build on the card title and make up the bulk of the card’s content. </p>
+              <div className="d-flex justify-content-evenly mt-3">
+                <a href="#"> <i className="bi bi-eye"></i></a>
+                <a href="#"> <i className="bi bi-pencil-fill"></i></a>
+                <a href="#"> <i className="bi bi-trash"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div className="card shadow-sm " id="cardHistorial" style={{ width: "20rem" }}>
+            <img src="/img/voleibol.webp" className="card-img" alt="Voleibol"/>
+            <div className="card-body">
+              <h5 className="card-title">Torneo 2</h5>
+              <p className="card-text"> Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+              <div className="d-flex justify-content-evenly mt-3">
+                <a href="#"> <i className="bi bi-eye"></i></a>
+                <a href="#"> <i className="bi bi-pencil-fill"></i></a>
+                <a href="#"><i className="bi bi-trash"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div className="card shadow-sm " id="cardHistorial" style={{ width: "20rem" }}>
+            <img src="/img/Esport.png" className="card-img" alt="Esports"/>
+              <div className="card-body">
+              <h5 className="card-title">Torneo 3</h5>
+              <p className="card-text"> Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+
+              <div className="d-flex justify-content-evenly mt-3">
+                <a href="#"><i className="bi bi-eye"></i></a>
+                <a href="#"><i className="bi bi-pencil-fill"></i></a>
+                <a href="#"><i className="bi bi-trash"></i></a>
+              </div>
+            </div>
+          </div>
+      </div>
+
+    </section>
+
+  </div>
+
+</div>
     </div>
   </div>
 )}

@@ -432,17 +432,33 @@
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 12px 35px rgba(0,0,0,.15);
-  transition:.3s;
+  transition:.5s;
 }
 
 .profile-card:hover{
-    transform:translateY(-3px);
+    transform:translateY(-5px);
 }
 
 .profile-banner {
     height: 20px;
-    background: linear-gradient(135deg,#198754,#157347);
-    margin-bottom: 65px;
+    background: linear-gradient(#60B7E8);
+    margin-bottom: 50px;
+}
+
+.miColor{
+  background-color: #60B7E8;
+  color: rgb(75, 75, 75);
+  border: solid 1px gray;
+}
+
+.miColor:hover {
+  background-color: #60B7E8;
+  color: white;
+}
+
+.profile-banner2 {
+    height: 20px;
+    background: linear-gradient(#F4C542);
 }
 
 .profile-avatar{
@@ -502,7 +518,7 @@
     width:48px;
     height:48px;
     border-radius:50%;
-    transition:.3s;
+    transition:.5s;
 }
 
 .profile-edit-btn:hover{
@@ -528,7 +544,7 @@
 .profile-form .form-control {
   border-radius: 10px;
   min-height: 46px;
-  transition: .2s;
+  transition: .5s;
 }
 
 .profile-form .form-control:focus {
@@ -544,6 +560,14 @@
 .btn-success:hover {
   background: #157347;
   border-color: #157347;
+}
+
+#sectionHisorial {
+  background-color: white;
+}
+
+#cardHistorial{
+  background-color: white;
 }
 
 @media (max-width: 991px) {
