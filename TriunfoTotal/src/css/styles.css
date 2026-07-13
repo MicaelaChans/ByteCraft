@@ -1,3 +1,54 @@
+/* THEME (modo claro/oscuro) */
+
+body {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+[data-bs-theme="dark"] .profile-dropdown,
+[data-bs-theme="dark"] .login-card,
+[data-bs-theme="dark"] .register-card,
+[data-bs-theme="dark"] .profile-card,
+[data-bs-theme="dark"] .tournament-card,
+[data-bs-theme="dark"] .tournaments-row-arrow,
+[data-bs-theme="dark"] .main-layout {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+[data-bs-theme="dark"] .profile-info {
+    background-color: var(--bs-secondary-bg);
+}
+
+[data-bs-theme="dark"] .profile-dropdown-email,
+[data-bs-theme="dark"] .profile-dropdown-item {
+    color: var(--bs-body-color);
+    border-color: var(--bs-border-color);
+}
+
+[data-bs-theme="dark"] .profile-dropdown-item:hover {
+    background-color: var(--bs-secondary-bg);
+}
+
+[data-bs-theme="dark"] .profile-info-row {
+    border-color: var(--bs-border-color);
+}
+
+[data-bs-theme="dark"] .search-input {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    border-color: var(--bs-border-color);
+}
+
+[data-bs-theme="dark"] #sectionAbout2 {
+    background-color: var(--bs-secondary-bg);
+}
+
+[data-bs-theme="dark"] .tournaments-row-section {
+    background-color: var(--bs-secondary-bg);
+}
+
 /*NAVBAR*/
 
 .navbar .container-fluid {
@@ -18,6 +69,29 @@
 
 .nav-right {
     margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--bs-border-color);
+    background: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    font-size: 16px;
+}
+
+.theme-toggle:hover {
+    transform: rotate(15deg);
+    background: var(--bs-secondary-bg);
 }
 
 .navbar-brand img {
