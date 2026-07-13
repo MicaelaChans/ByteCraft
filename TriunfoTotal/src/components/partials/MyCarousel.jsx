@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../../css/styles.css";
 
 const slides = [
@@ -24,38 +24,83 @@ const slides = [
   },
 ];
 
+const extendedSlides = [slides[slides.length - 1], ...slides, slides[0]];
+
 const SLIDE_WIDTH = 70;
 const GAP = 6;
 const STEP = SLIDE_WIDTH + GAP;
+const TRANSITION_MS = 500;
 
 function MyCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  // arranca en 1: la posición 0 es el clon, la real está corrida un lugar
+  const [activeIndex, setActiveIndex] = useState(1);
+  const [withTransition, setWithTransition] = useState(true);
+  const isJumping = useRef(false);
 
-  function goTo(index) {
-    const total = slides.length;
-    setActiveIndex(((index % total) + total) % total);
+  function move(step) {
+    if (isJumping.current) return; // evita clicks locos mientras se reubica en silencio
+    setWithTransition(true);
+    setActiveIndex((prev) => prev + step);
   }
 
+  function goToReal(realIndex) {
+    if (isJumping.current) return;
+    setWithTransition(true);
+    setActiveIndex(realIndex + 1); // +1 porque el clon ocupa la posición 0
+  }
+
+  useEffect(() => {
+    const isCloneOfLast = activeIndex === 0;
+    const isCloneOfFirst = activeIndex === extendedSlides.length - 1;
+
+    if (!isCloneOfLast && !isCloneOfFirst) return;
+
+    isJumping.current = true;
+    const timer = setTimeout(() => {
+      setWithTransition(false);
+      setActiveIndex(isCloneOfLast ? slides.length : 1);
+    }, TRANSITION_MS);
+
+    return () => clearTimeout(timer);
+  }, [activeIndex]);
+
+  useEffect(() => {
+    if (withTransition) return;
+    const raf = requestAnimationFrame(() => {
+      setWithTransition(true);
+      isJumping.current = false;
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [withTransition]);
+
   const offset = 50 - activeIndex * STEP - SLIDE_WIDTH / 2;
+
+  const realActiveIndex =
+    activeIndex === 0
+      ? slides.length - 1
+      : activeIndex === extendedSlides.length - 1
+      ? 0
+      : activeIndex - 1;
 
   return (
     <div className="my-carousel">
       <div className="carousel-viewport">
         <div
           className="carousel-track"
-          style={{ transform: `translateX(${offset}%)` }}
+          style={{
+            transform: `translateX(${offset}%)`,
+            transition: withTransition ? `transform ${TRANSITION_MS}ms ease` : "none",
+          }}
         >
-          {slides.map((slide, index) => (
+          {extendedSlides.map((slide, index) => (
             <div
-              key={slide.alt}
-              className={`carousel-slide ${
-                index === activeIndex ? "active" : ""
-              }`}
+              key={`${slide.alt}-${index}`}
+              className={`carousel-slide ${index === activeIndex ? "active" : ""}`}
               style={{
                 width: `${SLIDE_WIDTH}%`,
                 marginRight: `${GAP}%`,
               }}
-              onClick={() => goTo(index)}
+              onClick={() => move(index - activeIndex)}
             >
               <img src={slide.src} alt={slide.alt} />
               {index === activeIndex && (
@@ -70,7 +115,7 @@ function MyCarousel() {
 
       <button
         className="carousel-control-prev"
-        onClick={() => goTo(activeIndex - 1)}
+        onClick={() => move(-1)}
         aria-label="Anterior"
       >
         <span className="carousel-control-prev-icon"></span>
@@ -78,7 +123,7 @@ function MyCarousel() {
 
       <button
         className="carousel-control-next"
-        onClick={() => goTo(activeIndex + 1)}
+        onClick={() => move(1)}
         aria-label="Siguiente"
       >
         <span className="carousel-control-next-icon"></span>
@@ -89,9 +134,9 @@ function MyCarousel() {
           <button
             key={slide.alt}
             type="button"
-            className={index === activeIndex ? "active" : ""}
+            className={index === realActiveIndex ? "active" : ""}
             aria-label={`Ir a ${slide.alt}`}
-            onClick={() => goTo(index)}
+            onClick={() => goToReal(index)}
           />
         ))}
       </div>

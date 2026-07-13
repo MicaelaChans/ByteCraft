@@ -61,6 +61,12 @@ function Navbar() {
                 Nosotros
               </Link>
             </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/tournaments">
+                Torneos
+              </Link>
+            </li>
           </ul>
         </div>
 
