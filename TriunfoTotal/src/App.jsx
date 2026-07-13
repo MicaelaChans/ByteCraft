@@ -6,6 +6,7 @@ import AboutUs from "./components/AboutUs";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
+import Tournaments from "./components/Tournaments";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/Tournaments" element={<Tournaments />} />
       </Routes>
     </>
   );

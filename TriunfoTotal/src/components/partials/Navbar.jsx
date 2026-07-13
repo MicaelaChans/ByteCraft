@@ -63,7 +63,7 @@ function Navbar() {
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/tournaments">
+              <Link className="nav-link" to="/Tournaments">
                 Torneos
               </Link>
             </li>
