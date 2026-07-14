@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
 import Tournaments from "./components/Tournaments";
+import Policies from "./components/Policies";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/Tournaments" element={<Tournaments />} />
+        <Route path="/Policies" element={<Policies />} />
       </Routes>
     </>
   );

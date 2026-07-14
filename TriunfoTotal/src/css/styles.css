@@ -288,8 +288,7 @@ body {
 
 .content-area {
   flex-grow: 1;
-  margin-left: 90px; 
-  padding: 20px;
+  padding: 20px 20px 20px 60px; 
 }
 
 .search-bar {
@@ -332,6 +331,11 @@ body {
   border-radius: 8px;
   padding: 20px;
   text-align: center;
+
+}
+
+[data-bs-theme="dark"] .card {
+  color: #212529;
 }
 
 /* SIDEBAR */
@@ -340,16 +344,62 @@ body {
   position: absolute;     
   top: 0;                   
   left: 0;                  
-  width: 90px;              
+  width: 26px;
   background-color: #0d6efd; 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
   padding: 10px 0;
   border-radius: 0 10px 10px 0;
-  height: 100%;             
+  height: 100%;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  z-index: 20;
+}
+
+.sidebar:hover,
+.sidebar.sidebar-open {
+  width: 90px;
+}
+
+.sidebar-handle {
+  position: absolute;
+  top: 50%;
+  right: -14px;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 44px;
+  border: none;
+  border-radius: 0 8px 8px 0;
+  background-color: rgba(13, 110, 253, 0.45);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 21;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar-handle:hover {
+  background-color: rgba(13, 110, 253, 0.85);
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.sidebar:hover .sidebar-content,
+.sidebar.sidebar-open .sidebar-content {
+  opacity: 1;
+  transition: opacity 0.2s ease 0.15s;
 }
 
 .sidebar-card {
@@ -386,6 +436,32 @@ body {
 #sectionAbout2 {
   background-color: #eaeaea;
 }
+[data-bs-theme="dark"] #sectionPolicies2 {
+    background-color: var(--bs-secondary-bg);
+}
+
+/* Policies*/ 
+
+/*#sectionPolicies1 {
+  background-image: linear-gradient(
+      120deg,
+      rgba(0, 0, 0, 0.28) 0%,
+      rgba(0, 0, 0, 0.28) 100%
+    ),
+    url("https://media.istockphoto.com/id/166273618/es/foto/hombre-dunking-basketball-en-court.jpg?s=612x612&w=0&k=20&c=9p0tImveevstF-fH65MKhxYOyxMxzIBTPr62m3oYO6c=");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 150px;
+  padding-bottom: 150px;
+  color: #fff;
+}
+
+#sectionPolicies2 {
+  background-color: #eaeaea;
+}
+[data-bs-theme="dark"] #sectionPolicies2 {
+    background-color: var(--bs-secondary-bg);
+}*/
 
 /* ContactUs */
 
@@ -707,6 +783,9 @@ body {
 
 #footer {
   width: 100%;
+}
+.site-footer {
+    background-color: var(--bs-tertiary-bg);
 }
 
 /* Tournaments */

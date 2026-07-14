@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className="bg-dark text-light pt-5 pb-3 mt-auto">
+    // <footer className="bg-dark text-light pt-5 pb-3 mt-auto">//
+    <footer className="site-footer pt-5 pb-3 mt-auto">
       <div className="container">
         <div className="row row-gap-4 text-center text-md-start">
 
@@ -53,10 +54,7 @@ function Footer() {
             <h5 className="text-uppercase small fw-bold">Soporte Legal</h5>
             <ul className="list-unstyled">
               <li className="mb-2">
-                <Link
-                  to="/privacidad"
-                  className="text-secondary text-decoration-none small"
-                >
+                <Link to="/policies" className="text-secondary text-decoration-none small">
                   Política de Privacidad
                 </Link>
               </li>
