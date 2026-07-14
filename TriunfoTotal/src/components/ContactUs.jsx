@@ -26,7 +26,7 @@ function ContactUs() {
               <div className="row">
                 <div className="col-lg-6 col-md-6 col-sm-12">
                   <div className="inputbox">
-                    <input type="text" name="firstname" required />
+                    <input type="text" name="firstname" placeholder="Claudio" required />
                     <label>Nombre</label>
                   </div>
                   <div className="inputbox">
@@ -74,7 +74,7 @@ function ContactUs() {
                     </label>
                   </div>
                   <div className="d-flex justify-content-end aling-items-end mt-3">
-                    <button className="btn btn-dark">Enviar</button>
+                    <button className="btn btn-ligth">Enviar</button>
                   </div>
                 </div>
               </div>

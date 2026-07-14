@@ -844,3 +844,19 @@ body {
   padding: 1rem;
   color: #6c757d;
 }
+.inputbox {
+  margin-bottom: 20px; /* separación entre cada inputbox */
+  display: flex;
+  flex-direction: column-reverse; /* coloca label arriba del input */
+}
+
+.inputbox label {
+  margin-bottom: 5px; /* espacio entre el label y el input */
+  font-weight: bold;   /* opcional: resalta el texto del label */
+}
+
+.inputbox input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
