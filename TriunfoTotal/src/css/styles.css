@@ -344,12 +344,8 @@ body {
   position: absolute;     
   top: 0;                   
   left: 0;                  
-  /*HEAD*/
   width: 26px;
   background-color: #0d6efd; 
-  width: 90px;              
-  background-color: #60B7E8; 
- /*a1ead4f90116ef8b91d5db40df2c93017f2745c3*/
   display: flex;
   flex-direction: column;
   align-items: center;

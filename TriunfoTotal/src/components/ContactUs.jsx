@@ -26,25 +26,25 @@ function ContactUs() {
               <div className="row">
                 <div className="col-lg-6 col-md-6 col-sm-12">
                   <div className="inputbox">
-                    <input type="text" name="firstname" placeholder="Claudio" required />
+                    <input type="text" name="firstname" placeholder="Nombre" required />
                     <label>Nombre</label>
                   </div>
                   <div className="inputbox">
-                    <input type="text" name="Lastname" required />
+                    <input type="text" name="Lastname" placeholder="Apellido" required />
                     <label>Apellido</label>
                   </div>
                   <div className="inputbox">
-                    <input type="text" name="email" required />
+                    <input type="text" name="email" placeholder="Email" required />
                     <label>Email</label>
                   </div>
                   <div className="inputbox">
-                    <input type="text" name="phone" required />
+                    <input type="text" name="phone" placeholder="Celular" required />
                     <label>Celular</label>
                   </div>
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12">
                   <div className="inputbox">
-                    <input type="text" name="subjet" required />
+                    <input type="text" name="subjet" placeholder="Asunto" required />
                     <label>Asunto</label>
                   </div>
                   <div className="d-flex flex-column">
