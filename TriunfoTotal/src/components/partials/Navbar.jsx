@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/userSlice";
+import ThemeToggle from "./ThemeToggle" // importa el componente ThemeToggle para el modo claro/oscuro 
 import "../../css/styles.css";
 
 function Navbar() {
@@ -71,6 +72,7 @@ function Navbar() {
         </div>
 
         <div className="nav-right" ref={menuRef}>
+          <ThemeToggle /> {/* agrega el componente ThemeToggle al navbar */}  
           {user ? (
             <div className="profile-menu">
               <button
