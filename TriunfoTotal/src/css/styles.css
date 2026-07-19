@@ -436,19 +436,19 @@ body {
 #sectionAbout2 {
   background-color: #eaeaea;
 }
-[data-bs-theme="dark"] #sectionPolicies2 {
+[data-bs-theme="dark"] {
     background-color: var(--bs-secondary-bg);
 }
 
-/* Policies*/ 
+/* POLICES*/ 
 
-/*#sectionPolicies1 {
+#sectionPolicies1 {
   background-image: linear-gradient(
       120deg,
       rgba(0, 0, 0, 0.28) 0%,
       rgba(0, 0, 0, 0.28) 100%
     ),
-    url("https://media.istockphoto.com/id/166273618/es/foto/hombre-dunking-basketball-en-court.jpg?s=612x612&w=0&k=20&c=9p0tImveevstF-fH65MKhxYOyxMxzIBTPr62m3oYO6c=");
+    url("https://estaticosgn-cdn.deia.eus/clip/2d7f14b7-f83c-454a-ad07-2da29070530a_16-9-discover-aspect-ratio_default_0_x640y336.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   padding-top: 150px;
@@ -461,7 +461,7 @@ body {
 }
 [data-bs-theme="dark"] #sectionPolicies2 {
     background-color: var(--bs-secondary-bg);
-}*/
+}
 
 /* ContactUs */
 

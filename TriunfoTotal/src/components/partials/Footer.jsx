@@ -66,14 +66,6 @@ function Footer() {
                   Términos de Servicio
                 </Link>
               </li>
-              <li className="mb-2">
-                <Link
-                  to="/mapa"
-                  className="text-secondary text-decoration-none small"
-                >
-                  Mapa del Sitio
-                </Link>
-              </li>
             </ul>
           </div>
 
