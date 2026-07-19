@@ -8,6 +8,7 @@ import Register from "./components/Register";
 import Profile from "./components/Profile";
 import Tournaments from "./components/Tournaments";
 import Policies from "./components/Policies";
+import TermsOfService from "./components/TermsOfService";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/Tournaments" element={<Tournaments />} />
         <Route path="/Policies" element={<Policies />} />
-      </Routes>
+        <Route path="/TermsOfService" element={<TermsOfService />} />
+    </Routes>
     </>
   );
 }

@@ -60,7 +60,7 @@ function Footer() {
               </li>
               <li className="mb-2">
                 <Link
-                  to="/terminos"
+                  to="/TermsOfService"
                   className="text-secondary text-decoration-none small"
                 >
                   Términos de Servicio
