@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/userSlice";
+import GoogleButton from "./partials/GoogleButton";
 import "../css/styles.css";
 
 function Login() {
@@ -124,6 +125,8 @@ function Login() {
             >
               Limpiar
             </button>
+            <div className="auth-divider">o</div>
+            <GoogleButton label="Iniciar sesión con Google" />
           </div>
         </form>
 

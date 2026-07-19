@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/userSlice";
+import GoogleButton from "./partials/GoogleButton";
 import "../css/styles.css";
 
 function Register() {
@@ -120,67 +121,49 @@ function Register() {
             </div>
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className={`form-control ${errors.email ? "is-invalid" : ""}`}
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="tuemail@ejemplo.com"
-            />
-            {errors.email && (
-              <div className="invalid-feedback">{errors.email}</div>
-            )}
-          </div>
+          <div className="row">
+            <div className="col-6 mb-3">
+              <label htmlFor="password" className="form-label">
+                Contraseña
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                className={`form-control form-control-sm ${errors.password ? "is-invalid" : ""}`}
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+              />
+              {errors.password && (
+                <div className="invalid-feedback">{errors.password}</div>
+              )}
+            </div>
 
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Contraseña
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className={`form-control ${errors.password ? "is-invalid" : ""}`}
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="••••••••"
-            />
-            {errors.password && (
-              <div className="invalid-feedback">{errors.password}</div>
-            )}
+            <div className="col-6 mb-3">
+              <label htmlFor="confirmPassword" className="form-label">
+                Confirmar
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                className={`form-control form-control-sm ${errors.confirmPassword ? "is-invalid" : ""}`}
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="••••••••"
+              />
+              {errors.confirmPassword && (
+                <div className="invalid-feedback">{errors.confirmPassword}</div>
+              )}
+            </div>
           </div>
-
-          <div className="mb-3">
-            <label htmlFor="confirmPassword" className="form-label">
-              Confirmar contraseña
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              className={`form-control ${errors.confirmPassword ? "is-invalid" : ""}`}
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder="••••••••"
-            />
-            {errors.confirmPassword && (
-              <div className="invalid-feedback">{errors.confirmPassword}</div>
-            )}
-          </div>
-
-          {serverError && (
-            <div className="alert alert-danger py-2">{serverError}</div>
-          )}
 
           <button type="submit" className="btn btn-primary w-100" disabled={loading}>
             {loading ? "Creando cuenta..." : "Registrarme"}
           </button>
+          <div className="auth-divider">o</div>
+          <GoogleButton label="Registrarse con Google" />
         </form>
 
         <p className="mt-3 text-center">
