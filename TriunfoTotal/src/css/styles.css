@@ -741,7 +741,6 @@ body {
   overflow: hidden;
 }
 
-
 .profile-page::before {
   content: "";
   position: absolute;
@@ -788,6 +787,28 @@ body {
   color: white;
 }
 
+.profile-avatar-icon {
+  font-size: 180px;
+  color: #6d87e8;
+}
+
+[data-bs-theme="dark"] .cardHistorial {
+  background-color: #343a40 !important;
+  border-color: #343a40;
+}
+
+[data-bs-theme="dark"] .cardHistorial .card-body {
+  background-color: #343a40 !important;
+}
+
+[data-bs-theme="dark"] .cardHistorial .card-title,
+[data-bs-theme="dark"] .cardHistorial .card-text {
+  color: white;
+}
+
+[data-bs-theme="dark"] .cardHistorial a {
+  color: #6d87e8;
+}
 .profile-banner2 {
     height: 20px;
     background: linear-gradient(#F4C542);

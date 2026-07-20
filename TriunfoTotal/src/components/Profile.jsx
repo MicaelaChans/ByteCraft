@@ -109,11 +109,15 @@ function Profile() {
 
               {/* FOTO */}
               <div className="col-lg-3 text-center">
-                <img
-                  src={formData.avatar || "/img/login2.png"}
-                  alt="Foto de perfil"
-                  className="profile-avatar"
-                />
+                {user.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt="Foto de perfil"
+                    className="profile-avatar"
+                  />
+                  ) : (
+                    <i className="bi bi-person-circle profile-avatar-icon"></i>
+                  )}
               </div>
 
               {/* DATOS */}
@@ -183,13 +187,17 @@ function Profile() {
             className="profile-form mt-4"
           >
 
-            <div className="text-center mb-4">
+            <div className="text-center mb-5">
 
-              <img
-                src={formData.avatar || "/img/login2.png"}
-                alt="Foto de perfil"
-                className="profile-avatar"
-              />
+              {user.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt="Foto de perfil"
+                    className="profile-avatar"
+                  />
+                  ) : (
+                    <i className="bi bi-person-circle profile-avatar-icon"></i>
+                  )}
 
               <div className="mt-3">
 
@@ -318,15 +326,13 @@ function Profile() {
         
       <div className="profile-container mt-5">
         <div className="profile-card">
-
         {/* Banner */}
         <div className="profile-banner2"></div>
         <section className="py-5" id="sectionHistorial">
-
           <h2 className="text-center mb-5"> Historial de Torneos</h2>
-          
           <div className="row justify-content-center gap-4">
-            <div className="card shadow-sm" id="cardHistorial" style={{ width: "20rem" }}>
+            
+            <div className="card shadow-sm cardHistorial" id="cardHistorial" style={{ width: "20rem" }}>
               <img src="/img/futbol.jpg" className="card-img" alt="Fútbol"/>
               <div className="card-body">
                 <h5 className="card-title">Torneo 1</h5>
@@ -339,7 +345,7 @@ function Profile() {
             </div>
           </div>
 
-          <div className="card shadow-sm " id="cardHistorial" style={{ width: "20rem" }}>
+          <div className="card shadow-sm cardHistorial" id="cardHistorial" style={{ width: "20rem" }}>
             <img src="/img/voleibol.webp" className="card-img" alt="Voleibol"/>
             <div className="card-body">
               <h5 className="card-title">Torneo 2</h5>
@@ -352,7 +358,7 @@ function Profile() {
             </div>
           </div>
 
-          <div className="card shadow-sm " id="cardHistorial" style={{ width: "20rem" }}>
+          <div className="card shadow-sm cardHistorial" id="cardHistorial" style={{ width: "20rem" }}>
             <img src="/img/Esport.png" className="card-img" alt="Esports"/>
               <div className="card-body">
               <h5 className="card-title">Torneo 3</h5>
@@ -366,13 +372,10 @@ function Profile() {
             </div>
           </div>
       </div>
-
     </section>
-
   </div>
-
-</div>
-    </div>
+  </div>
+  </div>
   </div>
 )}
 
