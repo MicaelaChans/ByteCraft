@@ -9,7 +9,7 @@ function Home() {
       <MyCarousel />
 
       <div className="main-layout">
-        <Sidebar />
+        {/*<Sidebar />*/}
 
         <div className="content-area">
           <div className="container">
@@ -19,7 +19,8 @@ function Home() {
                 className="search-input"
                 placeholder="Buscar..."
               />
-              <button className="search-btn">🔍</button>
+              <button className="search-btn"><i className="bi bi-search"></i>
+              </button>
             </div>
 
             <section id="sectionHome">
@@ -39,17 +40,6 @@ function Home() {
                   </p>
                 </div>
               </div>
-            </section>
-
-            <section className="cards-container">
-              <div className="card">Futbol 5</div>
-              <div className="card">Basquetbol</div>
-              <div className="card">Ajedrez</div>
-              <div className="card">Valorant</div>
-              <div className="card">Futbol 11</div>
-              <div className="card">Ping pong</div>
-              <div className="card">Voleyball</div>
-              <div className="card">Truco</div>
             </section>
           </div>
         </div>
