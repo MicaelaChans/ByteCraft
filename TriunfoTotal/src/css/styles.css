@@ -383,6 +383,8 @@ body {
 
 /* HOME */
 
+/* HOME */
+
 .main-layout {
   position: relative;
   display: flex;
@@ -390,9 +392,9 @@ body {
 }
 
 .content-area {
-
   flex-grow: 1;
-  margin-bottom: 150px; 
+  margin-bottom: 150px;
+  min-width: 0;
 }
 
 .search-bar {
@@ -408,11 +410,12 @@ body {
   border: 1px solid #ccc;
   border-radius: 6px;
   width: 220px;
+  max-width: 100%;
 }
 
 .search-btn {
   background-color: #212529;
-  color: #fff;              
+  color: #fff;
   border: none;
   padding: 8px 16px;
   border-radius: 6px;
@@ -422,12 +425,12 @@ body {
 }
 
 .search-btn:hover {
- background-color: #6c757d; 
+  background-color: #6c757d;
 }
 
 .cards-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
 
@@ -436,15 +439,38 @@ body {
   border-radius: 8px;
   padding: 20px;
   text-align: center;
-
 }
 
 .tournament-carousel-home {
-  margin-top: 160px; 
+  margin-top: 160px;
 }
 
 [data-bs-theme="dark"] .card {
   color: #212529;
+}
+
+@media (max-width: 768px) {
+  .main-layout {
+    flex-direction: column;
+  }
+
+  .search-bar {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+  
+
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+
+  .tournament-carousel-home {
+    margin-top: 40px;
+  }
 }
 
 /* SIDEBAR */

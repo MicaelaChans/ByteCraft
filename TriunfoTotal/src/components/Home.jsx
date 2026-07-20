@@ -27,7 +27,7 @@ function Home() {
             <section id="sectionHome">
               <div className="container">
                 <h2 className="fs-1">Competir para crecer</h2>
-                <div className="mt-4 fs-5">
+                <div className="mt-5 fs-5">
                   <p>
                     La competencia sana es fundamental porque transforma la rivalidad en una oportunidad de crecimiento. 
                     Cuando las personas compiten con respeto y reglas claras, se generan aprendizajes valiosos: 
