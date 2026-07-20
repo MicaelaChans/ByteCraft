@@ -21,9 +21,9 @@ function App() {
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/Tournaments" element={<Tournaments />} />
-        <Route path="/Policies" element={<Policies />} />
-        <Route path="/TermsOfService" element={<TermsOfService />} />
+        <Route path="/tournaments" element={<Tournaments />} />
+        <Route path="/policies" element={<Policies />} />
+        <Route path="/termsOfService" element={<TermsOfService />} />
     </Routes>
     </>
   );

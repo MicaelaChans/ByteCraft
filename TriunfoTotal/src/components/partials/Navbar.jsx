@@ -59,7 +59,7 @@ function Navbar() {
         <div className={`tt-navbar-collapse ${mobileOpen ? "is-open" : ""}`}>
           <ul className="tt-nav-center">
             <li className="tt-nav-item">
-              <Link className="tt-nav-link" to="/Tournaments" onClick={closeAll}>
+              <Link className="tt-nav-link" to="/tournaments" onClick={closeAll}>
                 Torneos
               </Link>
             </li>

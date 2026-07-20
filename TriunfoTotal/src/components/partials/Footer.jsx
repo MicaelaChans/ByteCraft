@@ -23,7 +23,7 @@ function Footer() {
                 </Link>
               </li>
               <li className="mb-2">
-                <Link to="/#" className="text-secondary text-decoration-none small">
+                <Link to="/tournaments" className="text-secondary text-decoration-none small">
                   Torneos
                 </Link>
               </li>
@@ -60,7 +60,7 @@ function Footer() {
               </li>
               <li className="mb-2">
                 <Link
-                  to="/TermsOfService"
+                  to="/termsOfService"
                   className="text-secondary text-decoration-none small"
                 >
                   Términos de Servicio

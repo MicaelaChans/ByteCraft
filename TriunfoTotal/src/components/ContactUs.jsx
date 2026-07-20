@@ -1,5 +1,7 @@
 import Footer from "./partials/Footer";
 import "../css/styles.css";
+import Policies from "./Policies";
+import { Link } from "react-router-dom";
 
 function ContactUs() {
   return (
@@ -71,9 +73,9 @@ function ContactUs() {
                     />
                     <label
                       className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Doy mi consentimiento a los términos de la <a href="/Polices" style={{ color: "white" }}>política de privacidad</a>.
+                      htmlFor="flexCheckDefault">
+                      Doy mi consentimiento a los términos de la{" "}
+                        <Link to="/policies" style={{ color: "white" }}> política de privacidad</Link>
                     </label>
                   </div>
                   <div className="d-flex justify-content-end align-items-end mt-3">
