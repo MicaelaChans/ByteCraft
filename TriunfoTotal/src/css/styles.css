@@ -272,6 +272,7 @@ body {
 /* MyCAROUSEL*/
 
 .my-carousel {
+  margin-bottom: 100px;
   position: relative;
   width: 100%;
   padding: 2rem 0;
@@ -389,8 +390,9 @@ body {
 }
 
 .content-area {
+
   flex-grow: 1;
-  padding: 20px 20px 20px 60px; 
+  margin-bottom: 150px; 
 }
 
 .search-bar {
@@ -409,7 +411,8 @@ body {
 }
 
 .search-btn {
-  background-color: #ffc107;
+  background-color: #212529;
+  color: #fff;              
   border: none;
   padding: 8px 16px;
   border-radius: 6px;
@@ -419,7 +422,7 @@ body {
 }
 
 .search-btn:hover {
-  background-color: #e0a800;
+ background-color: #6c757d; 
 }
 
 .cards-container {
@@ -465,7 +468,7 @@ body {
   width: 90px;
 }
 
-.sidebar-handle {
+/*}.sidebar-handle {
   position: absolute;
   top: 50%;
   right: -14px;
@@ -517,7 +520,7 @@ body {
 
 .sidebar-card:hover {
   transform: scale(1.1);
-}
+}*/
 
 /* AboutUS*/
 
@@ -1000,18 +1003,38 @@ body {
 }
 
 .search-bar {
+  display: flex;
+  justify-content: flex-end; 
+  align-items: center;
   position: relative;
-  flex: 1;
   min-width: 200px;
   max-width: 320px;
+  margin-left: auto;  
+  /*position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;*/
 }
 
 .search-input {
   width: 100%;
-  padding: 8px 36px 8px 14px;
-  border: 1px solid #ddd;
-  border-radius: 999px;
-  font-size: 14px;
+  max-width: 280px;
+  padding: 10px 12px;
+  border: 1px solid #ccc;      
+  border-radius: 12px;          
+  background-color: #fff;       
+  color: #212529;               
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input::placeholder {
+  color: #6c757d;               
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #0d6efd;        
+  box-shadow: 0 0 0 3px rgba(13,110,253,0.25); 
 }
 
 .search-icon {
