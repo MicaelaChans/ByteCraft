@@ -2,6 +2,7 @@ import MyCarousel from "../components/partials/MyCarousel";
 import Footer from "./partials/Footer";
 import "../css/styles.css";
 import Sidebar from "./partials/Sidebar";
+import TournamentCarousel from "./partials/TournamentCarousel";
 
 function Home() {
   return (
@@ -41,6 +42,9 @@ function Home() {
                 </div>
               </div>
             </section>
+            <div className="tournament-carousel-home">
+            <TournamentCarousel />
+            </div>
           </div>
         </div>
       </div>

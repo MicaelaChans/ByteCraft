@@ -439,6 +439,10 @@ body {
 
 }
 
+.tournament-carousel-home {
+  margin-top: 160px; 
+}
+
 [data-bs-theme="dark"] .card {
   color: #212529;
 }
