@@ -14,6 +14,7 @@ function ContactUs() {
           </div>
         </div>
       </section>
+      
       <section id="sectionContact2">
         <div className="container py-5">
           <h3>Esta sección fue creada especialmente para ti...</h3>
@@ -22,41 +23,43 @@ function ContactUs() {
           </p>
           <div className="form-box mt-5 py-3 d-flex justify-content-center align-items-center">
             <form action="">
-              <h2>Comparte tu experiencia:</h2>
-              <div className="row">
+              <h2 className="mt-2">Comparte tu experiencia:</h2>
+              <div className="row mt-5">
                 <div className="col-lg-6 col-md-6 col-sm-12">
                   <div className="inputbox">
-                    <input type="text" name="firstname" placeholder="Nombre" required />
+                    <input type="text" name="firstname" placeholder="Nombre" className="form-control" required />
                     <label>Nombre</label>
                   </div>
                   <div className="inputbox">
-                    <input type="text" name="Lastname" placeholder="Apellido" required />
+                    <input type="text" name="Lastname" placeholder="Apellido" className="form-control" required />
                     <label>Apellido</label>
                   </div>
                   <div className="inputbox">
-                    <input type="text" name="email" placeholder="Email" required />
+                    <input type="text" name="email" placeholder="Email" className="form-control" required />
                     <label>Email</label>
                   </div>
                   <div className="inputbox">
-                    <input type="text" name="phone" placeholder="Celular" required />
+                    <input type="text" name="phone" placeholder="Celular" className="form-control" required />
                     <label>Celular</label>
                   </div>
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12">
                   <div className="inputbox">
-                    <input type="text" name="subjet" placeholder="Asunto" required />
+                    <input type="text" name="subjet" placeholder="Asunto" className="form-control" required />
                     <label>Asunto</label>
                   </div>
-                  <div className="d-flex flex-column">
+                  <div className="d-flex flex-column inputbox">
                     <label>Comentario</label>
                     <textarea
-                      className="border-2 border-black mt-3"
+                      className="form-control textarea-contact"
                       name="comentary"
-                      id="comentary"
+                      id="floatingTextarea2"
                       cols="40"
                       rows="4"
-                    ></textarea>
+                      placeholder="Deja tu comentario aqui.."
+                      ></textarea>
                   </div>
+
                   <div className="form-check mt-3">
                     <input
                       className="form-check-input bg-black border-0"
@@ -70,11 +73,11 @@ function ContactUs() {
                       className="form-check-label"
                       htmlFor="flexCheckDefault"
                     >
-                      Doy mi consentimiento a los términos de la política de privacidad.
+                      Doy mi consentimiento a los términos de la <a href="/Polices" style={{ color: "white" }}>política de privacidad</a>.
                     </label>
                   </div>
-                  <div className="d-flex justify-content-end aling-items-end mt-3">
-                    <button className="btn btn-ligth">Enviar</button>
+                  <div className="d-flex justify-content-end align-items-end mt-3">
+                    <button className="btn btn-outline-light">Enviar</button>
                   </div>
                 </div>
               </div>

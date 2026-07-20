@@ -591,39 +591,27 @@ body {
     background-color: var(--bs-secondary-bg);
 }
 
-/* ContactUs */
+/* ContactUs */ 
 
-.login-page {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 4rem 1rem;
-  overflow: hidden;
+#sectionContact1 {
+  background-image: linear-gradient(
+      120deg,
+      rgba(0, 0, 0, 0.28) 0%,
+      rgba(0, 0, 0, 0.28) 100%
+    ),
+    url("https://imagenes.20minutos.es/files/image_1920_1080/uploads/imagenes/2026/04/17/69e228f0b488d0-45225678.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 150px;
+  padding-bottom: 150px;
+  color: #fff;
 }
 
-.login-page::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
-    url("/img/esqui.jpg") center/cover no-repeat;
-  filter: blur(12px);
-  transform: scale(1.1); /* tapa el borde nítido que deja el blur */
-  z-index: 0;
+#sectionContact2 {
+  background-color: #eaeaea;
 }
-
-.login-card {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 380px;
-  background: #fff;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+[data-bs-theme="dark"] #sectionContact2 {
+    background-color: var(--bs-secondary-bg);
 }
 
 /* LOGIN */

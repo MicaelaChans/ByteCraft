@@ -9,9 +9,7 @@ function Policies() {
             <div className="container py-5">
                 <div>
                     <h2 className="fs-1">Políticas de Privacidad</h2>
-                    <p className="mt-4 fs-5">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem quo cumque soluta ullam fuga voluptatem doloribus vel repellendus repudiandae ad atque, dolores reprehenderit blanditiis. Facilis alias nulla corporis quia, tempora neque ea distinctio ipsam error soluta, excepturi voluptatum possimus. Adipisci natus repellat ipsum excepturi molestias sunt at quisquam quos recusandae!
-                    </p>
+                    <p className="mt-4 fs-5">Conocé cómo protegemos, utilizamos y cuidamos tus datos personales dentro de nuestra plataforma.</p>
                 </div>
             </div>
         </section>

@@ -8,9 +8,7 @@ function TermsOfService (){
             <div className="container py-5">
                 <div>
                     <h2 className="fs-1">Términos de Servicio</h2>
-                    <p className="mt-4 fs-5">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem quo cumque soluta ullam fuga voluptatem doloribus vel repellendus repudiandae ad atque, dolores reprehenderit blanditiis. Facilis alias nulla corporis quia, tempora neque ea distinctio ipsam error soluta, excepturi voluptatum possimus. Adipisci natus repellat ipsum excepturi molestias sunt at quisquam quos recusandae!
-                    </p>
+                    <p className="mt-4 fs-5">Conocé las condiciones y normas que regulan el uso de nuestra plataforma deportiva.</p>
                 </div>
             </div>
         </section>
