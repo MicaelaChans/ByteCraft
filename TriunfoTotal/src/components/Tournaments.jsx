@@ -1,5 +1,6 @@
 import { useState, useRef, useMemo } from "react";
 import MyCarousel from "../components/partials/MyCarousel";
+import { Link } from "react-router-dom";
 import Footer from "./partials/Footer";
 import "../css/styles.css";
 
@@ -91,8 +92,8 @@ function Tournaments() {
                 </p>
               )}
 
-              {filtered.map((t) => (
-                <div key={t.id} className="tournament-card">
+             {filtered.map((t) => (
+                <Link key={t.id} to={`/tournaments/${t.id}`} className="tournament-card">
                   <img src={t.img} alt={t.nombre} />
                   <div className="tournament-card-body">
                     <h6>{t.nombre}</h6>
@@ -103,8 +104,8 @@ function Tournaments() {
                       <span className="tournament-card-star">★</span>
                     )}
                   </div>
-                </div>
-              ))}
+                </Link>
+              ))} 
             </div>
 
             <button

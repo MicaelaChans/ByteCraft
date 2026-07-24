@@ -9,6 +9,7 @@ import Profile from "./components/Profile";
 import Tournaments from "./components/Tournaments";
 import Policies from "./components/Policies";
 import TermsOfService from "./components/TermsOfService";
+import TournamentDetail from "./components/TournamentDetail";
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
         <Route path="/tournaments" element={<Tournaments />} />
         <Route path="/policies" element={<Policies />} />
         <Route path="/termsOfService" element={<TermsOfService />} />
+        <Route path="/tournaments/:id" element={<TournamentDetail />} />
+        
     </Routes>
     </>
   );
