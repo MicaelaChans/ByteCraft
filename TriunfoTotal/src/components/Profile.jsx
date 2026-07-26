@@ -184,20 +184,20 @@ function Profile() {
 
           <form
             onSubmit={handleSave}
-            className="profile-form mt-4"
+            className="profile-form profile-edit-mode mt-4"
           >
 
             <div className="text-center mb-5">
 
-              {user.avatar ? (
-                  <img
-                    src={user.avatar}
-                    alt="Foto de perfil"
-                    className="profile-avatar"
-                  />
-                  ) : (
-                    <i className="bi bi-person-circle profile-avatar-icon"></i>
-                  )}
+              {formData.avatar ? (
+              <img
+                src={formData.avatar}
+                alt="Foto de perfil"
+                className="profile-avatar"
+                />
+              ) : (
+                <i className="bi bi-person-circle profile-avatar-icon"></i>
+              )}
 
               <div className="mt-3">
 
