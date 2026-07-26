@@ -65,11 +65,21 @@ function Tournaments() {
             </div>
           </div>
         </section>
-              
+
+        <div className= "Container"> 
+            <h4 className="mt-5">Torneos individuales</h4>
+            <div className="tournament-carousel-home">
+             <h4 className="mt-5">Torneos individuales</h4> 
+            <TournamentCarousel /> 
+            </div>       
+        </div>
+        <div className= "Container">    
+            <h4 className="mt-5">Torneos por equipos</h4>               
              <div className="tournament-carousel-home">
             <TournamentCarousel />
             </div>
-            </div>        
+        </div>
+      </div>
 
       <Footer />
     </>

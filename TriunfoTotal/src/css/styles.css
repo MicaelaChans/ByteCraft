@@ -383,7 +383,6 @@ body {
 
 /* HOME */
 
-/* HOME */
 
 .main-layout {
   position: relative;
@@ -442,7 +441,7 @@ body {
 }
 
 .tournament-carousel-home {
-  margin-top: 160px;
+  margin-top: 20px;
 }
 
 [data-bs-theme="dark"] .card {

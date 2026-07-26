@@ -75,11 +75,11 @@ function ContactUs() {
                       className="form-check-label"
                       htmlFor="flexCheckDefault">
                       Doy mi consentimiento a los términos de la{" "}
-                        <Link to="/policies" style={{ color: "white" }}> política de privacidad</Link>
+                        <Link to="/policies" style={{ color: "dark" }}> política de privacidad</Link>
                     </label>
                   </div>
                   <div className="d-flex justify-content-end align-items-end mt-3">
-                    <button className="btn btn-outline-light">Enviar</button>
+                    <button className="btn btn-outline-dark">Enviar</button>
                   </div>
                 </div>
               </div>
