@@ -37,7 +37,7 @@ function TournamentCarousel() {
                 <span className="tournament-card-category">{t.categoria}</span>
                 {t.destacado && <span className="tournament-card-star">★</span>}
               </div>
-            </div>
+            </div>            
           ))}
         </div>
 

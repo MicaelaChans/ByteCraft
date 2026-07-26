@@ -40,23 +40,14 @@ function Tournaments() {
       <div className="tournaments-content">
         <div className="tournaments-toolbar">
           <div className="search-bar">
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Buscar torneo..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <span className="search-icon">🔍</span>
-          </div>
-
-          <button
-            type="button"
-            className="btn btn-warning tournaments-edit-btn"
-            // TODO: habilitar solo si el usuario logueado organiza al menos un torneo
-          >
-            Editar mis torneos
-          </button>
+          <input
+                type="text"
+                className="search-input"
+                placeholder="Buscar..."
+              />
+              <button className="search-btn"><i className="bi bi-search"></i>
+              </button>
+          </div>       
         </div>
 
         <section id="sectionTournaments1">
