@@ -2,6 +2,7 @@ import { useState, useRef, useMemo } from "react";
 import MyCarousel from "../components/partials/MyCarousel";
 import { Link } from "react-router-dom";
 import Footer from "./partials/Footer";
+import TournamentCarousel from "./partials/TournamentCarousel";
 import "../css/styles.css";
 
 // mock de torneos - esto después va a venir del backend (PHP + MySQL)
@@ -64,53 +65,11 @@ function Tournaments() {
             </div>
           </div>
         </section>
-
-        <section className="tournaments-row-section">
-          <div className="tournaments-row-wrap">
-            <button
-              type="button"
-              className="tournaments-row-arrow tournaments-row-arrow-left"
-              onClick={() => scrollRow(-1)}
-              aria-label="Desplazar hacia la izquierda"
-            >
-              ←
-            </button>
-
-            <div className="tournaments-row" ref={rowRef}>
-              {filtered.length === 0 && (
-                <p className="tournaments-empty">
-                  No se encontraron torneos para "{search}".
-                </p>
-              )}
-
-             {filtered.map((t) => (
-                <Link key={t.id} to={`/tournaments/${t.id}`} className="tournament-card">
-                  <img src={t.img} alt={t.nombre} />
-                  <div className="tournament-card-body">
-                    <h6>{t.nombre}</h6>
-                    <span className="tournament-card-category">
-                      {t.categoria}
-                    </span>
-                    {t.destacado && (
-                      <span className="tournament-card-star">★</span>
-                    )}
-                  </div>
-                </Link>
-              ))} 
+              
+             <div className="tournament-carousel-home">
+            <TournamentCarousel />
             </div>
-
-            <button
-              type="button"
-              className="tournaments-row-arrow tournaments-row-arrow-right"
-              onClick={() => scrollRow(1)}
-              aria-label="Desplazar hacia la derecha"
-            >
-              →
-            </button>
-          </div>
-        </section>
-
-        </div>
+            </div>        
 
       <Footer />
     </>

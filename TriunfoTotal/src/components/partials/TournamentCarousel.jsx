@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 
 const tournaments = [
   { id: 1, nombre: "Liga Fútbol 5", categoria: "Fútbol", img: "/img/futbol.jpg", destacado: true },
@@ -30,14 +31,14 @@ function TournamentCarousel() {
 
         <div className="tournaments-row" ref={rowRef}>
           {tournaments.map((t) => (
-            <div key={t.id} className="tournament-card">
+            <Link key={t.id} to={`/tournaments/${t.id}`} className="tournament-card">
               <img src={t.img} alt={t.nombre} />
               <div className="tournament-card-body">
                 <h6>{t.nombre}</h6>
                 <span className="tournament-card-category">{t.categoria}</span>
                 {t.destacado && <span className="tournament-card-star">★</span>}
               </div>
-            </div>            
+            </Link>            
           ))}
         </div>
 
