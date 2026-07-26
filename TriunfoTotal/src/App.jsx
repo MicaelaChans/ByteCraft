@@ -11,6 +11,7 @@ import Policies from "./components/Policies";
 import TermsOfService from "./components/TermsOfService";
 import TournamentDetail from "./components/TournamentDetail";
 
+
 function App() {
   return (
     <>
@@ -26,7 +27,6 @@ function App() {
         <Route path="/policies" element={<Policies />} />
         <Route path="/termsOfService" element={<TermsOfService />} />
         <Route path="/tournaments/:id" element={<TournamentDetail />} />
-        
     </Routes>
     </>
   );
