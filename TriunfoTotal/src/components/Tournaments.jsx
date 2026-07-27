@@ -52,7 +52,7 @@ function Tournaments() {
         </div>
 
         <section id="sectionTournaments1">
-          <div className="container">
+          <div className="container py-5">
             <div>
               <h2 className="fs-1">Torneos</h2>
               <p className="mt-3 fs-5">
@@ -66,18 +66,13 @@ function Tournaments() {
           </div>
         </section>
 
-        <div className= "Container"> 
-            <h4 className="mt-5">Torneos individuales</h4>
-            <div className="tournament-carousel-home">
-             <h4 className="mt-5">Torneos individuales</h4> 
-            <TournamentCarousel /> 
-            </div>       
+        <div className="container tournament-carousel-home">
+          <h4 className="mt-5">Torneos Individuales</h4>
+          <TournamentCarousel />
         </div>
-        <div className= "Container">    
-            <h4 className="mt-5">Torneos por equipos</h4>               
-             <div className="tournament-carousel-home">
-            <TournamentCarousel />
-            </div>
+        <div className="container tournament-carousel-home mt-5">
+          <h4 className="mt-5">Torneos por equipos</h4>
+          <TournamentCarousel />
         </div>
       </div>
 
