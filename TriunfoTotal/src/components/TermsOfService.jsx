@@ -14,12 +14,12 @@ function TermsOfService (){
         </section>
         <section id="sectionTermsOfService2">
             <div className="container py-5">
-                <h2>Términos de Servicio - Triunfo Total (ByteForge)</h2>
+                <h2>Términos de Servicio - Triunfo Total (ByteCraft)</h2>
                 <h4>Última actualización: Julio de 2026</h4>
                 <br />
                 <h5>1. Aceptación de los Términos</h5>
                 <p>Al registrarse, acceder o utilizar la plataforma Triunfo Total, el usuario acepta cumplir con los presentes Términos de Servicio. Si el usuario no está de acuerdo con alguna de las condiciones establecidas en este documento, deberá abstenerse de utilizar la plataforma.</p>
-                <p>Estos términos regulan el acceso y uso de Triunfo Total, una plataforma de gestión y administración de competencias deportivas desarrollada por ByteForge.</p>
+                <p>Estos términos regulan el acceso y uso de Triunfo Total, una plataforma de gestión y administración de competencias deportivas desarrollada por ByteCraft.</p>
                 <br />
                 <h5>2. Descripción del Servicio</h5>
                 <p>Triunfo Total es una plataforma destinada a facilitar la organización y gestión de torneos deportivos. El sistema permite administrar información relacionada con competencias, equipos, participantes, árbitros, resultados, estadísticas y otros datos vinculados a la actividad deportiva.</p>
@@ -64,22 +64,22 @@ function TermsOfService (){
                 <p>Los administradores y organizadores serán responsables de gestionar correctamente la información y los permisos asociados a las competencias y usuarios bajo su administración.</p>
                 <br />
                 <h5>7. Disponibilidad del Servicio</h5>
-                <p>ByteForge se esfuerza por mantener Triunfo Total disponible y funcionando correctamente. Sin embargo, el servicio puede verse temporalmente interrumpido debido a:</p>
+                <p>ByteCraft se esfuerza por mantener Triunfo Total disponible y funcionando correctamente. Sin embargo, el servicio puede verse temporalmente interrumpido debido a:</p>
                 <ul>
                     <li>Mantenimiento del sistema.</li>
                     <li>Actualizaciones de software.</li>
                     <li>Problemas técnicos.</li>
                     <li>Fallos de infraestructura o conexión.</li>
-                    <li>Situaciones externas fuera del control de ByteForge.</li>
+                    <li>Situaciones externas fuera del control de ByteCraft.</li>
                 </ul>
                 <p>En estos casos, se procurará restablecer el servicio en el menor tiempo posible.</p>
                 <br />
                 <h5>8. Propiedad Intelectual</h5>
-                <p>El diseño, la identidad visual, el nombre, el logotipo, el código fuente y los elementos propios de Triunfo Total pertenecen a ByteForge o se encuentran protegidos por los derechos correspondientes.</p>
+                <p>El diseño, la identidad visual, el nombre, el logotipo, el código fuente y los elementos propios de Triunfo Total pertenecen a ByteCraft o se encuentran protegidos por los derechos correspondientes.</p>
                 <p>No está permitido copiar, modificar, distribuir, reproducir o utilizar estos elementos sin la autorización correspondiente.</p>
                 <br />
                 <h5>9. Suspensión o Cancelación de Cuentas</h5>
-                <p>ByteForge podrá suspender temporalmente o cancelar una cuenta cuando se detecte:</p>
+                <p>ByteCraft podrá suspender temporalmente o cancelar una cuenta cuando se detecte:</p>
                 <ul>
                     <li>Incumplimiento de estos Términos de Servicio.</li>
                     <li>Uso fraudulento o ilegal de la plataforma.</li>
@@ -94,16 +94,16 @@ function TermsOfService (){
                 <p>El usuario puede consultar dicha política para conocer qué datos son recopilados, con qué finalidad son utilizados y cuáles son sus derechos respecto a su información personal.</p>
                 <br />
                 <h5>11. Modificaciones de los Términos</h5>
-                <p>ByteForge podrá modificar estos Términos de Servicio cuando sea necesario para reflejar cambios en la plataforma, nuevas funcionalidades, modificaciones legales o mejoras en el servicio.</p>
+                <p>ByteCraft podrá modificar estos Términos de Servicio cuando sea necesario para reflejar cambios en la plataforma, nuevas funcionalidades, modificaciones legales o mejoras en el servicio.</p>
                 <p>Cuando los cambios sean relevantes, se procurará informar a los usuarios mediante los medios disponibles.</p>
                 <p>El uso continuado de Triunfo Total después de la publicación de modificaciones implicará la aceptación de los nuevos términos.</p>
                 <br />
                 <h5>12. Limitación de Responsabilidad</h5>
-                <p>Triunfo Total funciona como una herramienta de gestión y administración deportiva. ByteForge no se responsabiliza por la información incorrecta ingresada por los usuarios ni por decisiones tomadas a partir de dicha información.</p>
+                <p>Triunfo Total funciona como una herramienta de gestión y administración deportiva. ByteCraft no se responsabiliza por la información incorrecta ingresada por los usuarios ni por decisiones tomadas a partir de dicha información.</p>
                 <p>Los usuarios y administradores son responsables de verificar la exactitud de los datos relacionados con torneos, resultados, participantes y estadísticas.</p>
                 <br />
                 <h5>13. Contacto</h5>
-                <p>Para realizar consultas relacionadas con estos Términos de Servicio, los usuarios pueden comunicarse con ByteForge a través del siguiente correo electrónico:</p>
+                <p>Para realizar consultas relacionadas con estos Términos de Servicio, los usuarios pueden comunicarse con ByteCraft a través del siguiente correo electrónico:</p>
                 <p><strong> Bytecraftsoftware.2026@gmail.com</strong></p>
                 <br />
                 <h5>14. Legislación Aplicable</h5>

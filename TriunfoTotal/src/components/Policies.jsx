@@ -16,12 +16,12 @@ function Policies() {
 
         <section id="sectionPolicies2 mt-5">
             <div className="container py-5">
-                <h2>Políticas de Privacidad - Triunfo Total (ByteForge)</h2>
+                <h2>Políticas de Privacidad - Triunfo Total (ByteCraft)</h2>
                 <h4>Última actualización: Julio de 2026</h4>
                 <br />
                 <h5>1. Declaración de Compromiso y Marco Legal:</h5>
                 <p>
-                    La empresa desarrolladora ByteForge, creadora de Triunfo Total, asume el compromiso de proteger y garantizar la confidencialidad 
+                    La empresa desarrolladora ByteCraft, creadora de Triunfo Total, asume el compromiso de proteger y garantizar la confidencialidad 
                     de la información y los datos personales de todos nuestros usuarios (administradores, deportistas, árbitros y espectadores).
                     El tratamiento de los datos personales se realiza en estricto cumplimiento con la legislación de la República Oriental del Uruguay, 
                     específicamente bajo la Ley Nº 18.331 de Protección de Datos Personales y Acción de "Habeas Data", su reglamentación y demás normas concordantes.

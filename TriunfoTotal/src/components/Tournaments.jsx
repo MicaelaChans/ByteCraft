@@ -66,6 +66,7 @@ function Tournaments() {
           </div>
         </section>
 
+      
         <div className="container tournament-carousel-home">
           <h4 className="mt-5">Torneos Individuales</h4>
           <TournamentCarousel />
