@@ -8,10 +8,13 @@ function Footer() {
         <div className="row row-gap-4 text-center text-md-start">
 
           <div className="col-12 col-md-3">
-            <h5 className="text-uppercase fw-bold">ByteCraft</h5>
+            <h5 className="text-uppercase fw-bold">triunfo total</h5>
             <p className="small text-secondary">
               Gestión deportiva inteligente y modular.
             </p>
+            <Link to="/bytecraft" className="btn btn-outline-light mt-4">
+              BYTECRAFT
+            </Link>
           </div>
 
           <div className="col-12 col-md-3">

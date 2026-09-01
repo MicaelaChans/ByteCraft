@@ -40,7 +40,11 @@ function Tournaments() {
 
       <div className="tournaments-content">
         <div className="tournaments-toolbar">
-          <div className="search-bar">
+          
+          <button className="btn btn-outline-light">Crear torneo</button>
+          <button className="btn btn-outline-light">Participar</button>
+          
+          <div className="search-bar mt-3">
           <input
                 type="text"
                 className="search-input"
