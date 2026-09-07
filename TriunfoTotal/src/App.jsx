@@ -11,6 +11,7 @@ import Policies from "./components/Policies";
 import TermsOfService from "./components/TermsOfService";
 import TournamentDetail from "./components/TournamentDetail";
 import Bytecraft from "./components/Bytecraft";
+import CrearTorneo from "./components/CrearTorneo";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/termsOfService" element={<TermsOfService />} />
         <Route path="/tournaments/:id" element={<TournamentDetail />} />
         <Route path="/bytecraft" element={<Bytecraft/>} />
+        <Route path="/crear_torneo" element={<CrearTorneo />} />
     </Routes>
     </>
   );

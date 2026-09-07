@@ -96,6 +96,14 @@ function Navbar() {
                     >
                       Mi perfil
                     </Link>
+                    <Link
+                      to="/crear_torneo"
+                      className="profile-dropdown-item"
+                      onClick={closeAll}
+                    >
+                      <i className="bi bi-plus-circle me-2"></i>
+                      Crear Torneo
+                    </Link>
                     <button
                       className="profile-dropdown-item profile-dropdown-logout"
                       onClick={handleLogout}
