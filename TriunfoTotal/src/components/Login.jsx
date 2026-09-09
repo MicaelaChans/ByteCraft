@@ -57,11 +57,27 @@ function Login() {
 
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 600));
-      dispatch(login({ email: formData.email }));
+      const res = await fetch("http://localhost/api/login.php", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setServerError(data.error || "No se pudo iniciar sesión.");
+        return;
+      }
+
+      dispatch(login(data.usuario));
       navigate("/profile");
     } catch {
-      setServerError("No se pudo iniciar sesión. Probá de nuevo.");
+      setServerError("No se pudo conectar con el servidor. Probá de nuevo.");
     } finally {
       setLoading(false);
     }

@@ -69,11 +69,28 @@ function Register() {
 
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 600));
+      const res = await fetch("http://localhost/api/register.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          apellido: formData.apellido,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setServerError(data.error || "No se pudo completar el registro.");
+        return;
+      }
+
       dispatch(login({ nombre: formData.nombre, email: formData.email }));
       navigate("/profile");
     } catch {
-      setServerError("No se pudo completar el registro. Probá de nuevo.");
+      setServerError("No se pudo conectar con el servidor. Probá de nuevo.");
     } finally {
       setLoading(false);
     }
@@ -117,6 +134,25 @@ function Register() {
               />
               {errors.apellido && (
                 <div className="invalid-feedback">{errors.apellido}</div>
+              )}
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-6 mb-3">
+              <label htmlFor="email" className="form-label">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                value={formData.email}
+                onChange={handleChange}
+              />
+              {errors.email && (
+                <div className="invalid-feedback">{errors.email}</div>
               )}
             </div>
           </div>
