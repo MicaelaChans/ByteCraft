@@ -172,11 +172,20 @@ function Profile() {
               <div className="col-lg-1 text-end">
 
                 <button
-                  className="btn btn-light profile-edit-btn"
+                  className="btn btn-light profile-edit-btn mt-5"
                   onClick={() => setEditMode(true)}
                 >
                   <i className="bi bi-pencil-fill"></i>
                 </button>
+
+                <button
+                  className="btn btn-light profile-edit-btn mt-5"
+                  onClick={() => navigate("/crear_torneo")}
+                  title="Crear torneo"
+                >
+                  <i className="bi bi-trophy"></i>
+                </button>
+
               </div>
             </div>
           </>

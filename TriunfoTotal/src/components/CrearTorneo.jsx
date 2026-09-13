@@ -48,41 +48,43 @@ function CrearTorneo() {
   }
 
   async function handleCreateTorneo(e) {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    // Validaciones básicas del lado del cliente (el backend igual debe repetirlas)
-    if (!torneoForm.nombre.trim()) {
-      setError("El nombre del torneo es obligatorio.");
-      return;
-    }
-    if (!torneoForm.id_disciplina || !torneoForm.formato) {
-      setError("Elegí un deporte y un formato de competencia.");
-      return;
-    }
-    if (torneoForm.fecha_inicio && torneoForm.fecha_fin &&
-        torneoForm.fecha_fin < torneoForm.fecha_inicio) {
-      setError("La fecha de finalización no puede ser anterior a la de inicio.");
-      return;
-    }
-    if (!torneoForm.max_equipos || Number(torneoForm.max_equipos) < 2) {
-      setError("La cantidad de equipos debe ser al menos 2.");
-      return;
-    }
-
-    setSaving(true);
-
-    try {
-      // TODO: reemplazar por el POST real, ej:
-      // await fetch("/api/torneos", { method: "POST", body: JSON.stringify(torneoForm) })
-      // id_organizador NO se manda desde acá: lo completa el backend con el usuario de la sesión
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      navigate("/perfil"); // ajustá esta ruta si tu perfil vive en otro path
-    } finally {
-      setSaving(false);
-    }
+  if (!torneoForm.nombre.trim()) {
+    setError("El nombre del torneo es obligatorio.");
+    return;
   }
+
+  if (!torneoForm.id_disciplina || !torneoForm.formato) {
+    setError("Elegí un deporte y un formato de competencia.");
+    return;
+  }
+
+  if (
+    torneoForm.fecha_inicio &&
+    torneoForm.fecha_fin &&
+    torneoForm.fecha_fin < torneoForm.fecha_inicio
+  ) {
+    setError("La fecha de finalización no puede ser anterior a la de inicio.");
+    return;
+  }
+
+  if (!torneoForm.max_equipos || Number(torneoForm.max_equipos) < 2) {
+    setError("La cantidad de equipos debe ser al menos 2.");
+    return;
+  }
+
+  setSaving(true);
+
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    navigate("/profile");
+  } finally {
+    setSaving(false);
+  }
+}
 
   return (
     <div className="profile-page">
@@ -196,7 +198,7 @@ function CrearTorneo() {
                     <button
                       type="button"
                       className="btn btn-outline-secondary"
-                      onClick={() => navigate("/perfil")}
+                      onClick={() => navigate("/profile")}
                       disabled={saving}
                     >
                       Cancelar

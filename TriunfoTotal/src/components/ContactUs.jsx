@@ -79,7 +79,7 @@ function ContactUs() {
                     </label>
                   </div>
                   <div className="d-flex justify-content-end align-items-end mt-3">
-                    <button className="btn btn-outline-dark">Enviar</button>
+                    <button className="btn btn-outline-dark btn-enviar">Enviar</button>
                   </div>
                 </div>
               </div>

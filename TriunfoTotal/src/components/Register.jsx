@@ -139,7 +139,7 @@ function Register() {
           </div>
 
           <div className="row">
-            <div className="col-6 mb-3">
+            <div className="col-12 mb-3">
               <label htmlFor="email" className="form-label">
                 Email
               </label>
