@@ -3,8 +3,8 @@
 
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'triunfo_total_db');
-define('DB_USER', 'root'); // Tu usuario de MariaDB local
-define('DB_PASS', 'ByteCraft26'); // Tu contraseña de MariaDB local
+define('DB_USER', 'app_triunfototal'); // Usuario DCL que creaste para la aplicación
+define('DB_PASS', 'TriunfoApp2026!');  // Contraseña asignada al usuario DCL
 define('DB_CHARSET', 'utf8mb4');
 
 class Conexion {
