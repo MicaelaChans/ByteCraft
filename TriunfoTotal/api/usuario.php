@@ -1,6 +1,14 @@
 <?php
+// api/usuario.php
 
-require_once __DIR__ . '/../config/conexion.php';
+// Carga dinámica de conexión para evitar Errores 500 por rutas absolutas o relativas
+$rutaConexion = __DIR__ . '/../config/Conexion.php';
+
+if (!file_exists($rutaConexion)) {
+    $rutaConexion = $_SERVER['DOCUMENT_ROOT'] . '/config/conexion.php';
+}
+
+require_once $rutaConexion;
 
 class Usuario {
     private PDO $db;
