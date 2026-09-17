@@ -1,7 +1,7 @@
 <?php
-// api/login.php
+// api/Login.php
 
-require_once __DIR__ . '/usuario.php';
+require_once __DIR__ . '/Usuario.php';
 
 session_start(); // necesitamos guardar quién está logueado
 

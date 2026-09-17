@@ -1,5 +1,5 @@
 <?php
-// api/usuario.php
+// api/Usuario.php
 
 // Carga dinámica de conexión para evitar Errores 500 por rutas absolutas o relativas
 $rutaConexion = __DIR__ . '/../config/Conexion.php';

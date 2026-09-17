@@ -20,7 +20,7 @@ error_reporting(E_ALL);
 
 try {
     // Intentamos cargar la clase del usuario
-    require_once __DIR__ . '/usuario.php';
+    require_once __DIR__ . '/Usuario.php';
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         http_response_code(405);
