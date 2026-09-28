@@ -42,9 +42,11 @@ if (!$usuario) {
     exit;
 }
 
-// Guardamos el id en la sesión del servidor (esto es lo que "recuerda" que estás logueado)
+// Guardamos el id y los ROLES DINÁMICOS en la sesión del servidor
+// (esto es lo que "recuerda" que estás logueado y qué podés hacer).
+// Ya no usamos es_admin: la fuente de verdad ahora es usuario_roles + roles.
 $_SESSION['id_usuario'] = $usuario['id_usuario'];
-$_SESSION['es_admin']   = $usuario['es_admin'];
+$_SESSION['roles']      = $usuario['roles']; // ej: ['Administrador'] o ['Usuario']
 
 http_response_code(200);
 echo json_encode(['success' => true, 'usuario' => $usuario]);

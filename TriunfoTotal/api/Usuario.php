@@ -28,7 +28,68 @@ class Usuario {
         $stmt = $this->db->prepare($sql);
         $ok = $stmt->execute([$nombre, $email, $hash]);
 
-        return $ok ? (int)$this->db->lastInsertId() : false;
+        if (!$ok) {
+            return false;
+        }
+
+        $idNuevo = (int)$this->db->lastInsertId();
+
+        // Todo usuario nuevo arranca con el rol base 'Usuario' (id_rol = 2).
+        // No hace falta un rol 'Organizador' aparte: cualquier Usuario puede
+        // organizar torneos, eso se valida por dueño (torneos.id_organizador),
+        // no por rol.
+        $this->asignarRol($idNuevo, 2);
+
+        return $idNuevo;
+    }
+
+    /**
+     * Asigna un rol a un usuario (alta en usuario_roles). Si ya lo tenía,
+     * no lo duplica.
+     */
+    public function asignarRol(int $idUsuario, int $idRol): bool {
+        $sql = "INSERT INTO usuario_roles (id_usuario, id_rol)
+                SELECT :id_usuario, :id_rol
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM usuario_roles
+                    WHERE id_usuario = :id_usuario AND id_rol = :id_rol
+                )";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([':id_usuario' => $idUsuario, ':id_rol' => $idRol]);
+    }
+
+    /**
+     * Devuelve los nombres de los roles dinámicos de un usuario
+     * (JOIN usuario_roles + roles). Ej: ['Administrador'] o ['Usuario'].
+     */
+    public function obtenerRoles(int $idUsuario): array {
+        $sql = "SELECT r.nombre_rol
+                FROM usuario_roles ur
+                JOIN roles r ON r.id_rol = ur.id_rol
+                WHERE ur.id_usuario = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$idUsuario]);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    /**
+     * True si el usuario tiene el rol 'Administrador'. Esta es la fuente
+     * de verdad para permisos de admin, ya no usar la columna es_admin.
+     */
+    public function esAdmin(int $idUsuario): bool {
+        return in_array('Administrador', $this->obtenerRoles($idUsuario), true);
+    }
+
+    /**
+     * True si el usuario es el dueño (organizador) del torneo indicado.
+     * 'Organizador' no es un rol global: es simplemente ser el creador
+     * de ESE torneo puntual (torneos.id_organizador).
+     */
+    public function esDueñoDelTorneo(int $idTorneo, int $idUsuario): bool {
+        $sql = "SELECT 1 FROM torneos WHERE id_torneo = ? AND id_organizador = ? LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$idTorneo, $idUsuario]);
+        return $stmt->fetch() !== false;
     }
 
     /**
@@ -43,17 +104,27 @@ class Usuario {
 
     /**
      * Busca un usuario por id (sin exponer password_hash al front).
+     * Incluye los roles dinámicos. La columna es_admin se sigue trayendo
+     * solo por compatibilidad, pero no debe usarse más para permisos.
      */
     public function buscarPorId(int $id): array|false {
         $sql = "SELECT id_usuario, nombre, apellido, alias, email, telefono, direccion, avatar, es_admin, estado, creado_en
                 FROM usuarios WHERE id_usuario = ? LIMIT 1";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
-        return $stmt->fetch();
+        $usuario = $stmt->fetch();
+
+        if (!$usuario) {
+            return false;
+        }
+
+        $usuario['roles'] = $this->obtenerRoles($id);
+        return $usuario;
     }
 
     /**
-     * Verifica credenciales de login. Devuelve el usuario (sin hash) o false.
+     * Verifica credenciales de login. Devuelve el usuario (sin hash,
+     * con sus roles dinámicos) o false.
      */
     public function verificarCredenciales(string $email, string $passwordPlano): array|false {
         $usuario = $this->buscarPorEmail($email);
@@ -71,6 +142,7 @@ class Usuario {
         }
 
         unset($usuario['password_hash']); // nunca devolver el hash
+        $usuario['roles'] = $this->obtenerRoles((int)$usuario['id_usuario']);
         return $usuario;
     }
 
