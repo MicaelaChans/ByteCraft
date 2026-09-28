@@ -5,7 +5,7 @@
 $rutaConexion = __DIR__ . '/../config/Conexion.php';
 
 if (!file_exists($rutaConexion)) {
-    $rutaConexion = $_SERVER['DOCUMENT_ROOT'] . '/config/conexion.php';
+    $rutaConexion = $_SERVER['DOCUMENT_ROOT'] . '/config/onexion.php';
 }
 
 require_once $rutaConexion;

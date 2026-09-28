@@ -57,7 +57,7 @@ function Login() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost/api/login.php", {
+      const res = await fetch("http://localhost/api/Login.php", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
