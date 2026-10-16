@@ -23,5 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-# Configuración local de base de datos
-config/conexion.php
+# Secretos y datos locales (NUNCA se suben al repositorio)
+config/config.local.php
+.env
+logs/
+respaldos/

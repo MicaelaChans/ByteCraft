@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/userSlice";
-import GoogleButton from "./partials/GoogleButton";
+import api from "../services/api";
 import "../css/styles.css";
 
 function Register() {
@@ -46,8 +46,14 @@ function Register() {
 
     if (!formData.password) {
       newErrors.password = "La contraseña es obligatoria.";
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Debe tener al menos 6 caracteres.";
+    } else if (
+      formData.password.length < 8 ||
+      !/[A-Z]/.test(formData.password) ||
+      !/[a-z]/.test(formData.password) ||
+      !/\d/.test(formData.password)
+    ) {
+      // Misma política que valida el backend (Validador::password)
+      newErrors.password = "Mínimo 8 caracteres, con mayúscula, minúscula y número.";
     }
 
     if (formData.confirmPassword !== formData.password) {
@@ -69,28 +75,18 @@ function Register() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost/api/register.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nombre: formData.nombre,
-          apellido: formData.apellido,
-          email: formData.email,
-          password: formData.password,
-        }),
+      // El backend crea la cuenta y deja la sesión iniciada
+      const usuario = await api.post("auth/registro", {
+        nombre: formData.nombre,
+        apellido: formData.apellido,
+        email: formData.email,
+        password: formData.password,
       });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setServerError(data.error || "No se pudo completar el registro.");
-        return;
-      }
-
-      dispatch(login({ nombre: formData.nombre, email: formData.email }));
+      dispatch(login(usuario));
       navigate("/profile");
-    } catch {
-      setServerError("No se pudo conectar con el servidor. Probá de nuevo.");
+    } catch (err) {
+      setServerError(err.message);
+      setErrors((prev) => ({ ...prev, ...err.detalles }));
     } finally {
       setLoading(false);
     }
@@ -198,8 +194,6 @@ function Register() {
           <button type="submit" className="btn btn-primary w-100" disabled={loading}>
             {loading ? "Creando cuenta..." : "Registrarme"}
           </button>
-          <div className="auth-divider">o</div>
-          <GoogleButton label="Registrarse con Google" />
         </form>
 
         <p className="mt-3 text-center">

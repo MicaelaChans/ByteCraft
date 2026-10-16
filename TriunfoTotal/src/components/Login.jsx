@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/userSlice";
-import GoogleButton from "./partials/GoogleButton";
+import api from "../services/api";
 import "../css/styles.css";
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
@@ -32,8 +33,6 @@ function Login() {
 
     if (!formData.password) {
       newErrors.password = "La contraseña es obligatoria.";
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Debe tener al menos 6 caracteres.";
     }
 
     return newErrors;
@@ -57,27 +56,15 @@ function Login() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost/api/Login.php", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
+      const usuario = await api.post("auth/login", {
+        email: formData.email,
+        password: formData.password,
       });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setServerError(data.error || "No se pudo iniciar sesión.");
-        return;
-      }
-
-      dispatch(login(data.usuario));
-      navigate("/profile");
-    } catch {
-      setServerError("No se pudo conectar con el servidor. Probá de nuevo.");
+      dispatch(login(usuario));
+      // vuelve a la página que pidió login (o al perfil)
+      navigate(location.state?.desde || "/profile");
+    } catch (err) {
+      setServerError(err.message);
     } finally {
       setLoading(false);
     }
@@ -141,8 +128,6 @@ function Login() {
             >
               Limpiar
             </button>
-            <div className="auth-divider">o</div>
-            <GoogleButton label="Iniciar sesión con Google" />
           </div>
         </form>
 

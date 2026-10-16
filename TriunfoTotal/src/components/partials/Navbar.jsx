@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/userSlice";
 import ThemeToggle from "./ThemeToggle";
+import Notificaciones from "./Notificaciones";
+import api from "../../services/api";
 import "../../css/styles.css";
 
 function Navbar() {
@@ -31,7 +33,11 @@ function Navbar() {
     setMobileOpen(false);
   }
 
-  function handleLogout() {
+  const esAdmin = user?.roles?.includes("Administrador");
+
+  async function handleLogout() {
+    // Cierra la sesión en el servidor (destruye la sesión PHP) y después en React
+    await api.post("auth/logout").catch(() => {});
     dispatch(logout());
     closeAll();
     navigate("/");
@@ -63,6 +69,20 @@ function Navbar() {
                 Torneos
               </Link>
             </li>
+            {user && (
+              <li className="tt-nav-item">
+                <Link className="tt-nav-link" to="/equipos" onClick={closeAll}>
+                  Mis equipos
+                </Link>
+              </li>
+            )}
+            {esAdmin && (
+              <li className="tt-nav-item">
+                <Link className="tt-nav-link" to="/admin" onClick={closeAll}>
+                  <i className="bi bi-shield-lock me-1"></i>Admin
+                </Link>
+              </li>
+            )}
             <li className="tt-nav-item">
               <Link className="tt-nav-link" to="/contactUs" onClick={closeAll}>
                 Contacto
@@ -77,6 +97,7 @@ function Navbar() {
 
           <div className="tt-nav-right" ref={menuRef}>
             <ThemeToggle />
+            {user && <Notificaciones />}
             {user ? (
               <div className="profile-menu">
                 <button
@@ -88,7 +109,11 @@ function Navbar() {
 
                 {menuOpen && (
                   <div className="profile-dropdown">
-                    <p className="profile-dropdown-email">{user.email}</p>
+                    <p className="profile-dropdown-email">
+                      {user.nombre} {user.apellido}
+                      <br />
+                      <small>{user.email}</small>
+                    </p>
                     <Link
                       to="/profile"
                       className="profile-dropdown-item"
@@ -96,6 +121,24 @@ function Navbar() {
                     >
                       Mi perfil
                     </Link>
+                    <Link
+                      to="/equipos"
+                      className="profile-dropdown-item"
+                      onClick={closeAll}
+                    >
+                      <i className="bi bi-people me-2"></i>
+                      Mis equipos
+                    </Link>
+                    {esAdmin && (
+                      <Link
+                        to="/admin"
+                        className="profile-dropdown-item"
+                        onClick={closeAll}
+                      >
+                        <i className="bi bi-shield-lock me-2"></i>
+                        Panel de administración
+                      </Link>
+                    )}
                     <Link
                       to="/crear_torneo"
                       className="profile-dropdown-item"

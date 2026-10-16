@@ -1,0 +1,10 @@
+# Todas las peticiones a /api/<ruta> van a index.php (front controller).
+# Requiere mod_rewrite y "AllowOverride All" (en Docker ya está configurado).
+# Sin mod_rewrite igual funciona usando /api/index.php/<ruta>.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+Options -Indexes

@@ -1,0 +1,324 @@
+/* =====================================================================
+   app.css — estilos de las pantallas conectadas al backend
+   (torneos reales, gestión, equipos, admin, notificaciones).
+   Mobile first: primero el celular, después @media para pantallas grandes.
+   Usa las variables de Bootstrap (--bs-*) para respetar modo claro/oscuro.
+   ===================================================================== */
+
+:root {
+  --tt-celeste: #60B7E8;
+  --tt-dorado: #F4C542;
+  --tt-radio: 14px;
+}
+
+/* El fondo de toda la ventana sigue al tema (en páginas cortas no queda una franja de otro color) */
+html { background-color: var(--bs-body-bg); }
+
+/* ---------- Cargando ---------- */
+.tt-cargando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 64px 16px;
+  color: var(--bs-secondary-color);
+}
+
+/* ---------- Badges de estado ---------- */
+.status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  background: #6c757d;
+}
+.status-live      { background: #198754; }
+.status-open      { background: var(--tt-celeste); color: #08324a; }
+.status-finished  { background: #495057; }
+.status-pending   { background: var(--tt-dorado); color: #3d2f00; }
+.status-rejected  { background: #dc3545; }
+.status-formal    { background: #6f42c1; }
+
+/* ---------- Grillas y tarjetas ---------- */
+.tt-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 576px) { .tt-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 992px) { .tt-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.tt-torneo-card,
+.tt-equipo-card {
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--tt-radio);
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+.tt-equipo-card { padding: 16px; }
+
+.tt-torneo-card-img {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+.tt-torneo-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+.tt-torneo-card-img:hover img { transform: scale(1.04); }
+.tt-torneo-card-img .status-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+.tt-torneo-card-body { padding: 12px 14px 14px; }
+.tt-torneo-card-body h5 { font-size: 1.05rem; margin-bottom: 4px; }
+.tt-torneo-card-body h5 a { color: inherit; text-decoration: none; }
+.tt-torneo-card-body h5 a:hover { color: var(--tt-celeste); }
+
+.tournament-card .status-badge { margin-top: 6px; }
+
+/* ---------- Filtros ---------- */
+.tt-filtros {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+@media (min-width: 768px) {
+  .tt-filtros { flex-direction: row; flex-wrap: wrap; }
+  .tt-filtros > * { flex: 1 1 160px; }
+  .tt-filtros > .btn { flex: 0 0 auto; }
+}
+
+/* ---------- Detalle del torneo ---------- */
+.my-tournaments-section {
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--tt-radio);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+.tournament-detail-sidebar {
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--tt-radio);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+.tt-ronda-titulo { margin-top: 8px; }
+
+.leaderboard { display: flex; flex-direction: column; gap: 6px; }
+.leaderboard-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--bs-secondary-bg);
+}
+.leaderboard-info { display: flex; flex-direction: column; min-width: 0; }
+.leaderboard-info strong { overflow-wrap: anywhere; }
+.leaderboard-points { font-weight: 700; white-space: nowrap; }
+.mt-card-meta { font-size: 0.8rem; color: var(--bs-secondary-color); }
+
+.tt-tabla th, .tt-tabla td { white-space: nowrap; }
+
+.tt-campeon {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  border-radius: var(--tt-radio);
+  background: linear-gradient(90deg, var(--tt-dorado), #ffe28a);
+  color: #3d2f00;
+}
+.tt-campeon i { font-size: 2rem; }
+.tt-campeon small { display: block; text-transform: uppercase; letter-spacing: 1px; }
+.tt-campeon strong { font-size: 1.3rem; }
+
+/* ---------- Llave de eliminación ---------- */
+.tt-llave {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+.tt-llave-columna { min-width: 200px; flex: 1; display: flex; flex-direction: column; }
+.tt-llave-columna h6 { text-align: center; color: var(--bs-secondary-color); }
+.tt-llave-partidos {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 12px;
+  flex: 1;
+}
+.tt-llave-partido {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.tt-llave-equipo {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+}
+.tt-llave-equipo + .tt-llave-equipo { border-top: 1px solid var(--bs-border-color); }
+.tt-llave-equipo.ganador { background: rgba(96, 183, 232, 0.18); font-weight: 600; }
+
+/* ---------- Gestión del torneo ---------- */
+.tt-ronda-abierta { border-left: 4px solid var(--tt-celeste); }
+.tt-partido {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--bs-border-color);
+}
+.tt-partido:last-of-type { border-bottom: none; }
+.tt-partido-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.tt-partido-form input[type="number"] { width: 64px; }
+.tt-partido-fecha { flex: 1 1 180px; }
+@media (min-width: 768px) {
+  .tt-partido { flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; }
+  .tt-partido-fecha { flex: 0 0 200px; }
+}
+
+/* ---------- Notificaciones ---------- */
+.tt-notif { position: relative; }
+.tt-notif-btn {
+  position: relative;
+  border: none;
+  background: transparent;
+  color: var(--bs-body-color);
+  font-size: 1.2rem;
+  padding: 6px 8px;
+}
+.tt-notif-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #dc3545;
+  color: #fff;
+  font-size: 0.7rem;
+  line-height: 18px;
+  text-align: center;
+}
+.tt-notif-panel {
+  position: absolute;
+  right: -60px;
+  top: 110%;
+  width: min(340px, calc(100vw - 32px));
+  max-height: 420px;
+  overflow-y: auto;
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  z-index: 1100;
+}
+@media (min-width: 768px) { .tt-notif-panel { right: 0; } }
+.tt-notif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--bs-border-color);
+}
+.tt-notif-lista { list-style: none; margin: 0; padding: 0; }
+.tt-notif-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  color: var(--bs-body-color);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--bs-border-color);
+}
+.tt-notif-item:hover { background: var(--bs-secondary-bg); }
+.tt-notif-item.no-leida { border-left: 3px solid var(--tt-celeste); font-weight: 600; }
+.tt-notif-item small { color: var(--bs-secondary-color); font-weight: 400; }
+.tt-notif-vacio { padding: 16px; margin: 0; color: var(--bs-secondary-color); }
+
+/* ---------- Panel de administración ---------- */
+.tt-tabs { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; }
+.tt-tabs .nav-link { white-space: nowrap; }
+
+.tt-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 768px) { .tt-stats { grid-template-columns: repeat(4, 1fr); } }
+.tt-stat {
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  border-radius: var(--tt-radio);
+  border: 1px solid var(--bs-border-color);
+  background: var(--bs-body-bg);
+}
+.tt-stat i { font-size: 1.3rem; color: var(--tt-celeste); }
+.tt-stat strong { font-size: 1.6rem; }
+.tt-stat span { font-size: 0.85rem; color: var(--bs-secondary-color); }
+
+.tt-barra {
+  display: grid;
+  grid-template-columns: 110px 1fr 32px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
+.tt-barra-fondo { height: 10px; border-radius: 999px; background: var(--bs-secondary-bg); overflow: hidden; }
+.tt-barra-fondo div { height: 100%; background: var(--tt-celeste); border-radius: 999px; }
+
+.tt-admin-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--tt-radio);
+  background: var(--bs-body-bg);
+}
+.tt-admin-acciones { display: flex; flex-direction: column; gap: 8px; }
+@media (min-width: 768px) {
+  .tt-admin-item { flex-direction: row; justify-content: space-between; align-items: center; }
+  .tt-admin-acciones { width: 280px; flex-shrink: 0; }
+}
+
+.tt-auditoria-desc {
+  max-width: 320px;
+  overflow-wrap: anywhere;
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+}
+.tt-accion-insert        { background: #198754; }
+.tt-accion-update        { background: #0d6efd; }
+.tt-accion-delete        { background: #dc3545; }
+.tt-accion-login         { background: #6f42c1; }
+.tt-accion-logout        { background: #6c757d; }
+.tt-accion-login_fallido { background: #fd7e14; }

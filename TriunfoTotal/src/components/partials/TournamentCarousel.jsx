@@ -1,21 +1,18 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import { claseEstado, textoEstado } from "../../utils/formato";
 
-const tournaments = [
-  { id: 1, nombre: "Liga Fútbol 5", categoria: "Fútbol", img: "/img/futbol.jpg", destacado: true },
-  { id: 2, nombre: "Copa Ajedrez Relámpago", categoria: "Ajedrez", img: "/img/ajedrez.webp", destacado: true },
-  { id: 3, nombre: "Torneo Vóley Playa", categoria: "Vóley", img: "/img/voleibol.webp", destacado: true },
-  { id: 4, nombre: "E-Sports Clásico", categoria: "E-sports", img: "/img/Esport.png", destacado: false },
-  { id: 5, nombre: "Liga Fútbol 7", categoria: "Fútbol", img: "/img/futbol.jpg", destacado: false },
-  { id: 6, nombre: "Suizo de Ajedrez", categoria: "Ajedrez", img: "/img/ajedrez.webp", destacado: false },
-];
-
-function TournamentCarousel() {
+// Fila horizontal de tarjetas de torneos (recibe los torneos por props).
+function TournamentCarousel({ torneos = [], vacio = "No hay torneos para mostrar todavía." }) {
   const rowRef = useRef(null);
 
   function scrollRow(direction) {
     if (!rowRef.current) return;
     rowRef.current.scrollBy({ left: direction * 280, behavior: "smooth" });
+  }
+
+  if (torneos.length === 0) {
+    return <p className="tournaments-empty">{vacio}</p>;
   }
 
   return (
@@ -25,20 +22,22 @@ function TournamentCarousel() {
           type="button"
           className="tournaments-row-arrow tournaments-row-arrow-left"
           onClick={() => scrollRow(-1)}
+          aria-label="Anteriores"
         >
           ←
         </button>
 
         <div className="tournaments-row" ref={rowRef}>
-          {tournaments.map((t) => (
-            <Link key={t.id} to={`/tournaments/${t.id}`} className="tournament-card">
-              <img src={t.img} alt={t.nombre} />
+          {torneos.map((t) => (
+            <Link key={t.id_torneo} to={`/tournaments/${t.id_torneo}`} className="tournament-card">
+              <img src={t.imagen} alt={t.disciplina} />
               <div className="tournament-card-body">
                 <h6>{t.nombre}</h6>
-                <span className="tournament-card-category">{t.categoria}</span>
-                {t.destacado && <span className="tournament-card-star">★</span>}
+                <span className="tournament-card-category">{t.disciplina}</span>
+                <span className={`status-badge ${claseEstado(t)}`}>{textoEstado(t)}</span>
+                {t.tipo === "Formal" && <span className="tournament-card-star" title="Torneo formal">★</span>}
               </div>
-            </Link>            
+            </Link>
           ))}
         </div>
 
@@ -46,6 +45,7 @@ function TournamentCarousel() {
           type="button"
           className="tournaments-row-arrow tournaments-row-arrow-right"
           onClick={() => scrollRow(1)}
+          aria-label="Siguientes"
         >
           →
         </button>

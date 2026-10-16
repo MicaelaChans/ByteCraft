@@ -1,0 +1,96 @@
+# =====================================================================
+#  TriunfoTotal — despliegue con Docker
+#
+#   docker compose up -d --build                 -> levanta web + base de datos
+#   docker compose --profile monitoreo up -d     -> además levanta Netdata (monitoreo)
+#
+#  Las contraseñas van en el archivo .env (copiar .env.example -> .env).
+#  La base de datos NO publica puertos hacia afuera: solo la ve la web por
+#  la red interna "red_datos" (si atacan el servidor, la BD no está expuesta).
+# =====================================================================
+
+services:
+
+  db:
+    image: mariadb:10.6
+    container_name: triunfo_db
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASS:?Falta DB_ROOT_PASS en .env}
+      MARIADB_DATABASE: triunfo_total_db
+      APP_DB_PASS: ${APP_DB_PASS:?Falta APP_DB_PASS en .env}
+      BACKUP_DB_PASS: ${BACKUP_DB_PASS:?Falta BACKUP_DB_PASS en .env}
+      REPORTES_DB_PASS: ${REPORTES_DB_PASS:-}
+      DBA_DB_PASS: ${DBA_DB_PASS:-}
+      DB_HOST_PERMITIDO: "%"
+      TZ: America/Montevideo
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci",
+              "--default-time-zone=-03:00", "--log-bin-trust-function-creators=1"]
+    volumes:
+      - db_data:/var/lib/mysql
+      # Se ejecutan en orden alfabético SOLO la primera vez (volumen vacío)
+      - ./database/01_esquema.sql:/docker-entrypoint-initdb.d/01_esquema.sql:ro
+      - ./database/02_datos_prueba.sql:/docker-entrypoint-initdb.d/02_datos_prueba.sql:ro
+      - ./database/03_logica.sql:/docker-entrypoint-initdb.d/03_logica.sql:ro
+      - ./database/04_dcl.sh:/docker-entrypoint-initdb.d/04_dcl.sh:ro
+    networks: [red_datos]
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    container_name: triunfo_web
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_NAME: triunfo_total_db
+      DB_USER: app_triunfototal
+      DB_PASS: ${APP_DB_PASS}
+      SERVIDOR_NOMBRE: ${SERVIDOR_NOMBRE:-localhost}
+      HTTPS_PUERTO: ${HTTPS_PUERTO:-443}
+      CORS_ORIGENES: ${CORS_ORIGENES:-}
+      TZ: America/Montevideo
+    ports:
+      - "${HTTP_PUERTO:-80}:80"
+      - "${HTTPS_PUERTO:-443}:443"
+    volumes:
+      - ssl_certs:/etc/apache2/ssl
+      - ./logs/apache:/var/log/apache2
+    networks: [red_web, red_datos]
+
+  # Monitoreo del servidor y contenedores (opcional: --profile monitoreo)
+  netdata:
+    image: netdata/netdata:stable
+    container_name: triunfo_netdata
+    profiles: ["monitoreo"]
+    restart: unless-stopped
+    hostname: triunfo-servidor
+    cap_add: [SYS_PTRACE]
+    security_opt: [apparmor:unconfined]
+    ports:
+      - "127.0.0.1:19999:19999"   # solo accesible desde el propio servidor (o por túnel SSH)
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks: [red_web]
+
+networks:
+  red_web:       # la web hacia afuera
+  red_datos:     # web <-> base de datos (interna)
+    internal: true
+
+volumes:
+  db_data:
+  ssl_certs:

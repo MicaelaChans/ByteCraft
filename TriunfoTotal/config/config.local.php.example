@@ -1,0 +1,9 @@
+<?php
+// Copiar este archivo como config/config.local.php y completar.
+// config.local.php está en .gitignore: las contraseñas NUNCA se suben al repositorio.
+// (En Docker no hace falta: se usan las variables del archivo .env)
+
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'triunfo_total_db');
+define('DB_USER', 'app_triunfototal');
+define('DB_PASS', 'cambiar_esta_clave');

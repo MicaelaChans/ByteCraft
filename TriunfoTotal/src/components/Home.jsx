@@ -1,28 +1,46 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import MyCarousel from "../components/partials/MyCarousel";
 import Footer from "./partials/Footer";
 import "../css/styles.css";
-import Sidebar from "./partials/Sidebar";
+import api from "../services/api";
 import TournamentCarousel from "./partials/TournamentCarousel";
 
 function Home() {
+  const navigate = useNavigate();
+  const [enCurso, setEnCurso] = useState([]);
+  const [abiertos, setAbiertos] = useState([]);
+  const [busqueda, setBusqueda] = useState("");
+
+  useEffect(() => {
+    api.get("torneos?estado_torneo=En Proceso&limite=15").then(setEnCurso).catch(() => {});
+    api.get("torneos?estado_torneo=Borrador&limite=15").then(setAbiertos).catch(() => {});
+  }, []);
+
+  function buscar(e) {
+    e.preventDefault();
+    navigate(`/tournaments?q=${encodeURIComponent(busqueda)}`);
+  }
+
   return (
     <>
       <MyCarousel />
 
       <div className="main-layout">
-        {/*<Sidebar />*/}
-
         <div className="content-area">
           <div className="container">
-            <div className="search-bar">
+            <form className="search-bar" onSubmit={buscar} role="search">
               <input
                 type="text"
                 className="search-input"
-                placeholder="Buscar..."
+                placeholder="Buscar torneos..."
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+                aria-label="Buscar torneos"
               />
-              <button className="search-btn"><i className="bi bi-search"></i>
+              <button className="search-btn" type="submit" aria-label="Buscar"><i className="bi bi-search"></i>
               </button>
-            </div>
+            </form>
 
             <section id="sectionHome">
               <div className="container">
@@ -43,7 +61,12 @@ function Home() {
               </div>
             </section>
             <div className="tournament-carousel-home">
-            <TournamentCarousel />
+              <h4 className="mt-4">En curso ahora</h4>
+              <TournamentCarousel torneos={enCurso} />
+            </div>
+            <div className="tournament-carousel-home pb-5">
+              <h4 className="mt-4">Inscripciones abiertas</h4>
+              <TournamentCarousel torneos={abiertos} />
             </div>
           </div>
         </div>
