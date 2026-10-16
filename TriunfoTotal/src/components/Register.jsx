@@ -88,7 +88,7 @@ function Register() {
       }
 
       dispatch(login({ nombre: formData.nombre, email: formData.email }));
-      navigate("/profile");
+      navigate("/login");
     } catch {
       setServerError("No se pudo conectar con el servidor. Probá de nuevo.");
     } finally {
