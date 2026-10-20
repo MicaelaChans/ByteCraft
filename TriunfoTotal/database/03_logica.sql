@@ -177,6 +177,7 @@ DROP TRIGGER IF EXISTS trg_usuarios_au$$
 CREATE TRIGGER trg_usuarios_au AFTER UPDATE ON usuarios FOR EACH ROW
   CALL sp_auditar('usuarios', 'UPDATE', NEW.id_usuario,
     JSON_OBJECT('estado', CONCAT(OLD.estado, ' -> ', NEW.estado),
+                'email_verificado', CONCAT(OLD.email_verificado, ' -> ', NEW.email_verificado),
                 'cambio_password', OLD.password_hash <> NEW.password_hash,
                 'cambio_perfil', NOT (OLD.nombre <=> NEW.nombre AND OLD.apellido <=> NEW.apellido
                                       AND OLD.alias <=> NEW.alias AND OLD.telefono <=> NEW.telefono

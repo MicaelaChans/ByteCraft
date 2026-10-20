@@ -12,6 +12,8 @@ $router->post('auth/registro', [AuthController::class, 'registro']);
 $router->post('auth/login',    [AuthController::class, 'login']);
 $router->post('auth/logout',   [AuthController::class, 'logout']);
 $router->get('auth/sesion',    [AuthController::class, 'sesion']);
+$router->post('auth/verificar',             [AuthController::class, 'verificar']);
+$router->post('auth/reenviar-verificacion', [AuthController::class, 'reenviarVerificacion']);
 
 // --- Perfil del usuario logueado -------------------------------------
 $router->put('perfil',          [PerfilController::class, 'actualizar']);
@@ -62,6 +64,7 @@ $router->put('admin/torneos/{id}/aprobacion', [AdminController::class, 'resolver
 $router->get('admin/usuarios',                [AdminController::class, 'usuarios']);
 $router->put('admin/usuarios/{id}/estado',    [AdminController::class, 'cambiarEstadoUsuario']);
 $router->put('admin/usuarios/{id}/admin',     [AdminController::class, 'cambiarRolAdmin']);
+$router->put('admin/usuarios/{id}/verificar', [AdminController::class, 'verificarEmail']);
 $router->put('admin/modulos',                 [AdminController::class, 'cambiarModulo']);
 $router->get('admin/auditoria',               [AdminController::class, 'auditoria']);
 $router->get('admin/auditoria/csv',           [AdminController::class, 'auditoriaCsv']);

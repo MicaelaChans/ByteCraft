@@ -88,7 +88,7 @@ TriunfoTotal/
 │   ├── redux/               Estado global (usuario logueado)
 │   ├── utils/               Formato de fechas/estados, enmascarado de datos sensibles
 │   └── css/                 styles.css (maquetado original) + app.css (pantallas nuevas)
-├── tests/prueba_api.sh      60 pruebas funcionales automáticas de la API
+├── tests/prueba_api.sh      61 pruebas funcionales automáticas de la API
 └── docs/                    Esta documentación
 ```
 
@@ -229,6 +229,7 @@ Todas las respuestas son JSON con el formato `{ ok, data }` o `{ ok: false, erro
 | POST | `/api/auth/registro` | Crear cuenta (inicia sesión) | Público |
 | POST | `/api/auth/login` · `/auth/logout` | Iniciar / cerrar sesión | Público |
 | GET | `/api/auth/sesion` | Usuario actual (o null) | Público |
+| POST | `/api/auth/verificar` · `/auth/reenviar-verificacion` | Confirmar el email con el token del link / pedir otro mail | Público |
 | PUT | `/api/perfil` · `/perfil/password` | Editar perfil / cambiar contraseña | Usuario |
 | GET | `/api/perfil/torneos` | Torneos que organizo y en los que participo | Usuario |
 | GET | `/api/disciplinas` · `/api/modulos` | Catálogos | Público |
@@ -289,13 +290,46 @@ La aplicación queda en `https://<servidor>`. Hay 5 administradores de prueba: `
 3. Hacer que Apache sirva la carpeta `api/` en `http://localhost/api`.
 4. Ejecutar `npm install` y `npm run dev`. Vite redirige `/api` a Apache con un proxy (ver `vite.config.js`), así que no hacen falta configuraciones de CORS.
 
-### 6.4 Pruebas
+### 6.4 Verificación de email (correo)
+
+Al registrarse, el sistema comprueba que el **dominio** del email reciba correo (registro **MX** del DNS) y, si el envío de correos está activo, manda un **link de verificación**: hasta tocarlo, la cuenta no puede iniciar sesión.
+
+| Variable (`.env` o `config.local.php`) | Valor |
+|---|---|
+| `CORREO_MODO` | `ninguno` (por defecto: sin verificación, sirve sin internet) · `smtp` (envía de verdad) · `archivo` (guarda los mails en `logs/apache/correos`, para pruebas) |
+| `SMTP_USUARIO` | `bytecraftsoftware.2026@gmail.com` |
+| `SMTP_CLAVE` | **Contraseña de aplicación** de Google (16 letras, sin espacios), no la contraseña de la cuenta |
+| `SMTP_HOST` / `SMTP_PUERTO` | `smtp.gmail.com` / `587` (STARTTLS) |
+| `APP_URL` | Dirección pública para el link del mail. Vacía = se toma de la página desde donde se registró. |
+| `VALIDAR_DOMINIO_EMAIL` | `true` (rechaza dominios sin MX). Si el servidor no tiene internet, no bloquea a nadie. |
+
+**Cómo obtener la contraseña de aplicación de Gmail:**
+
+1. Entrar a la cuenta del proyecto y activar la **Verificación en 2 pasos** (Cuenta de Google → Seguridad).
+2. Ir a **myaccount.google.com/apppasswords**, crear una con el nombre "TriunfoTotal" y copiar las 16 letras.
+3. Ponerlas en `SMTP_CLAVE` (sin espacios) y cambiar `CORREO_MODO=smtp`.
+4. En Docker: `docker compose up -d` (recrea el contenedor web con la configuración nueva).
+
+**Implementación:**
+
+- `app/core/Correo.php` es un cliente SMTP propio, sin librerías externas: EHLO → STARTTLS (cifrado TLS) → AUTH LOGIN → MAIL FROM / RCPT TO → DATA. El mail es MIME con una versión de texto y otra HTML, y los acentos codificados en base64.
+- El token es aleatorio (`random_bytes(32)`, 64 caracteres hexadecimales). En la base se guarda **solo su hash SHA-256**, vence a las 24 h y se borra al usarse.
+- Reenviar el mail está limitado a una vez por minuto, y la respuesta es siempre la misma (no revela qué emails están registrados).
+- Si un mail no llega, un administrador puede verificar la cuenta a mano desde **Admin → Usuarios**.
+
+### 6.5 Pruebas
 
 ```bash
 BASE=https://localhost/api ./tests/prueba_api.sh
 ```
 
-Ejecuta 60 pruebas funcionales de punta a punta:
+```bash
+BASE=https://localhost/api CORREO_CARPETA=$PWD/logs/apache/correos ./tests/prueba_verificacion_email.sh
+```
+
+El segundo script prueba el flujo de verificación (requiere `CORREO_MODO=archivo`): 13 pruebas de registro, link, reutilización del token, reenvío limitado y verificación manual del admin.
+
+El primero ejecuta 61 pruebas funcionales de punta a punta (con `CORREO_MODO=ninguno`):
 
 - registro, validaciones y permisos;
 - aprobación de torneos formales;

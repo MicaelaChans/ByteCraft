@@ -9,19 +9,23 @@ class Usuario extends Modelo {
     const ROL_USUARIO = 2;
 
     // Columnas "seguras" (nunca incluye password_hash)
-    private const CAMPOS = 'id_usuario, nombre, apellido, alias, email, telefono, direccion, avatar, estado, creado_en';
+    private const CAMPOS = 'id_usuario, nombre, apellido, alias, email, telefono, direccion, avatar, estado, email_verificado, creado_en';
+
+    const HORAS_VALIDEZ_TOKEN = 24;   // el link de verificación vence a las 24 h
+    const SEGUNDOS_ENTRE_REENVIOS = 60;
 
     /**
      * Crea un nuevo usuario. El hash de la contraseña se calcula ACÁ,
      * nunca en el frontend ni en el controlador. Usa bcrypt (PASSWORD_DEFAULT),
      * que incluye "sal" aleatoria y es lento a propósito (frena fuerza bruta).
+     * $verificado = false -> la cuenta no puede entrar hasta confirmar el email.
      */
-    public function registrar(string $nombre, string $apellido, string $email, string $passwordPlano): int {
-        return $this->transaccion(function () use ($nombre, $apellido, $email, $passwordPlano) {
+    public function registrar(string $nombre, string $apellido, string $email, string $passwordPlano, bool $verificado = true): int {
+        return $this->transaccion(function () use ($nombre, $apellido, $email, $passwordPlano, $verificado) {
             $hash = password_hash($passwordPlano, PASSWORD_DEFAULT);
             $this->ejecutar(
-                'INSERT INTO usuarios (nombre, apellido, email, password_hash) VALUES (?, ?, ?, ?)',
-                [$nombre, $apellido, $email, $hash]
+                'INSERT INTO usuarios (nombre, apellido, email, password_hash, email_verificado) VALUES (?, ?, ?, ?, ?)',
+                [$nombre, $apellido, $email, $hash, $verificado ? 1 : 0]
             );
             $idNuevo = (int)$this->db->lastInsertId();
 
@@ -31,6 +35,69 @@ class Usuario extends Modelo {
             $this->asignarRol($idNuevo, self::ROL_USUARIO);
             return $idNuevo;
         });
+    }
+
+    // ------------------------------------------------------------------
+    // Verificación de email
+    // ------------------------------------------------------------------
+
+    /**
+     * Genera un token aleatorio para el link de verificación.
+     * Devuelve el token EN CLARO (va en el mail), pero en la base solo se
+     * guarda su hash SHA-256: si alguien robara la base, no podría usar los links.
+     */
+    public function crearTokenVerificacion(int $idUsuario): string {
+        $token = bin2hex(random_bytes(32)); // 64 caracteres hexadecimales impredecibles
+        $this->ejecutar(
+            'UPDATE usuarios SET token_verificacion = ?, token_expira = NOW() + INTERVAL ' . self::HORAS_VALIDEZ_TOKEN . ' HOUR,
+                                 verificacion_enviada_en = NOW()
+              WHERE id_usuario = ?',
+            [hash('sha256', $token), $idUsuario]);
+        return $token;
+    }
+
+    /** Valida el token del link. Devuelve el id del usuario verificado o null si no sirve. */
+    public function verificarToken(string $token): ?int {
+        if (!preg_match('/^[a-f0-9]{64}$/', $token)) {
+            return null;
+        }
+        $fila = $this->uno(
+            'SELECT id_usuario, token_expira < NOW() AS vencido FROM usuarios WHERE token_verificacion = ?',
+            [hash('sha256', $token)]);
+        if (!$fila || $fila['vencido']) {
+            return null;
+        }
+        $this->marcarVerificado((int)$fila['id_usuario']);
+        return (int)$fila['id_usuario'];
+    }
+
+    public function marcarVerificado(int $idUsuario): void {
+        $this->ejecutar('UPDATE usuarios SET email_verificado = 1, token_verificacion = NULL, token_expira = NULL
+                          WHERE id_usuario = ?', [$idUsuario]);
+    }
+
+    /** ¿Pasó suficiente tiempo desde el último mail? (evita usar la app para mandar spam) */
+    public function puedeReenviarVerificacion(int $idUsuario): bool {
+        return (bool)$this->valor(
+            'SELECT verificacion_enviada_en IS NULL OR verificacion_enviada_en < NOW() - INTERVAL ' . self::SEGUNDOS_ENTRE_REENVIOS . ' SECOND
+               FROM usuarios WHERE id_usuario = ?', [$idUsuario]);
+    }
+
+    /**
+     * ¿El dominio del email puede recibir correo? (consulta los registros MX del DNS)
+     * Frena dominios inventados como "x@dominioquenoexiste.com".
+     * Si el servidor no tiene internet (no puede ni resolver gmail.com) no se bloquea a nadie.
+     */
+    public static function dominioRecibeCorreo(string $email): bool {
+        if (!Config::bool('VALIDAR_DOMINIO_EMAIL', true)) {
+            return true;
+        }
+        $dominio = substr(strrchr($email, '@'), 1);
+        if (checkdnsrr($dominio . '.', 'MX') || checkdnsrr($dominio . '.', 'A')) {
+            return true;
+        }
+        $hayInternet = checkdnsrr('gmail.com.', 'MX');
+        return !$hayInternet;
     }
 
     /** Asigna un rol (si ya lo tenía, no lo duplica). */
@@ -154,7 +221,7 @@ class Usuario extends Modelo {
             [$filtro, $filtro, $filtro, $filtro]
         );
         $filas = $this->todos(
-            "SELECT u.id_usuario, u.nombre, u.apellido, u.alias, u.email, u.estado, u.creado_en,
+            "SELECT u.id_usuario, u.nombre, u.apellido, u.alias, u.email, u.estado, u.email_verificado, u.creado_en,
                     GROUP_CONCAT(r.nombre_rol ORDER BY r.id_rol) AS roles
                FROM usuarios u
                LEFT JOIN usuario_roles ur ON ur.id_usuario = u.id_usuario

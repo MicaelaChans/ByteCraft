@@ -101,6 +101,16 @@ class AdminController extends Controlador {
         $this->ok(['mensaje' => 'Rol actualizado.']);
     }
 
+    /** PUT /admin/usuarios/{id}/verificar -> el admin confirma el email a mano (si el mail no llegó) */
+    public function verificarEmail(int $id): void {
+        $usuarios = new Usuario();
+        if (!$usuarios->buscarPorId($id)) {
+            throw new HttpError(404, 'El usuario no existe.');
+        }
+        $usuarios->marcarVerificado($id);
+        $this->ok(['mensaje' => 'Email marcado como verificado.']);
+    }
+
     /** PUT /admin/modulos   body: { codigo, habilitado } */
     public function cambiarModulo(): void {
         $datos = $this->cuerpo();

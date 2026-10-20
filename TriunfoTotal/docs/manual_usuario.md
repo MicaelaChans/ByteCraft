@@ -21,7 +21,9 @@ Cualquier persona puede **consultar** sin registrarse:
 
 1. Hacé clic en el ícono de usuario (arriba a la derecha) y elegí **Registrate**.
 2. Completá nombre, apellido, email y contraseña. La contraseña debe tener mínimo 8 caracteres, con mayúscula, minúscula y número.
-3. Al registrarte ya quedás con la sesión iniciada.
+3. Si el sistema tiene el envío de correos activado, te llega un **email para confirmar tu cuenta**. Tocá **"Confirmar mi email"** (el link vence a las 24 horas). Hasta que no lo confirmes no vas a poder iniciar sesión. Si no te llegó, revisá la carpeta de spam o tocá **"Reenviar email"** en la pantalla de inicio de sesión.
+   - Si tu email tiene un dominio que no existe (por ejemplo `x@dominioinventado.com`), el registro te lo va a avisar.
+   - Si el envío de correos está desactivado, al registrarte ya quedás con la sesión iniciada.
 4. Para volver a entrar usá **Iniciar sesión**. Después de 5 intentos fallidos la cuenta se bloquea 15 minutos, por seguridad.
 
 ## 3. Mi perfil

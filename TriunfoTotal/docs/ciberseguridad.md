@@ -90,7 +90,7 @@ Recomendaciones para los usuarios: usar un gestor de contraseñas, no reutilizar
 
 | Dato | Frontend (React) | Backend (PHP) | Base de datos |
 |---|---|---|---|
-| Email | Formato con regex | `filter_var(FILTER_VALIDATE_EMAIL)`, máximo 150, se guarda en minúsculas | `UNIQUE` |
+| Email | Formato con regex | `filter_var(FILTER_VALIDATE_EMAIL)`, máximo 150, se guarda en minúsculas; el **dominio debe tener registro MX** (recibir correo); y la casilla se confirma con un **link de verificación** | `UNIQUE` |
 | Contraseña | Política (8, mayúscula, minúscula, número) | Misma política | Solo se guarda el hash |
 | Nombre de torneo | 3 a 100 caracteres | 3 a 100 caracteres | `NOT NULL`, `VARCHAR(100)` |
 | Cantidad de participantes | 2 a 128 | 2 a 128 y no menor que los ya inscriptos | `CHECK (max_equipos BETWEEN 2 AND 128)` |
@@ -113,7 +113,9 @@ Los errores se devuelven por campo (HTTP 422) y React los muestra debajo de cada
 | **Cifrado en tránsito** | Navegador ↔ servidor | **TLS 1.2/1.3** (HTTPS). El puerto 80 redirige al 443. **HSTS** obliga al navegador a usar siempre HTTPS. |
 | **Cifrado en reposo** | Respaldos | **AES-256-CBC** con derivación de clave **PBKDF2** (200.000 iteraciones) y sal. La clave está en `/root/.triunfototal/respaldo.key` con permisos 600. |
 | **Firma digital** | Respaldos | **RSA 3072 + SHA-256** (`openssl dgst -sign`). Antes de restaurar se verifica con la clave pública: prueba que el respaldo lo generó este servidor y que nadie lo modificó (**autenticidad + integridad + no repudio**). |
-| **Prevención de enumeración** | Login | Si el email no existe igual se calcula un bcrypt, para que la respuesta tarde lo mismo. El mensaje es genérico ("email o contraseña incorrectos"). |
+| **Token de verificación de email** | Registro | `random_bytes(32)` (criptográficamente seguro). En la base se guarda solo su **hash SHA-256**: si alguien robara la base, no podría usar los links. Vence a las 24 h y es de un solo uso. |
+| **Correo cifrado** | Envío de mails | El cliente SMTP usa **STARTTLS** (TLS 1.2/1.3) antes de enviar la contraseña de aplicación de Gmail. |
+| **Prevención de enumeración** | Login y reenvío de verificación | Si el email no existe igual se calcula un bcrypt, para que la respuesta tarde lo mismo. El mensaje es genérico ("email o contraseña incorrectos"). |
 
 ## 8. Certificado SSL
 

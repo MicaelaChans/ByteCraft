@@ -45,8 +45,14 @@ CREATE TABLE usuarios (
   direccion      VARCHAR(255) DEFAULT NULL,
   avatar         MEDIUMTEXT   DEFAULT NULL COMMENT 'imagen en base64 (data URL), máx ~2MB',
   estado         ENUM('Activo','Baneado') NOT NULL DEFAULT 'Activo',
+  -- Verificación de email: hasta confirmar el link que llega por correo no puede iniciar sesión
+  email_verificado        TINYINT(1) NOT NULL DEFAULT 0,
+  token_verificacion      CHAR(64) DEFAULT NULL COMMENT 'hash SHA-256 del token (nunca el token en claro)',
+  token_expira            DATETIME DEFAULT NULL,
+  verificacion_enviada_en DATETIME DEFAULT NULL COMMENT 'para limitar los reenvíos',
   creado_en      DATETIME DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY uq_usuarios_email (email),
+  UNIQUE KEY uq_usuarios_token (token_verificacion),
   UNIQUE KEY uq_usuarios_alias (alias)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

@@ -20,6 +20,7 @@ import GestionarTorneo from "./components/GestionarTorneo";
 import MisEquipos from "./components/MisEquipos";
 import AdminPanel from "./components/AdminPanel";
 import NotFound from "./components/NotFound";
+import VerificarEmail from "./components/VerificarEmail";
 import api from "./services/api";
 import { login, logout } from "./redux/userSlice";
 
@@ -48,6 +49,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/verificar-email" element={<VerificarEmail />} />
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/tournaments" element={<Tournaments />} />

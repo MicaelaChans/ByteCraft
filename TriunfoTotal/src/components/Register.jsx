@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/userSlice";
 import api from "../services/api";
+import AvisoVerificacion from "./partials/AvisoVerificacion";
 import "../css/styles.css";
 
 function Register() {
@@ -19,6 +20,7 @@ function Register() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [verificacion, setVerificacion] = useState(null); // { email, mensaje } si hay que confirmar el email
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -75,14 +77,19 @@ function Register() {
 
     setLoading(true);
     try {
-      // El backend crea la cuenta y deja la sesión iniciada
-      const usuario = await api.post("auth/registro", {
+      const respuesta = await api.post("auth/registro", {
         nombre: formData.nombre,
         apellido: formData.apellido,
         email: formData.email,
         password: formData.password,
       });
-      dispatch(login(usuario));
+      if (respuesta.requiere_verificacion) {
+        // Hay verificación de email: la cuenta se activa al tocar el link del mail
+        setVerificacion({ email: respuesta.email, mensaje: respuesta.mensaje });
+        return;
+      }
+      // Sin verificación: el backend ya dejó la sesión iniciada
+      dispatch(login(respuesta));
       navigate("/profile");
     } catch (err) {
       setServerError(err.message);
@@ -97,6 +104,12 @@ function Register() {
       <div className="register-card">
         <h1 className="fs-2 mb-4">Crear cuenta</h1>
 
+        {verificacion ? (
+          <>
+            <AvisoVerificacion email={verificacion.email} mensaje={verificacion.mensaje} />
+            <Link to="/login" className="btn btn-primary w-100">Ir a iniciar sesión</Link>
+          </>
+        ) : (
         <form onSubmit={handleSubmit} noValidate>
           <div className="row">
             <div className="col-6 mb-3">
@@ -195,6 +208,7 @@ function Register() {
             {loading ? "Creando cuenta..." : "Registrarme"}
           </button>
         </form>
+        )}
 
         <p className="mt-3 text-center">
           ¿Ya tenés cuenta? <Link to="/login">Iniciar sesión</Link>

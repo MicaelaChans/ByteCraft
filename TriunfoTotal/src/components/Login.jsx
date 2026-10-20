@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/userSlice";
 import api from "../services/api";
+import AvisoVerificacion from "./partials/AvisoVerificacion";
 import "../css/styles.css";
 
 function Login() {
@@ -14,6 +15,7 @@ function Login() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [sinVerificar, setSinVerificar] = useState(false);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -47,6 +49,7 @@ function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     setServerError("");
+    setSinVerificar(false);
 
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -64,7 +67,11 @@ function Login() {
       // vuelve a la página que pidió login (o al perfil)
       navigate(location.state?.desde || "/profile");
     } catch (err) {
-      setServerError(err.message);
+      if (err.detalles?.codigo === "email_no_verificado") {
+        setSinVerificar(true);
+      } else {
+        setServerError(err.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -111,6 +118,13 @@ function Login() {
               <div className="invalid-feedback">{errors.password}</div>
             )}
           </div>
+
+          {sinVerificar && (
+            <AvisoVerificacion
+              email={formData.email}
+              mensaje="Todavía no confirmaste tu email: tocá el link que te enviamos al registrarte."
+            />
+          )}
 
           {serverError && (
             <div className="alert alert-danger py-2">{serverError}</div>

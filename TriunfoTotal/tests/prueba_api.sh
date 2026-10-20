@@ -46,7 +46,7 @@ comprobar() { # comprobar <descripción> <condición bash>
 }
 
 registrar() { # registrar <alias-sesion> <nombre>
-  pedir "$1" POST auth/registro "{\"nombre\":\"$2\",\"apellido\":\"Prueba\",\"email\":\"$1.$SUF@test.com\",\"password\":\"$PASS\"}" > /dev/null
+  pedir "$1" POST auth/registro "{\"nombre\":\"$2\",\"apellido\":\"Prueba\",\"email\":\"$1.$SUF@gmail.com\",\"password\":\"$PASS\"}" > /dev/null
 }
 
 # Juega TODO un torneo: carga resultados al azar y cierra rondas hasta que termine
@@ -78,9 +78,11 @@ esperar "Registro con datos inválidos -> 422" 422
 registrar org "Organizador"; esperar "Registro del organizador -> 201" 201
 for j in j1 j2 j3 j4 j5 j6; do registrar $j "Jugador $j"; done
 esperar "Registro de jugadores" 201
-pedir anon POST auth/registro "{\"nombre\":\"Dup\",\"apellido\":\"Dup\",\"email\":\"org.$SUF@test.com\",\"password\":\"$PASS\"}" > /dev/null
+pedir anon POST auth/registro '{"nombre":"Falso","apellido":"Dominio","email":"x@dominioquenoexiste-xyz123.com","password":"Prueba1234"}' > /dev/null
+esperar "Email con dominio inexistente (sin registro MX) -> 422" 422
+pedir anon POST auth/registro "{\"nombre\":\"Dup\",\"apellido\":\"Dup\",\"email\":\"org.$SUF@gmail.com\",\"password\":\"$PASS\"}" > /dev/null
 esperar "Email duplicado -> 409" 409
-pedir anon POST auth/login "{\"email\":\"org.$SUF@test.com\",\"password\":\"Incorrecta1\"}" > /dev/null
+pedir anon POST auth/login "{\"email\":\"org.$SUF@gmail.com\",\"password\":\"Incorrecta1\"}" > /dev/null
 esperar "Login con contraseña incorrecta -> 401" 401
 pedir org GET auth/sesion | jq -e '.data.roles == ["Usuario"]' > /dev/null
 comprobar "El usuario nuevo tiene rol dinámico 'Usuario'" '[ $? -eq 0 ]'
@@ -115,7 +117,7 @@ for j in j1 j2 j3 j4 j5; do
   eval "EQ_$j=$E"
 done
 esperar "Crear equipos" 201
-pedir j1 POST "equipos/$EQ_j1/miembros" "{\"usuario\":\"j6.$SUF@test.com\"}" > /dev/null
+pedir j1 POST "equipos/$EQ_j1/miembros" "{\"usuario\":\"j6.$SUF@gmail.com\"}" > /dev/null
 esperar "Capitán agrega un miembro por email" 201
 pedir j6 POST "torneos/$L/inscripciones" "{\"id_equipo\":$EQ_j1}" > /dev/null
 esperar "Un jugador que no es capitán no puede inscribir -> 403" 403
@@ -188,10 +190,10 @@ pedir admin PUT admin/modulos '{"codigo":"Suizo","habilitado":true}' > /dev/null
 ID_J5=$(pedir j5 GET auth/sesion | jq -r .data.id_usuario)
 pedir admin PUT "admin/usuarios/$ID_J5/estado" '{"estado":"Baneado"}' > /dev/null; esperar "Admin banea a un usuario" 200
 pedir j5 GET perfil/torneos > /dev/null;                                         esperar "La sesión del baneado se corta al instante -> 401" 401
-pedir j5 POST auth/login "{\"email\":\"j5.$SUF@test.com\",\"password\":\"$PASS\"}" > /dev/null
+pedir j5 POST auth/login "{\"email\":\"j5.$SUF@gmail.com\",\"password\":\"$PASS\"}" > /dev/null
 esperar "El baneado no puede entrar -> 403" 403
-for i in 1 2 3 4 5; do pedir bruto POST auth/login "{\"email\":\"j4.$SUF@test.com\",\"password\":\"Mala$i\"}" > /dev/null; done
-pedir bruto POST auth/login "{\"email\":\"j4.$SUF@test.com\",\"password\":\"$PASS\"}" > /dev/null
+for i in 1 2 3 4 5; do pedir bruto POST auth/login "{\"email\":\"j4.$SUF@gmail.com\",\"password\":\"Mala$i\"}" > /dev/null; done
+pedir bruto POST auth/login "{\"email\":\"j4.$SUF@gmail.com\",\"password\":\"$PASS\"}" > /dev/null
 esperar "Tras 5 intentos fallidos se bloquea el login (fuerza bruta) -> 429" 429
 COD=$(curl -sk -o /dev/null -w '%{http_code}' -X POST --data 'email=a&password=b' "$BASE/auth/login")
 comprobar "Un formulario que no es JSON se rechaza (protección CSRF) -> 415" '[ "$COD" = 415 ]'

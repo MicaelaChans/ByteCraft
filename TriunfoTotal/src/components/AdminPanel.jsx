@@ -175,8 +175,17 @@ function Usuarios() {
                       ))}</td>
                       <td>
                         <span className={`badge ${u.estado === "Activo" ? "text-bg-success" : "text-bg-dark"}`}>{u.estado}</span>
+                        {!Number(u.email_verificado) && (
+                          <span className="badge text-bg-warning ms-1" title="Todavía no confirmó su email">Sin verificar</span>
+                        )}
                       </td>
                       <td className="text-end text-nowrap">
+                        {!Number(u.email_verificado) && (
+                          <button className="btn btn-sm btn-outline-warning me-1" title="Confirmar el email a mano (si el mail no le llegó)"
+                                  onClick={() => accion(() => api.put(`admin/usuarios/${u.id_usuario}/verificar`))}>
+                            Verificar email
+                          </button>
+                        )}
                         {!soyYo && (
                           <>
                             <button className="btn btn-sm btn-outline-secondary me-1"

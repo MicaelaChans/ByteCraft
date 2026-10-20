@@ -7,3 +7,11 @@ define('DB_HOST', 'localhost');
 define('DB_NAME', 'triunfo_total_db');
 define('DB_USER', 'app_triunfototal');
 define('DB_PASS', 'cambiar_esta_clave');
+
+// Correo (verificación de email). 'ninguno' = sin verificación.
+// Para enviar de verdad: 'smtp' + la contraseña de aplicación de Gmail.
+define('CORREO_MODO', 'ninguno');
+define('SMTP_HOST', 'smtp.gmail.com');
+define('SMTP_PUERTO', '587');
+define('SMTP_USUARIO', 'bytecraftsoftware.2026@gmail.com');
+define('SMTP_CLAVE', '');

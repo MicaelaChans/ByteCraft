@@ -97,6 +97,15 @@ Esta guía es para que **entiendas y puedas explicar** cada parte del proyecto. 
 **¿Cómo se protegen de la fuerza bruta?**
 > En la aplicación, después de 5 fallos por cuenta o 20 por IP en 15 minutos, se responde 429. En el servidor, **fail2ban** lee los logs de Apache y de SSH y banea la IP en el firewall. Y el mensaje de error no dice si el email existe.
 
+**¿Cómo saben que el email de un usuario es real?**
+> En dos pasos. Primero, el backend consulta el DNS y verifica que el dominio tenga **registro MX**, o sea, que reciba correo: así se frena `x@dominioinventado.com`. Pero eso no alcanza, porque `x@lala.com` tiene MX y la casilla igual puede no existir. Por eso, segundo, mandamos un **email con un link** que tiene un token aleatorio de 64 caracteres. Hasta que no lo tocás, no podés iniciar sesión. En la base guardamos solo el **hash SHA-256** del token, vence a las 24 h y se borra al usarse. El envío lo hace un cliente **SMTP** que programamos nosotros, con cifrado **STARTTLS**, usando el Gmail del proyecto con una contraseña de aplicación.
+
+**¿Y si el mail no llega o el servidor no tiene internet?**
+> El administrador puede verificar la cuenta a mano desde el panel. Y si no hay correo configurado (`CORREO_MODO=ninguno`), la verificación se desactiva sola para que el sistema siga funcionando.
+
+**¿Por qué no hicieron login con Google?**
+> Lo evaluamos y lo descartamos: la letra excluye la integración con redes sociales, depende de un servicio externo y de tener un dominio propio (Google no acepta direcciones IP). Priorizamos un login propio seguro.
+
 **¿Y XSS y CSRF?**
 > - **XSS**: React escapa todo lo que muestra, hay una cabecera CSP que solo permite scripts propios y la cookie de sesión es `httpOnly` (JavaScript no la puede leer).
 > - **CSRF**: la cookie es `SameSite=Strict` y la API solo acepta JSON, y un formulario de otro sitio no puede mandar JSON. Además controlamos el encabezado `Origin`.
