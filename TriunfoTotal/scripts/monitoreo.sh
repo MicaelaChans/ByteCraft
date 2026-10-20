@@ -50,7 +50,7 @@ while read -r uso punto; do
   uso=${uso%\%}
   mostrar "Disco $punto: ${uso}%"
   [ "$uso" -ge "$UMBRAL_DISCO" ] && alerta "Disco $punto al ${uso}% (umbral ${UMBRAL_DISCO}%)"
-done < <(df -P -x tmpfs -x devtmpfs -x overlay -x squashfs | awk 'NR>1 {print $5, $6}')
+done < <(df -P -x tmpfs -x devtmpfs -x overlay -x squashfs -x efivarfs | awk 'NR>1 {print $5, $6}')
 
 # ---------- Servicios del sistema ----------
 [ $MODO_CRON -eq 0 ] && titulo "Servicios"

@@ -1,0 +1,11 @@
+# Los scripts y archivos que se ejecutan DENTRO de los contenedores Linux
+# tienen que tener saltos de línea de Linux (LF), aunque se clone en Windows.
+# Sin esto, Git en Windows los convierte a CRLF y Docker falla con
+# errores como "/bin/sh^M: bad interpreter".
+*.sh        text eol=lf
+*.sql       text eol=lf
+*.conf      text eol=lf
+*.ini       text eol=lf
+Dockerfile  text eol=lf
+*.yml       text eol=lf
+.env*       text eol=lf

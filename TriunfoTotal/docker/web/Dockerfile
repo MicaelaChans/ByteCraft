@@ -26,7 +26,10 @@ RUN docker-php-ext-install pdo_mysql \
  && apt-get install -y --no-install-recommends openssl \
  && rm -rf /var/lib/apt/lists/* \
  # No revelar versión de Apache/SO en cabeceras ni páginas de error
- && sed -ri 's/^ServerTokens .*/ServerTokens Prod/; s/^ServerSignature .*/ServerSignature Off/' /etc/apache2/conf-available/security.conf
+ && sed -ri 's/^ServerTokens .*/ServerTokens Prod/; s/^ServerSignature .*/ServerSignature Off/' /etc/apache2/conf-available/security.conf \
+ # Nombre global del servidor (evita el aviso AH00558 al arrancar)
+ && echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf \
+ && a2enconf servername
 
 COPY docker/web/php.ini             /usr/local/etc/php/conf.d/zz-triunfo.ini
 COPY docker/web/apache-triunfo.conf /etc/apache2/sites-available/000-default.conf
