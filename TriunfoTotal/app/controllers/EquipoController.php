@@ -3,6 +3,7 @@
 //
 // Módulo de gestión de participantes y equipos.
 // El que crea el equipo queda como CAPITÁN y es quien lo administra.
+// Para sumar gente, el capitán INVITA y la persona acepta o rechaza.
 
 class EquipoController extends Controlador {
 
@@ -17,10 +18,16 @@ class EquipoController extends Controlador {
         $this->ok((new Equipo())->buscarPorNombre($q));
     }
 
-    /** GET /equipos/mios */
+    /** GET /equipos/mios  (al capitán también le muestra las invitaciones que mandó) */
     public function mios(): void {
         $yo = Sesion::exigirLogin();
-        $this->ok((new Equipo())->deUsuario((int)$yo['id_usuario']));
+        $invitaciones = new Invitacion();
+        $equipos = (new Equipo())->deUsuario((int)$yo['id_usuario']);
+        foreach ($equipos as &$e) {
+            $e['invitaciones_pendientes'] = $e['rol_en_equipo'] === 'Capitan'
+                ? $invitaciones->pendientesDeEquipo((int)$e['id_equipo']) : [];
+        }
+        $this->ok($equipos);
     }
 
     /** GET /equipos/{id} */
@@ -65,8 +72,9 @@ class EquipoController extends Controlador {
         $this->ok(['mensaje' => 'Equipo eliminado.']);
     }
 
-    /** POST /equipos/{id}/miembros  body: { usuario: email o alias } */
-    public function agregarMiembro(int $id): void {
+    /** POST /equipos/{id}/invitaciones  body: { usuario: email o alias } */
+    public function invitar(int $id): void {
+        $yo = Sesion::exigirLogin();
         $equipo = $this->exigirCapitan($id);
         if ($equipo['es_individual']) {
             throw new HttpError(409, 'Un participante individual no puede tener más miembros.');
@@ -80,14 +88,67 @@ class EquipoController extends Controlador {
         if (!$usuario || $usuario['estado'] !== 'Activo') {
             throw new HttpError(404, 'No encontramos un usuario activo con ese email o alias.');
         }
-        $equipos = new Equipo();
-        if ($equipos->esMiembro($id, (int)$usuario['id_usuario'])) {
+        $idInvitado = (int)$usuario['id_usuario'];
+        if ((new Equipo())->esMiembro($id, $idInvitado)) {
             throw new HttpError(409, 'Esa persona ya es parte del equipo.');
         }
-        $equipos->agregarMiembro($id, (int)$usuario['id_usuario']);
-        (new Notificacion())->crear((int)$usuario['id_usuario'], 'Sistema',
-            "Te agregaron al equipo \"{$equipo['nombre']}\".", 'equipo', $id);
-        $this->ok($equipos->buscar($id), 201);
+        $invitaciones = new Invitacion();
+        $previa = $invitaciones->buscar($id, $idInvitado);
+        if ($previa && $previa['estado'] === 'Pendiente') {
+            throw new HttpError(409, 'Ya le mandaste una invitación: está esperando que responda.');
+        }
+
+        $invitaciones->crear($id, $idInvitado, (int)$yo['id_usuario']);
+        (new Notificacion())->crear($idInvitado, 'Invitacion_Equipo',
+            "{$yo['nombre']} te invitó a unirte al equipo \"{$equipo['nombre']}\".", 'equipo', $id);
+        $this->ok(['mensaje' => "Invitación enviada a {$usuario['nombre']}. Cuando acepte, va a aparecer en el equipo."], 201);
+    }
+
+    /** DELETE /equipos/{id}/invitaciones/{idUsuario}  (el capitán cancela una invitación) */
+    public function cancelarInvitacion(int $id, int $idUsuario): void {
+        $this->exigirCapitan($id);
+        $invitaciones = new Invitacion();
+        $inv = $invitaciones->buscar($id, $idUsuario);
+        if (!$inv || $inv['estado'] !== 'Pendiente') {
+            throw new HttpError(404, 'No hay una invitación pendiente para esa persona.');
+        }
+        $invitaciones->cambiarEstado($id, $idUsuario, 'Cancelada');
+        $this->ok(['mensaje' => 'Invitación cancelada.']);
+    }
+
+    /** GET /invitaciones  -> invitaciones pendientes que recibí */
+    public function invitacionesRecibidas(): void {
+        $yo = Sesion::exigirLogin();
+        $this->ok((new Invitacion())->recibidas((int)$yo['id_usuario']));
+    }
+
+    /** PUT /invitaciones/{idEquipo}   body: { aceptar: true|false } */
+    public function responderInvitacion(int $idEquipo): void {
+        $yo = Sesion::exigirLogin();
+        $idYo = (int)$yo['id_usuario'];
+        $aceptar = filter_var($this->cuerpo()['aceptar'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+        $invitaciones = new Invitacion();
+        $inv = $invitaciones->buscar($idEquipo, $idYo);   // solo la propia: nadie responde por otro
+        if (!$inv || $inv['estado'] !== 'Pendiente') {
+            throw new HttpError(404, 'No tenés una invitación pendiente de ese equipo.');
+        }
+        $equipos = new Equipo();
+        $equipo = $equipos->buscar($idEquipo);
+
+        $equipos->transaccion(function () use ($aceptar, $equipos, $invitaciones, $idEquipo, $idYo) {
+            $invitaciones->cambiarEstado($idEquipo, $idYo, $aceptar ? 'Aceptada' : 'Rechazada');
+            if ($aceptar && !$equipos->esMiembro($idEquipo, $idYo)) {
+                $equipos->agregarMiembro($idEquipo, $idYo);
+            }
+        });
+
+        if ($inv['id_invitador']) {
+            (new Notificacion())->crear((int)$inv['id_invitador'], 'Sistema',
+                "{$yo['nombre']} " . ($aceptar ? 'aceptó' : 'rechazó') . " la invitación al equipo \"{$equipo['nombre']}\".",
+                'equipo', $idEquipo);
+        }
+        $this->ok(['mensaje' => $aceptar ? "¡Ya sos parte de \"{$equipo['nombre']}\"!" : 'Invitación rechazada.']);
     }
 
     /** DELETE /equipos/{id}/miembros/{idUsuario}  (el capitán saca a alguien, o uno se va) */

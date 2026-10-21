@@ -218,6 +218,23 @@ DROP TRIGGER IF EXISTS trg_eqmiembros_ad$$
 CREATE TRIGGER trg_eqmiembros_ad AFTER DELETE ON equipo_miembros FOR EACH ROW
   CALL sp_auditar('equipo_miembros', 'DELETE', CONCAT(OLD.id_equipo, ':', OLD.id_usuario), NULL)$$
 
+DROP TRIGGER IF EXISTS trg_seguidores_ai$$
+CREATE TRIGGER trg_seguidores_ai AFTER INSERT ON seguidores FOR EACH ROW
+  CALL sp_auditar('seguidores', 'INSERT', CONCAT(NEW.id_seguidor, '->', NEW.id_seguido), NULL)$$
+
+DROP TRIGGER IF EXISTS trg_seguidores_ad$$
+CREATE TRIGGER trg_seguidores_ad AFTER DELETE ON seguidores FOR EACH ROW
+  CALL sp_auditar('seguidores', 'DELETE', CONCAT(OLD.id_seguidor, '->', OLD.id_seguido), NULL)$$
+
+DROP TRIGGER IF EXISTS trg_invitaciones_ai$$
+CREATE TRIGGER trg_invitaciones_ai AFTER INSERT ON equipo_invitaciones FOR EACH ROW
+  CALL sp_auditar('equipo_invitaciones', 'INSERT', CONCAT(NEW.id_equipo, ':', NEW.id_usuario), NEW.estado)$$
+
+DROP TRIGGER IF EXISTS trg_invitaciones_au$$
+CREATE TRIGGER trg_invitaciones_au AFTER UPDATE ON equipo_invitaciones FOR EACH ROW
+  CALL sp_auditar('equipo_invitaciones', 'UPDATE', CONCAT(NEW.id_equipo, ':', NEW.id_usuario),
+                  CONCAT(OLD.estado, ' -> ', NEW.estado))$$
+
 DROP TRIGGER IF EXISTS trg_tequipos_ai$$
 CREATE TRIGGER trg_tequipos_ai AFTER INSERT ON torneo_equipos FOR EACH ROW
   CALL sp_auditar('torneo_equipos', 'INSERT', CONCAT(NEW.id_torneo, ':', NEW.id_equipo), NEW.estado_inscripcion)$$

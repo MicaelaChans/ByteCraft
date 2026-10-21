@@ -84,6 +84,11 @@ function Navbar() {
               </li>
             )}
             <li className="tt-nav-item">
+              <Link className="tt-nav-link" to="/personas" onClick={closeAll}>
+                Personas
+              </Link>
+            </li>
+            <li className="tt-nav-item">
               <Link className="tt-nav-link" to="/contactUs" onClick={closeAll}>
                 Contacto
               </Link>

@@ -71,7 +71,8 @@ Se usa un control de acceso **basado en roles dinámicos**, más la verificació
 
 - **Todo** se valida en el **backend**, en cada petición. Ocultar un botón en React es solo comodidad visual.
 - Los roles **se leen de la base en cada petición**, no se guardan en la sesión. Si el admin banea a alguien o le saca un rol, el cambio aplica al instante y su sesión se corta.
-- **Protección IDOR:** cada acción sobre un recurso verifica que el usuario sea su dueño. Por ejemplo, `TorneoController::cargarParaGestionar()` controla que sea el organizador de *ese* torneo, y `Notificacion::marcarLeida()` agrega `AND id_usuario = ?`.
+- **Protección IDOR:** cada acción sobre un recurso verifica que el usuario sea su dueño. Por ejemplo, `TorneoController::cargarParaGestionar()` controla que sea el organizador de *ese* torneo, `Notificacion::marcarLeida()` agrega `AND id_usuario = ?`, y una invitación a un equipo solo la puede responder la persona invitada (se busca por el usuario de la sesión, nunca por un id que venga en la petición).
+- **Consentimiento:** nadie queda en un equipo sin aceptar la invitación.
 - Reglas para no quedarse sin control: el admin no puede banearse a sí mismo y no se puede quitar el último administrador.
 
 ## 5. Política de contraseñas

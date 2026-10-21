@@ -41,11 +41,19 @@ En el menú de usuario → **Mi perfil**:
 Menú → **Mis equipos**:
 
 1. Escribí el nombre del equipo y tocá **Crear equipo**. Quedás como **capitán** ⭐.
-2. Agregá integrantes con su **email o alias** (tienen que estar registrados).
-3. Como capitán podés renombrar, quitar miembros o eliminar el equipo (solo si todavía no jugó partidos).
-4. Si no sos capitán, podés **salir** del equipo.
+2. Invitá integrantes con su **email o alias** (tienen que estar registrados). Les llega una notificación y, **cuando aceptan**, pasan a ser parte del equipo. Mientras tanto aparecen como "Esperando respuesta" y podés **cancelar** la invitación.
+3. Si te invitan a vos, en **Mis equipos → Invitaciones recibidas** elegís **Aceptar** o **Rechazar**. Nadie puede sumarte a un equipo sin tu consentimiento.
+4. Como capitán podés renombrar, quitar miembros o eliminar el equipo (solo si todavía no jugó partidos).
+5. Si no sos capitán, podés **salir** del equipo.
 
 > En torneos **individuales** (ajedrez, 1 vs 1) no hace falta equipo: te inscribís directamente.
+
+## 4b. Personas y seguidores
+
+- En el menú **Personas** buscás organizadores y jugadores por nombre o alias. También llegás al perfil tocando el nombre del **organizador** en la página de un torneo.
+- El **perfil público** muestra nombre, alias, foto, cuántos torneos organizó y finalizó, sus participaciones, sus seguidores y los torneos que organiza. **Nunca** muestra el email ni el teléfono.
+- Con **Seguir**, cada vez que esa persona **publique un torneo** te llega un aviso a la campanita: *"Carlos publicó un torneo nuevo: … ¡Inscribite!"*. Tocás el aviso y vas directo al torneo. Si es un torneo formal, el aviso llega cuando el administrador lo aprueba.
+- En **Mi perfil → Personas que sigo** ves a quiénes seguís, y con **Ver mi perfil público** ves cómo te ven los demás.
 
 ## 5. Inscribirse en un torneo
 

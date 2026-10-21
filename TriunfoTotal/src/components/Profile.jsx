@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProfile } from "../redux/userSlice";
 import { maskEmail, maskPhone } from "../utils/maskData";
@@ -28,12 +28,14 @@ function Profile() {
   const [errores, setErrores] = useState({});
   const [aviso, setAviso] = useState(null);
   const [misTorneos, setMisTorneos] = useState({ organizados: [], participando: [] });
+  const [seguidos, setSeguidos] = useState([]);
   const [pass, setPass] = useState({ actual: "", nueva: "", repetir: "" });
   const [avisoPass, setAvisoPass] = useState(null);
 
   // Historial: torneos que organizo y en los que participo (datos reales)
   useEffect(() => {
     if (user) api.get("perfil/torneos").then(setMisTorneos).catch(() => {});
+    if (user) api.get("perfil/seguidos").then(setSeguidos).catch(() => {});
   }, [user]);
 
   // Si no hay usuario logueado, redirige al login
@@ -387,6 +389,39 @@ function Profile() {
       </div>
 
         
+      <div className="profile-container mt-4">
+        <div className="profile-card px-3 px-md-4 py-4">
+          <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <h2 className="fs-4 mb-0">Personas que sigo ({seguidos.length})</h2>
+            <div className="d-flex gap-2">
+              <Link to={`/usuarios/${user.id_usuario}`} className="btn btn-sm btn-outline-secondary">
+                <i className="bi bi-person-badge me-1"></i>Ver mi perfil público
+              </Link>
+              <Link to="/personas" className="btn btn-sm miColor">
+                <i className="bi bi-search me-1"></i>Buscar personas
+              </Link>
+            </div>
+          </div>
+          {seguidos.length === 0 ? (
+            <p className="text-body-secondary mb-0">
+              Todavía no seguís a nadie. Seguí organizadores para enterarte cuando publiquen torneos.
+            </p>
+          ) : (
+            <div className="tt-grid">
+              {seguidos.map((p) => (
+                <Link key={p.id_usuario} to={`/usuarios/${p.id_usuario}`} className="tt-persona">
+                  {p.avatar ? <img src={p.avatar} alt="" /> : <i className="bi bi-person-circle" aria-hidden="true"></i>}
+                  <span>
+                    <strong>{p.nombre} {p.apellido}</strong>
+                    {p.alias && <small className="d-block text-body-secondary">@{p.alias}</small>}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
       <div className="profile-container mt-5">
         <div className="profile-card">
           <div className="profile-banner2"></div>

@@ -187,7 +187,7 @@ function TournamentDetail() {
               <h5>Datos del torneo</h5>
               <div className="profile-info-row">
                 <span className="profile-info-label">Organizador</span>
-                <span>{torneo.organizador}</span>
+                <Link to={`/usuarios/${torneo.id_organizador}`}>{torneo.organizador}</Link>
               </div>
               <div className="profile-info-row">
                 <span className="profile-info-label">Inicio</span>

@@ -33,7 +33,7 @@ if [ -z "$APP_PASS" ] || [ -z "${BACKUP_DB_PASS:-}" ]; then
 fi
 
 # Tablas donde la app puede leer y escribir libremente
-TABLAS_APP="usuarios roles usuario_roles disciplinas modulos torneos equipos equipo_miembros torneo_equipos \
+TABLAS_APP="usuarios roles usuario_roles disciplinas modulos torneos equipos equipo_miembros equipo_invitaciones torneo_equipos \
 rondas partidos posiciones seguidores notificaciones intentos_login"
 
 SQL="

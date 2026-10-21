@@ -27,7 +27,7 @@ USE triunfo_total_db;
 
 DROP VIEW IF EXISTS v_torneos_publicos;
 DROP VIEW IF EXISTS v_posiciones;
-DROP TABLE IF EXISTS intentos_login, auditoria, notificaciones, seguidores,
+DROP TABLE IF EXISTS equipo_invitaciones, intentos_login, auditoria, notificaciones, seguidores,
   posiciones, partidos, rondas, torneo_equipos, equipo_miembros, equipos,
   torneos, modulos, disciplinas, usuario_roles, roles, usuarios;
 
@@ -147,6 +147,22 @@ CREATE TABLE equipo_miembros (
   CONSTRAINT fk_eqmiembros_usuario FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Invitaciones a equipos: el capitán invita y la persona acepta o rechaza
+-- (nadie queda en un equipo sin haber dado su consentimiento).
+CREATE TABLE equipo_invitaciones (
+  id_equipo      INT NOT NULL,
+  id_usuario     INT NOT NULL COMMENT 'el invitado',
+  id_invitador   INT DEFAULT NULL COMMENT 'el capitán que invitó',
+  estado         ENUM('Pendiente','Aceptada','Rechazada','Cancelada') NOT NULL DEFAULT 'Pendiente',
+  creado_en      DATETIME DEFAULT CURRENT_TIMESTAMP,
+  respondida_en  DATETIME DEFAULT NULL,
+  PRIMARY KEY (id_equipo, id_usuario),
+  KEY idx_invitaciones_usuario_estado (id_usuario, estado),
+  CONSTRAINT fk_invitaciones_equipo    FOREIGN KEY (id_equipo)    REFERENCES equipos (id_equipo)   ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_invitaciones_usuario   FOREIGN KEY (id_usuario)   REFERENCES usuarios (id_usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_invitaciones_invitador FOREIGN KEY (id_invitador) REFERENCES usuarios (id_usuario) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE torneo_equipos (
   id_torneo          INT NOT NULL,
   id_equipo          INT NOT NULL,
@@ -225,7 +241,7 @@ CREATE TABLE seguidores (
 CREATE TABLE notificaciones (
   id_notificacion INT AUTO_INCREMENT PRIMARY KEY,
   id_usuario      INT NOT NULL,
-  tipo            ENUM('Solicitud_Inscripcion','Inscripcion_Aceptada','Inscripcion_Rechazada','Torneo_Aprobado','Torneo_Rechazado','Nuevo_Seguidor','Partido_Programado','Resultado_Actualizado','Sistema') NOT NULL,
+  tipo            ENUM('Solicitud_Inscripcion','Inscripcion_Aceptada','Inscripcion_Rechazada','Torneo_Aprobado','Torneo_Rechazado','Nuevo_Seguidor','Partido_Programado','Resultado_Actualizado','Invitacion_Equipo','Nuevo_Torneo_Seguido','Sistema') NOT NULL,
   referencia_tipo VARCHAR(30) DEFAULT NULL,
   referencia_id   INT DEFAULT NULL,
   mensaje         VARCHAR(255) NOT NULL,

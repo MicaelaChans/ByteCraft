@@ -322,3 +322,33 @@ html { background-color: var(--bs-body-bg); }
 .tt-accion-login         { background: #6f42c1; }
 .tt-accion-logout        { background: #6c757d; }
 .tt-accion-login_fallido { background: #fd7e14; }
+
+/* ---------- Perfil público y personas ---------- */
+.tt-perfil-publico {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  border-radius: var(--tt-radio);
+  border: 1px solid var(--bs-border-color);
+  background: var(--bs-body-bg);
+}
+.tt-perfil-avatar { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; }
+.tt-perfil-avatar-icono { font-size: 88px; line-height: 1; color: var(--tt-celeste); }
+@media (min-width: 768px) { .tt-stats-5 { grid-template-columns: repeat(5, 1fr); } }
+
+.tt-persona {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--tt-radio);
+  border: 1px solid var(--bs-border-color);
+  background: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  text-decoration: none;
+}
+.tt-persona:hover { border-color: var(--tt-celeste); }
+.tt-persona img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+.tt-persona i { font-size: 44px; line-height: 1; color: var(--tt-celeste); }

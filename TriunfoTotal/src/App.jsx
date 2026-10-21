@@ -21,6 +21,8 @@ import MisEquipos from "./components/MisEquipos";
 import AdminPanel from "./components/AdminPanel";
 import NotFound from "./components/NotFound";
 import VerificarEmail from "./components/VerificarEmail";
+import PerfilPublico from "./components/PerfilPublico";
+import BuscarPersonas from "./components/BuscarPersonas";
 import api from "./services/api";
 import { login, logout } from "./redux/userSlice";
 
@@ -57,6 +59,8 @@ function App() {
         <Route path="/policies" element={<Policies />} />
         <Route path="/termsOfService" element={<TermsOfService />} />
         <Route path="/bytecraft" element={<Bytecraft />} />
+        <Route path="/usuarios/:id" element={<PerfilPublico />} />
+        <Route path="/personas" element={<BuscarPersonas />} />
 
         {/* Requieren sesión */}
         <Route path="/profile" element={<RutaProtegida><Profile /></RutaProtegida>} />

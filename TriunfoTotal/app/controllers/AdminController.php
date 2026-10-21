@@ -46,6 +46,9 @@ class AdminController extends Controlador {
         }
 
         $torneos->resolverAprobacion($id, $aprobado, (int)$yo['id_usuario'], $motivo ?: null);
+        if ($aprobado && $torneo['estado_aprobacion'] !== 'Aprobado') {
+            TorneoController::avisarSeguidores($torneo); // recién ahora es público
+        }
         (new Notificacion())->crear((int)$torneo['id_organizador'],
             $aprobado ? 'Torneo_Aprobado' : 'Torneo_Rechazado',
             $aprobado ? "Tu torneo \"{$torneo['nombre']}\" fue aprobado. ¡Ya se pueden inscribir!"

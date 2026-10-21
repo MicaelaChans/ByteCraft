@@ -88,7 +88,7 @@ TriunfoTotal/
 │   ├── redux/               Estado global (usuario logueado)
 │   ├── utils/               Formato de fechas/estados, enmascarado de datos sensibles
 │   └── css/                 styles.css (maquetado original) + app.css (pantallas nuevas)
-├── tests/prueba_api.sh      61 pruebas funcionales automáticas de la API
+├── tests/prueba_api.sh      80 pruebas funcionales automáticas de la API
 └── docs/                    Esta documentación
 ```
 
@@ -129,12 +129,14 @@ erDiagram
 | `modulos` | Módulo de competencia | Liga, Eliminación, Suizo. El admin puede habilitarlos o deshabilitarlos. |
 | `torneos` | Torneo + Configuración | Formato, modalidad, tipo (Formal/Informal), puntos, ida y vuelta, fechas, estado, aprobación, campeón. |
 | `equipos`, `equipo_miembros` | Equipo / Participante | Un participante individual es un equipo con `es_individual = 1` y un único miembro. |
+| `equipo_invitaciones` | Invitación | El capitán invita y la persona acepta o rechaza (Pendiente / Aceptada / Rechazada / Cancelada). Solo al aceptar pasa a `equipo_miembros`. |
 | `torneo_equipos` | Inscripción | Pendiente / Aceptada / Rechazada. |
 | `rondas` | Ronda | Jornada de liga, fase de eliminación o ronda suiza. Abierta/Cerrada. |
 | `partidos` | Enfrentamiento + Resultado | `id_equipo_visita = NULL` indica un BYE (pasa directo). |
 | `posiciones` | Tabla de posiciones | La calcula la base (procedimiento), nunca se escribe a mano. |
 | `auditoria` | Registro de actividad | Todo INSERT/UPDATE/DELETE + logins, con usuario, IP y fecha. |
-| `notificaciones`, `seguidores` | — | Avisos internos y red social básica. |
+| `notificaciones` | — | Avisos internos (campanita). |
+| `seguidores` | — | Quién sigue a quién. Cuando un organizador publica un torneo, se avisa a todos sus seguidores con un solo `INSERT … SELECT`. |
 | `intentos_login` | — | Protección contra fuerza bruta. |
 
 **Normalización:** el modelo está en 3FN. Por ejemplo, el deporte pasó de ser texto libre (`torneos.deporte`) a una tabla `disciplinas`, y los roles salieron de la columna `es_admin` a la relación `usuario_roles`.
@@ -241,7 +243,11 @@ Todas las respuestas son JSON con el formato `{ ok, data }` o `{ ok: false, erro
 | POST | `/api/torneos/{id}/iniciar` | Genera los enfrentamientos | Organizador |
 | PUT | `/api/partidos/{id}` | Cargar resultado o programar fecha | Organizador |
 | POST | `/api/rondas/{id}/cerrar` | Cierra la ronda y avanza el torneo | Organizador |
-| GET/POST/PUT/DELETE | `/api/equipos…` | Equipos y miembros | Usuario / Capitán |
+| GET/POST/PUT/DELETE | `/api/equipos…` | Equipos, miembros e invitaciones enviadas | Usuario / Capitán |
+| GET/PUT | `/api/invitaciones[/{equipo}]` | Invitaciones recibidas: ver, aceptar o rechazar | Usuario (solo las propias) |
+| GET | `/api/usuarios?q=` · `/api/usuarios/{id}` | Buscar personas · perfil público (sin email ni teléfono) | Público |
+| POST/DELETE | `/api/usuarios/{id}/seguir` | Seguir / dejar de seguir | Usuario |
+| GET | `/api/perfil/seguidos` | A quiénes sigo | Usuario |
 | GET/PUT | `/api/notificaciones…` | Notificaciones | Usuario |
 | GET/PUT | `/api/admin/…` | Estadísticas, aprobación, usuarios, módulos, auditoría (+CSV) | Admin |
 
@@ -329,7 +335,7 @@ BASE=https://localhost/api CORREO_CARPETA=$PWD/logs/apache/correos ./tests/prueb
 
 El segundo script prueba el flujo de verificación (requiere `CORREO_MODO=archivo`): 13 pruebas de registro, link, reutilización del token, reenvío limitado y verificación manual del admin.
 
-El primero ejecuta 61 pruebas funcionales de punta a punta (con `CORREO_MODO=ninguno`):
+El primero ejecuta 80 pruebas funcionales de punta a punta (con `CORREO_MODO=ninguno`):
 
 - registro, validaciones y permisos;
 - aprobación de torneos formales;

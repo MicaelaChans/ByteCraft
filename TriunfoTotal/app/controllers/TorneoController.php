@@ -74,6 +74,8 @@ class TorneoController extends Controlador {
         if ($torneo['estado_aprobacion'] === 'Pendiente') {
             (new Notificacion())->aAdmins("Nuevo torneo formal para aprobar: \"{$torneo['nombre']}\".",
                 $id, (int)$yo['id_usuario']);
+        } else {
+            self::avisarSeguidores($torneo); // informal: ya es público
         }
 
         $this->ok([
@@ -104,6 +106,10 @@ class TorneoController extends Controlador {
         if ($torneo['estado_aprobacion'] !== 'Pendiente' && $actualizado['estado_aprobacion'] === 'Pendiente') {
             (new Notificacion())->aAdmins("Torneo formal para revisar: \"{$actualizado['nombre']}\".",
                 $id, Sesion::idUsuario());
+        }
+        // Se hizo público recién ahora (ej: pasó de formal pendiente a informal)
+        if ($torneo['estado_aprobacion'] !== 'Aprobado' && $actualizado['estado_aprobacion'] === 'Aprobado') {
+            self::avisarSeguidores($actualizado);
         }
         $this->ok($actualizado);
     }
@@ -142,6 +148,13 @@ class TorneoController extends Controlador {
             throw new HttpError(403, 'Solo el organizador del torneo o un administrador puede hacer esto.');
         }
         return $torneo;
+    }
+
+    /** Cuando un torneo se hace público, les llega un aviso a los seguidores del organizador. */
+    public static function avisarSeguidores(array $torneo): void {
+        (new Notificacion())->aSeguidores((int)$torneo['id_organizador'],
+            "{$torneo['organizador']} publicó un torneo nuevo: \"{$torneo['nombre']}\". ¡Inscribite!",
+            (int)$torneo['id_torneo']);
     }
 
     public static function puedeGestionar(array $torneo): bool {

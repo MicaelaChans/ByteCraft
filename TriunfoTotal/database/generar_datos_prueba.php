@@ -110,6 +110,31 @@ for ($i = 0; $i < 60; $i++) {
     }
     $idsEquipos[] = $idE;
 }
+// Invitaciones a equipos (55): algunas pendientes, otras aceptadas o rechazadas
+$invitaciones = new Invitacion();
+$creadas = 0;
+while ($creadas < 55) {
+    $idE = elegir($idsEquipos);
+    $invitado = elegir($activos);
+    if ($equipos->esMiembro($idE, $invitado) || $invitaciones->buscar($idE, $invitado)) {
+        continue;
+    }
+    $capitan = (int)$db->query("SELECT id_usuario FROM equipo_miembros WHERE id_equipo = $idE AND rol_en_equipo = 'Capitan'")->fetchColumn();
+    como($capitan);
+    $invitaciones->crear($idE, $invitado, $capitan);
+    $estado = ['Pendiente', 'Pendiente', 'Aceptada', 'Rechazada'][$creadas % 4];
+    if ($estado === 'Pendiente') {
+        $notif->crear($invitado, 'Invitacion_Equipo', 'Te invitaron a unirte a un equipo.', 'equipo', $idE);
+    } else {
+        como($invitado);
+        $invitaciones->cambiarEstado($idE, $invitado, $estado);
+        if ($estado === 'Aceptada') {
+            $equipos->agregarMiembro($idE, $invitado);
+        }
+    }
+    $creadas++;
+}
+
 $idsIndividuales = [];
 foreach (array_slice($activos, 0, 40) as $u) {
     $idsIndividuales[] = $equipos->individualDe($u);
@@ -238,6 +263,11 @@ echo "Torneos: $creados\n";
 // ---------------------------------------------------------------------
 // 4) SEGUIDORES (60) y algunos intentos de login fallidos (para el panel)
 // ---------------------------------------------------------------------
+// Carlos (organizador de varios torneos) tiene 15 seguidores fijos: sirve para la demo
+foreach (array_slice($activos, 1, 15) as $fan) {
+    como($fan);
+    $db->prepare('INSERT IGNORE INTO seguidores (id_seguidor, id_seguido) VALUES (?, ?)')->execute([$fan, $idCarlos]);
+}
 $seg = 0;
 while ($seg < 60) {
     $a = elegir($activos); $b = elegir($activos);
@@ -258,7 +288,7 @@ for ($i = 0; $i < 55; $i++) {
 }
 
 // Resumen
-foreach (['usuarios', 'usuario_roles', 'equipos', 'equipo_miembros', 'torneos', 'torneo_equipos', 'rondas',
+foreach (['usuarios', 'usuario_roles', 'equipos', 'equipo_miembros', 'equipo_invitaciones', 'torneos', 'torneo_equipos', 'rondas',
           'partidos', 'posiciones', 'notificaciones', 'seguidores', 'intentos_login', 'auditoria'] as $tabla) {
     printf("  %-16s %5d\n", $tabla, $db->query("SELECT COUNT(*) FROM $tabla")->fetchColumn());
 }

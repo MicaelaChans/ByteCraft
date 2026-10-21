@@ -32,6 +32,19 @@ class Notificacion extends Modelo {
         }
     }
 
+    /**
+     * Avisa a TODOS los seguidores de un organizador que publicó un torneo.
+     * Se hace con un solo INSERT ... SELECT (no un INSERT por seguidor).
+     */
+    public function aSeguidores(int $idOrganizador, string $mensaje, int $idTorneo): void {
+        $this->ejecutar(
+            "INSERT INTO notificaciones (id_usuario, tipo, mensaje, referencia_tipo, referencia_id)
+             SELECT s.id_seguidor, 'Nuevo_Torneo_Seguido', ?, 'torneo', ?
+               FROM seguidores s JOIN usuarios u ON u.id_usuario = s.id_seguidor
+              WHERE s.id_seguido = ? AND u.estado = 'Activo'",
+            [mb_substr($mensaje, 0, 255), $idTorneo, $idOrganizador]);
+    }
+
     public function deUsuario(int $idUsuario, int $limite = 30): array {
         return $this->todos(
             "SELECT * FROM notificaciones WHERE id_usuario = ? ORDER BY creado_en DESC, id_notificacion DESC LIMIT $limite",

@@ -100,6 +100,24 @@ class Usuario extends Modelo {
         return !$hayInternet;
     }
 
+    /** Búsqueda pública de personas (sin datos sensibles). */
+    public function buscarPublico(string $texto): array {
+        $like = '%' . $texto . '%';
+        return $this->todos(
+            "SELECT id_usuario, nombre, apellido, alias, avatar FROM usuarios
+              WHERE estado = 'Activo' AND (nombre LIKE ? OR apellido LIKE ? OR alias LIKE ?
+                                           OR CONCAT(nombre, ' ', COALESCE(apellido, '')) LIKE ?)
+              ORDER BY nombre LIMIT 20", [$like, $like, $like, $like]);
+    }
+
+    /** En cuántos torneos participó (con inscripción aceptada). */
+    public function cantidadParticipaciones(int $idUsuario): int {
+        return (int)$this->valor(
+            "SELECT COUNT(DISTINCT te.id_torneo) FROM torneo_equipos te
+               JOIN equipo_miembros m ON m.id_equipo = te.id_equipo
+              WHERE m.id_usuario = ? AND te.estado_inscripcion = 'Aceptada'", [$idUsuario]);
+    }
+
     /** Asigna un rol (si ya lo tenía, no lo duplica). */
     public function asignarRol(int $idUsuario, int $idRol): void {
         $this->ejecutar('INSERT IGNORE INTO usuario_roles (id_usuario, id_rol) VALUES (?, ?)', [$idUsuario, $idRol]);

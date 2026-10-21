@@ -20,6 +20,8 @@ Instituto Tecnológico Superior "Arias - Balparda" — 2026. Grupo **ByteCraft**
 - **Consulta pública** de torneos, fixture, resultados y posiciones, sin necesidad de cuenta.
 - **Panel de administración**: aprobación de torneos, usuarios (baneo y roles), módulos, estadísticas y **auditoría** completa (con exportación CSV).
 - **Notificaciones** internas.
+- **Perfiles públicos y seguidores**: seguí a un organizador y te avisamos cuando publique un torneo.
+- **Invitaciones a equipos**: el capitán invita y la persona acepta o rechaza.
 - **Verificación de email**: el dominio tiene que recibir correo (MX) y la cuenta se activa con un link enviado desde el Gmail del proyecto (configurable con `CORREO_MODO` en `.env`).
 - **Seguridad**: bcrypt, sentencias preparadas, protección contra fuerza bruta, CSRF y XSS, HTTPS y auditoría inmutable (ver `docs/ciberseguridad.md`).
 
@@ -72,7 +74,7 @@ La aplicación queda en `https://localhost`. Usuarios de prueba:
 ## Pruebas
 
 ```bash
-BASE=http://localhost/api/index.php ./tests/prueba_api.sh    # 61 pruebas funcionales
+BASE=http://localhost/api/index.php ./tests/prueba_api.sh    # 80 pruebas funcionales
 ```
 
 ## Estructura

@@ -38,6 +38,7 @@ function Notificaciones() {
     if (n.referencia_tipo === "torneo" && n.referencia_id) navigate(`/tournaments/${n.referencia_id}`);
     if (n.referencia_tipo === "aprobacion") navigate("/admin?pestana=pendientes");
     if (n.referencia_tipo === "equipo") navigate("/equipos");
+    if (n.referencia_tipo === "usuario" && n.referencia_id) navigate(`/usuarios/${n.referencia_id}`);
   }
 
   async function leerTodas() {

@@ -95,9 +95,24 @@ pedir j1 GET admin/estadisticas > /dev/null;                       esperar "Usua
 pedir anon POST torneos/1/iniciar > /dev/null
 comprobar "Iniciar torneo ajeno sin sesión -> 401" '[ "$(codigo)" = 401 ]'
 
+echo "== 2b. Perfiles públicos y seguidores"
+ID_ORG=$(pedir org GET auth/sesion | jq -r .data.id_usuario)
+# notif_de <usuario> <id_torneo> -> cuántas notificaciones "torneo nuevo de alguien que sigo" tiene de ese torneo
+notif_de() { pedir "$1" GET notificaciones | jq "[.data.notificaciones[] | select(.tipo == \"Nuevo_Torneo_Seguido\" and .referencia_id == $2)] | length"; }
+pedir j2 POST "usuarios/$ID_ORG/seguir" > /dev/null;  esperar "Un jugador sigue al organizador" 200
+pedir j2 POST "usuarios/$ID_ORG/seguir" > /dev/null;  esperar "Seguir dos veces no duplica (idempotente)" 200
+pedir org POST "usuarios/$ID_ORG/seguir" > /dev/null; esperar "Nadie se puede seguir a sí mismo -> 422" 422
+pedir anon POST "usuarios/$ID_ORG/seguir" > /dev/null; esperar "Seguir sin sesión -> 401" 401
+P=$(pedir anon GET "usuarios/$ID_ORG")
+comprobar "El perfil público muestra 1 seguidor" '[ "$(echo "$P" | jq .data.estadisticas.seguidores)" = 1 ]'
+comprobar "El perfil público NO expone email ni teléfono" '[ "$(echo "$P" | jq ".data.usuario | has(\"email\") or has(\"telefono\")")" = false ]'
+pedir j2 GET "usuarios/$ID_ORG" | jq -e .data.yo_sigo > /dev/null
+comprobar "El seguidor ve el botón en 'Siguiendo'" '[ $? -eq 0 ]'
+
 echo "== 3. Torneo FORMAL: requiere aprobación del admin"
 F=$(pedir org POST torneos '{"nombre":"Copa Formal Prueba","id_disciplina":1,"formato":"Liga","tipo":"Formal","max_equipos":8}' | jq -r .data.torneo.id_torneo)
 esperar "Crear torneo formal" 201
+comprobar "Un torneo formal pendiente NO avisa a los seguidores" '[ "$(notif_de j2 $F)" = 0 ]'
 pedir org GET "torneos/$F" | jq -e '.data.torneo.estado_aprobacion=="Pendiente"' > /dev/null
 comprobar "Queda Pendiente (trigger de la base)" '[ $? -eq 0 ]'
 pedir j1 GET "torneos/$F" > /dev/null;                             esperar "Otro usuario no lo ve hasta aprobarse -> 404" 404
@@ -107,18 +122,36 @@ pedir admin PUT "admin/torneos/$F/aprobacion" '{"aprobado":false}' > /dev/null
 esperar "Rechazar sin motivo -> 422" 422
 pedir admin PUT "admin/torneos/$F/aprobacion" '{"aprobado":true}' > /dev/null
 esperar "El admin aprueba el torneo formal" 200
+comprobar "Al aprobarse, el seguidor recibe el aviso" '[ "$(notif_de j2 $F)" = 1 ]'
+comprobar "Quien no sigue al organizador no recibe nada" '[ "$(notif_de j3 $F)" = 0 ]'
 pedir j1 GET "torneos/$F" > /dev/null;                             esperar "Ahora es público" 200
 
 echo "== 4. Módulo LIGA (ida y vuelta, 4 equipos)"
 L=$(pedir org POST torneos '{"nombre":"Liga Prueba","id_disciplina":1,"formato":"Liga","max_equipos":4,"ida_y_vuelta":true}' | jq -r .data.torneo.id_torneo)
 esperar "Crear liga informal (se aprueba sola)" 201
+comprobar "Un torneo informal avisa al seguidor al instante" '[ "$(notif_de j2 $L)" = 1 ]'
+pedir j2 DELETE "usuarios/$ID_ORG/seguir" > /dev/null; esperar "Dejar de seguir" 200
 for j in j1 j2 j3 j4 j5; do
   E=$(pedir $j POST equipos "{\"nombre\":\"Equipo $j $SUF\"}" | jq -r .data.id_equipo)
   eval "EQ_$j=$E"
 done
 esperar "Crear equipos" 201
-pedir j1 POST "equipos/$EQ_j1/miembros" "{\"usuario\":\"j6.$SUF@gmail.com\"}" > /dev/null
-esperar "Capitán agrega un miembro por email" 201
+pedir j1 POST "equipos/$EQ_j1/invitaciones" "{\"usuario\":\"j6.$SUF@gmail.com\"}" > /dev/null
+esperar "El capitán invita a un jugador por email" 201
+pedir j1 POST "equipos/$EQ_j1/invitaciones" "{\"usuario\":\"j6.$SUF@gmail.com\"}" > /dev/null
+esperar "No se puede invitar dos veces a la misma persona -> 409" 409
+pedir j2 PUT "invitaciones/$EQ_j1" '{"aceptar":true}' > /dev/null
+esperar "Nadie puede aceptar una invitación que no es suya -> 404" 404
+pedir j6 GET invitaciones | jq -e "any(.data[]; .id_equipo == $EQ_j1)" > /dev/null
+comprobar "Al invitado le aparece la invitación" '[ $? -eq 0 ]'
+pedir j6 PUT "invitaciones/$EQ_j1" '{"aceptar":true}' > /dev/null
+esperar "El invitado acepta y pasa a ser miembro" 200
+pedir j1 GET equipos/mios | jq -e ".data[] | select(.id_equipo == $EQ_j1) | .miembros | length == 2" > /dev/null
+comprobar "El equipo ahora tiene 2 integrantes" '[ $? -eq 0 ]'
+pedir j2 POST "equipos/$EQ_j2/invitaciones" "{\"usuario\":\"j6.$SUF@gmail.com\"}" > /dev/null
+pedir j6 PUT "invitaciones/$EQ_j2" '{"aceptar":false}' > /dev/null
+pedir j2 GET equipos/mios | jq -e ".data[] | select(.id_equipo == $EQ_j2) | .miembros | length == 1" > /dev/null
+comprobar "Si rechaza, no entra al equipo" '[ $? -eq 0 ]'
 pedir j6 POST "torneos/$L/inscripciones" "{\"id_equipo\":$EQ_j1}" > /dev/null
 esperar "Un jugador que no es capitán no puede inscribir -> 403" 403
 for j in j1 j2 j3 j4 j5; do eval "E=\$EQ_$j"; pedir $j POST "torneos/$L/inscripciones" "{\"id_equipo\":$E}" > /dev/null; done
@@ -150,6 +183,7 @@ comprobar "Puntos = 3*G + 1*E" '[ "$(echo "$DET" | jq "all(.data.posiciones[]; .
 
 echo "== 5. Módulo ELIMINACIÓN DIRECTA (5 equipos -> llave de 8 con 3 BYE)"
 X=$(pedir org POST torneos '{"nombre":"Copa Eliminación Prueba","id_disciplina":5,"formato":"Eliminacion","max_equipos":8}' | jq -r .data.torneo.id_torneo)
+comprobar "Después de dejar de seguir ya no llegan avisos" '[ "$(notif_de j2 $X)" = 0 ]'
 for j in j1 j2 j3 j4 j5; do eval "E=\$EQ_$j"; pedir org POST "torneos/$X/inscripciones" "{\"id_equipo\":$E,\"directo\":true}" > /dev/null; done
 esperar "El organizador inscribe directo" 201
 pedir org POST "torneos/$X/iniciar" > /dev/null;                       esperar "Iniciar eliminación" 200

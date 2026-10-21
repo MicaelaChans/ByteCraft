@@ -20,6 +20,13 @@ $router->put('perfil',          [PerfilController::class, 'actualizar']);
 $router->put('perfil/password', [PerfilController::class, 'cambiarPassword']);
 $router->get('perfil/torneos',  [PerfilController::class, 'torneos']);
 
+// --- Perfiles públicos y seguidores ---------------------------------
+$router->get('usuarios',                [UsuarioController::class, 'buscar']);
+$router->get('usuarios/{id}',           [UsuarioController::class, 'perfil']);
+$router->post('usuarios/{id}/seguir',   [UsuarioController::class, 'seguir']);
+$router->delete('usuarios/{id}/seguir', [UsuarioController::class, 'dejarDeSeguir']);
+$router->get('perfil/seguidos',         [UsuarioController::class, 'seguidos']);
+
 // --- Catálogos (público) ---------------------------------------------
 $router->get('disciplinas', [CatalogoController::class, 'disciplinas']);
 $router->get('modulos',     [CatalogoController::class, 'modulos']);
@@ -48,7 +55,10 @@ $router->post('equipos',                         [EquipoController::class, 'crea
 $router->get('equipos/{id}',                     [EquipoController::class, 'detalle']);
 $router->put('equipos/{id}',                     [EquipoController::class, 'renombrar']);
 $router->delete('equipos/{id}',                  [EquipoController::class, 'eliminar']);
-$router->post('equipos/{id}/miembros',           [EquipoController::class, 'agregarMiembro']);
+$router->post('equipos/{id}/invitaciones',       [EquipoController::class, 'invitar']);
+$router->delete('equipos/{id}/invitaciones/{usuario}', [EquipoController::class, 'cancelarInvitacion']);
+$router->get('invitaciones',                     [EquipoController::class, 'invitacionesRecibidas']);
+$router->put('invitaciones/{equipo}',            [EquipoController::class, 'responderInvitacion']);
 $router->delete('equipos/{id}/miembros/{usuario}', [EquipoController::class, 'quitarMiembro']);
 
 // --- Notificaciones ---------------------------------------------------

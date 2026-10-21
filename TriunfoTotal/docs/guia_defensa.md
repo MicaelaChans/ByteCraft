@@ -103,6 +103,12 @@ Esta guía es para que **entiendas y puedas explicar** cada parte del proyecto. 
 **¿Y si el mail no llega o el servidor no tiene internet?**
 > El administrador puede verificar la cuenta a mano desde el panel. Y si no hay correo configurado (`CORREO_MODO=ninguno`), la verificación se desactiva sola para que el sistema siga funcionando.
 
+**¿Cómo se suma gente a un equipo?**
+> Con **invitaciones**: el capitán invita por email o alias, al invitado le llega una notificación y acepta o rechaza. Solo al aceptar pasa a `equipo_miembros`. Así nadie queda en un equipo sin su consentimiento. El backend busca la invitación con el usuario **de la sesión**, así que nadie puede aceptar por otro. Exigimos que sean usuarios registrados porque la letra dice que el participante inicia sesión y consulta sus torneos, y así reciben notificaciones y tienen su historial.
+
+**¿Cómo funcionan los seguidores?**
+> Cualquier usuario puede seguir a otro desde su perfil público. Cuando un organizador **publica** un torneo (si es informal, al crearlo; si es formal, recién cuando el admin lo aprueba), les llega un aviso a todos sus seguidores. El aviso se genera con **un solo** `INSERT … SELECT` desde la tabla `seguidores`, sin un bucle en PHP, así escala aunque tenga miles de seguidores. Seguir es idempotente (`INSERT IGNORE`) y nadie se puede seguir a sí mismo. El perfil público nunca expone email ni teléfono. Como "reputación" mostramos datos que no se pueden inventar: torneos organizados, finalizados y participaciones, calculados de la base.
+
 **¿Por qué no hicieron login con Google?**
 > Lo evaluamos y lo descartamos: la letra excluye la integración con redes sociales, depende de un servicio externo y de tener un dominio propio (Google no acepta direcciones IP). Priorizamos un login propio seguro.
 
